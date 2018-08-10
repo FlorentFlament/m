@@ -40,6 +40,9 @@ fx_shutters_init:
 	sta fb0_base+3
 	sta fb0_base+5
 
+	lda #$00
+	sta fb_switch
+
 	; Initializing mask
 	lda #$ff
 	sta mask_m0_val
@@ -72,9 +75,9 @@ fx_shutters_init:
 
 	rts
 
-	; Flushes a buffer to actual PF0 - PF2 registers
-	; The buffer to flush must be passed as argument
-	; ex: m_pf_flush fb0_base
+; Flushes a buffer to actual PF0 - PF2 registers
+; The buffer to flush must be passed as argument
+; ex: m_pf_flush fb0_base
 	MAC m_pf_flush
 	lda {1} + 0
 	sta PF0
@@ -84,69 +87,89 @@ fx_shutters_init:
 	sta PF2
 	ENDM
 
-	; Flushes a full line to the screen.
-	; The macro calls m_pf_flush for the left part of the screen
-          ; then for the right part.
-	; The frame buffer base address must be passed as argument.
-	; ex: m_line_flush fb0_base
+; Flushes a full line to the screen.
+; The macro calls m_pf_flush for the left part of the screen
+; then for the right part.
+; The frame buffer base address must be passed as argument.
+; ex: m_line_flush fb0_base
 	MAC m_line_flush
 	m_pf_flush {1} + 0 ; Left screen part
-	REPEAT 3
+	REPEAT 6
 	nop
 	REPEND
 	m_pf_flush {1} + 3 ; Right screen part
 	ENDM
 
-fb0_flush:
-	m_line_flush fb0_base
-	rts
-
-fb1_flush:
-	m_line_flush fb1_base
-	rts
-
-	; Updates a frame buffer element from
-	; * the graph pointed at by gfx_pf_base
-	; * the frame buffer address provided as 1st argument
-	; * the mask to apply provided as 2ns argument
-	; * the frame buffer element provided as 3rd argument
-	; * y's value must be the index of the GFX line to fetch
-	; ex: m_update_db fb1_base,mask_m0_val,2
+; Updates a frame buffer element from
+; * the graph pointed at by gfx_pf_base
+; * the frame buffer address provided as 1st argument
+; * the mask to apply provided as 2ns argument
+; * the frame buffer element provided as 3rd argument
+; * y's value must be the index of the GFX line to fetch
+; ex: m_update_db fb1_base,mask_m0_val,2
 	MAC m_update_fb
 	lda (gfx_pf_base + {3}*2),y
 	ora {2} + {3}
 	sta {1} + {3}
 	ENDM
 
-	MAC m_two_lines
-	; Flushing fb0 and updating fb1
-	; the mask to apply provided as argument
+; Update flag to switch the 2 frame buffers
+	MAC m_switch_fb
+	lda fb_switch
+	eor #$01
+	sta fb_switch
+	ENDM
+
+; Flushing fb0 and updating fb1
+; The mask to use must be passed as argument
+	MAC m_fb0_line
 I	SET 0
 	REPEAT 6
 	sta WSYNC
-	jsr fb0_flush
+	m_line_flush fb0_base
 	m_update_fb fb1_base,{1},I
 I	SET I + 1
 	REPEND
-	REPEAT 2
 	sta WSYNC
-	jsr fb0_flush
-	REPEND
-	dey
+	m_line_flush fb0_base
+	m_switch_fb
+	sta WSYNC
+	m_line_flush fb0_base
+	ENDM
 
-	; Flushing fb1 and updating fb0
+; Flushing fb1 and updating fb0
+; The mask to use must be passed as argument
+	MAC m_fb1_line
 I	SET 0
 	REPEAT 6
 	sta WSYNC
-	jsr fb1_flush
+	m_line_flush fb1_base
 	m_update_fb fb0_base,{1},I
 I	SET I + 1
 	REPEND
-	REPEAT 2
 	sta WSYNC
-	jsr fb1_flush
-	REPEND
-	dey
+	m_line_flush fb1_base
+	m_switch_fb
+	sta WSYNC
+	m_line_flush fb1_base
+	ENDM
+
+
+; the mask to apply provided as argument
+; The mask to use must be passed as argument
+	MAC m_one_line
+	lda fb_switch
+	beq .fb0_active
+	jmp .fb1_active
+
+.fb0_active:
+	m_fb0_line {1}
+	jmp .end
+
+.fb1_active:
+	m_fb1_line {1}
+
+.end:
 	ENDM
 
 fx_shutters_kernel:
@@ -154,7 +177,8 @@ fx_shutters_kernel:
 	bne .m0_block
 	jmp .mask_m1
 .m0_block	dey
-.m0_loop	m_two_lines mask_m0_val
+.m0_loop	m_one_line mask_m0_val
+	dey
 	bmi .mask_m1
 	jmp .m0_loop
 
@@ -162,7 +186,8 @@ fx_shutters_kernel:
 	bne .m1_block
 	jmp .mask_m2
 .m1_block	dey
-.m1_loop	m_two_lines mask_m1_val
+.m1_loop	m_one_line mask_m1_val
+	dey
 	bmi .mask_m2
 	jmp .m1_loop
 
@@ -170,7 +195,8 @@ fx_shutters_kernel:
 	bne .m2_block
 	jmp .kernend
 .m2_block	dey
-.m2_loop	m_two_lines mask_m2_val
+.m2_loop	m_one_line mask_m2_val
+	dey
 	bmi .kernend
 	jmp .m2_loop
 

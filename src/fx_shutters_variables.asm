@@ -3,6 +3,7 @@
 gfx_pf_base ds 12 ; pointers towards GFX PF0 - PF5 data
 fb0_base    ds 6  ; Frame buffer 0 (for 1 line i.e 6 PF registers)
 fb1_base    ds 6  ; Frame buffer 1
+fb_switch   ds 1  ; Value can be 0 or 1 indicating the 'active' buffer
 
 mask_m0_val ds 6  ; Shutter mask 0 - val is the actual value to apply
 mask_m1_val ds 6  ; Shutter mask 1
