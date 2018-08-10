@@ -25,7 +25,8 @@ ptr1	ds 2
 	SEG code
 	ORG $F000
 
-	INCLUDE "fx_shutters.asm"
+	INCLUDE "fx_shutters_control.asm"
+	INCLUDE "fx_shutters_kernel.asm"
 
 ; Then the remaining of the code
 init	CLEAN_START		; Initializes Registers & Memory
