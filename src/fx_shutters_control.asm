@@ -1,4 +1,4 @@
-SHNOTE_LEN = 21 ; 25 frames = half a second
+SHNOTE_LEN = 20 ; 25 frames = half a second
 
 fx_shutters_init SUBROUTINE
 	; Initializing playfield data pointers
@@ -142,12 +142,14 @@ fxs_only_m0 SUBROUTINE
 	sta mask_m2_cnt
 	rts
 
-fxs_full_enter_left SUBROUTINE
+; Left to Right move
+; Argument is the initial mask value #$00 or #$ff
+	MAC m_left_right_move
 	lda shnote_cnt
 	beq .move_init
 	cmp #10 ; 40 lines 4by4
 	bpl .move_done
-	ldy #$01
+	ldy ~{1} & #$01
 	ldx #$04
 .shift_loop:
 	jsr fxs_shift_m0_right
@@ -157,37 +159,21 @@ fxs_full_enter_left SUBROUTINE
 .move_init:
 	jsr fxs_only_m0
 	; Initialize m0 to $00,$00,..,$00
-	lda #$00
+	lda {1}
 	fill_mask mask_m0_val
 	jmp .end
 .move_done:
-	lda #$ff
+	lda ~{1}
 	fill_mask mask_m0_val
 .end:
+	ENDM
+
+fxs_full_enter_left SUBROUTINE
+	m_left_right_move #$00
 	rts
 
 fxs_full_exit_right SUBROUTINE
-	lda shnote_cnt
-	beq .move_init
-	cmp #10 ; 40 lines 4by4
-	bpl .move_done
-	ldy #$00
-	ldx #$04
-.shift_loop:
-	jsr fxs_shift_m0_right
-	dex
-	bpl .shift_loop
-	jmp .end
-.move_init:
-	jsr fxs_only_m0
-	; Initialize m0 to $ff,$ff,..,$ff
-	lda #$ff
-	fill_mask mask_m0_val
-	jmp .end
-.move_done:
-	lda #$00
-	fill_mask mask_m0_val
-.end:
+	m_left_right_move #$ff
 	rts
 
 fxs_call_move SUBROUTINE
