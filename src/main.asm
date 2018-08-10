@@ -42,6 +42,7 @@ main_loop SUBROUTINE
 	; 34 VBlank lines (76 cycles/line)
 	lda #39			; (/ (* 34.0 76) 64) = 40.375
 	sta TIM64T
+	jsr fx_shutters_vblank
 	jsr wait_timint
 
 	; ===== KERNEL =====

@@ -95,7 +95,40 @@ I	SET I + 1
 .end:
 	ENDM
 
+
+; Pre-compute first lines in frame buffer fb0
+; the mask value to use has to be provided as argument
+; ex: m_precomp_fb4mask mask_m0_val
+	MAC m_precomp_fb4mask
+I	SET 0
+	REPEAT 6
+	m_update_fb fb0_base,{1},I
+I	SET I + 1
+	REPEND
+	ENDM
+
+; Compute first buffer
+	MAC m_precomp_fb
+	ldy mask_m0_cnt
+	beq .m1
+	dey
+	m_precomp_fb4mask mask_m0_val
+	jmp .end
+.m1
+	ldy mask_m1_cnt
+	beq .m2
+	dey
+	m_precomp_fb4mask mask_m1_val
+	jmp .end
+.m2
+	ldy mask_m2_cnt
+	dey
+	m_precomp_fb4mask mask_m2_val
+.end:
+	ENDM
+
 fx_shutters_kernel SUBROUTINE
+	m_precomp_fb
 	ldy mask_m0_cnt
 	bne .m0_block
 	jmp .mask_m1

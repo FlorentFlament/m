@@ -12,3 +12,6 @@ mask_m2_val ds 6  ; Shutter mask 2
 mask_m0_cnt ds 1  ; cnt is the number of line with the corresponding mask
 mask_m1_cnt ds 1
 mask_m2_cnt ds 1
+
+shnote_cnt  ds 1  ; Shutters note counter
+shtime_cnt  ds 1  ; Shutters timeline counter
