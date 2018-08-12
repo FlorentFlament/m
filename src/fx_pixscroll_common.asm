@@ -22,6 +22,7 @@
 	ENDM
 
 ; Loads one graphics unit into an fxp_line buffer item
+; ptr points towards the graphic to load
 ; X is the index in the fxp_line
 ; Y is the offset from the graphics pointer
 ; ex: ldx #$00
@@ -45,6 +46,18 @@ I	SET 4
 	REPEAT 5
 	rol fxp_line + I
 I	SET I - 1
+	REPEND
+	ENDM
+
+; rotate one line to the right
+	MAC m_fxp_rotate_line_right
+; TODO: We can probably remove one rotation - also on the left rotation
+	lda fxp_line + 4
+	lsr
+I	SET 0
+	REPEAT 5
+	ror fxp_line + I
+I	SET I + 1
 	REPEND
 	ENDM
 

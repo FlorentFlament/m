@@ -19,6 +19,14 @@ s_fxp_1line_rotleft SUBROUTINE
 	sta PF1
 	rts
 
+s_fxp_1line_rotright SUBROUTINE
+	lda fxp_pf0_buf
+	sta PF1
+	m_fxp_rotate_line_right
+	lda fxp_pf3_buf
+	sta PF1
+	rts
+
 s_fxp_2lines_rotleft0 SUBROUTINE
 	jsr s_fxp_line_display
 	sta WSYNC
@@ -33,10 +41,24 @@ s_fxp_2lines_rotleft1 SUBROUTINE
 	sta WSYNC
 	rts
 
+s_fxp_2lines_rotright1 SUBROUTINE
+	jsr s_fxp_1line_rotright
+	sta WSYNC
+	jsr s_fxp_line_display
+	sta WSYNC
+	rts
+
 s_fxp_2lines_rotleft2 SUBROUTINE
 	jsr s_fxp_1line_rotleft
 	sta WSYNC
 	jsr s_fxp_1line_rotleft
+	sta WSYNC
+	rts
+
+s_fxp_2lines_rotright2 SUBROUTINE
+	jsr s_fxp_1line_rotright
+	sta WSYNC
+	jsr s_fxp_1line_rotright
 	sta WSYNC
 	rts
 
@@ -55,19 +77,34 @@ s_fxp_2lines_rotleft3 SUBROUTINE
 	sta WSYNC
 	rts
 
-s_fxp_2lines_rotleft4 SUBROUTINE
+s_fxp_2lines_rotright3 SUBROUTINE
 	lda fxp_pf0_buf
 	sta PF1
-	m_fxp_rotate_line_left
+	m_fxp_rotate_line_right
 	lda fxp_pf3_buf
 	sta PF1
-	m_fxp_rotate_line_left
+	m_fxp_rotate_line_right
 	lda fxp_pf0_buf
 	sta PF1
-	m_fxp_rotate_line_left
+	m_fxp_rotate_line_right
 	lda fxp_pf3_buf
 	sta PF1
-	m_fxp_rotate_line_left
+	sta WSYNC
+	rts
+
+s_fxp_2lines_rotright4 SUBROUTINE
+	lda fxp_pf0_buf
+	sta PF1
+	m_fxp_rotate_line_right
+	lda fxp_pf3_buf
+	sta PF1
+	m_fxp_rotate_line_right
+	lda fxp_pf0_buf
+	sta PF1
+	m_fxp_rotate_line_right
+	lda fxp_pf3_buf
+	sta PF1
+	m_fxp_rotate_line_right
 	rts
 
 ; After this call X and Y have the appropriate values
@@ -138,6 +175,7 @@ fx_pixscroll_kernel SUBROUTINE
 	lda fxp_pf3_buf
 	sta PF1
 	m_fxp_load_elmt
+
 	sta WSYNC
 	lda fxp_pf0_buf
 	sta PF1
@@ -174,6 +212,9 @@ fx_pixscroll_kernel SUBROUTINE
 
 	ldx fxp_pf3_buf
 	stx PF1
+	sta WSYNC
+	jsr s_fxp_line_display
+
 	dec tmp1
 	bmi .end
 	jmp .kern_loop
@@ -216,16 +257,16 @@ fxp_line_rotate_l:
 	dc.b #<(s_fxp_2lines_rotleft1 - 1)
 	dc.b #<(s_fxp_2lines_rotleft2 - 1)
 	dc.b #<(s_fxp_2lines_rotleft3 - 1)
-	dc.b #<(s_fxp_2lines_rotleft4 - 1)
-	dc.b #<(s_fxp_2lines_rotleft3 - 1)
-	dc.b #<(s_fxp_2lines_rotleft2 - 1)
-	dc.b #<(s_fxp_2lines_rotleft1 - 1)
+	dc.b #<(s_fxp_2lines_rotright4 - 1)
+	dc.b #<(s_fxp_2lines_rotright3 - 1)
+	dc.b #<(s_fxp_2lines_rotright2 - 1)
+	dc.b #<(s_fxp_2lines_rotright1 - 1)
 fxp_line_rotate_h:
 	dc.b #>(s_fxp_2lines_rotleft0 - 1)
 	dc.b #>(s_fxp_2lines_rotleft1 - 1)
 	dc.b #>(s_fxp_2lines_rotleft2 - 1)
 	dc.b #>(s_fxp_2lines_rotleft3 - 1)
-	dc.b #>(s_fxp_2lines_rotleft4 - 1)
-	dc.b #>(s_fxp_2lines_rotleft3 - 1)
-	dc.b #>(s_fxp_2lines_rotleft2 - 1)
-	dc.b #>(s_fxp_2lines_rotleft1 - 1)
+	dc.b #>(s_fxp_2lines_rotright4 - 1)
+	dc.b #>(s_fxp_2lines_rotright3 - 1)
+	dc.b #>(s_fxp_2lines_rotright2 - 1)
+	dc.b #>(s_fxp_2lines_rotright1 - 1)

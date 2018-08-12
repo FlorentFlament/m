@@ -54,11 +54,9 @@ fx_pixscroll_init SUBROUTINE
 	; Set the colors
 	lda #$00
 	sta COLUBK
-	lda #$0c
-	sta COLUPF
-	lda #$2c
-	sta COLUP0
 	lda #$7c
+	sta COLUPF
+	sta COLUP0
 	sta COLUP1
 
 	rts
@@ -66,7 +64,19 @@ fx_pixscroll_init SUBROUTINE
 fx_pixscroll_vblank SUBROUTINE
 	; Initialize
 	m_copy_pointer fxp_pix_base, ptr
+	lda frame_cnt
+	REPEAT 3
+	lsr
+	REPEND
+	and #$03
+	beq .continue
+	tax
+.rough_move:
+	m_add_to_pointer ptr, #30
+	dex
+	bne .rough_move
 
+.continue:
 	; Precompute the first line
 	ldx #$00
 	ldy #$00
@@ -76,8 +86,6 @@ fx_pixscroll_vblank SUBROUTINE
 
 	; store pix shift in X and tmp
 	lda frame_cnt
-	lsr
-	lsr
 	and #$07
 	sta tmp
 
@@ -110,10 +118,18 @@ fxp_test_gfx:
 	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
 	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
 	dc.b $ff, $00, $ff, $00, $ff, $00
-	dc.b $00, $ff, $00, $ff, $00, $ff, $00, $ff
-	dc.b $00, $ff, $00, $ff, $00, $ff, $00, $ff
-	dc.b $00, $ff, $00, $ff, $00, $ff, $00, $ff
-	dc.b $00, $ff, $00, $ff, $00, $ff
+	dc.b $00, $9f, $00, $ff, $00, $ff, $00, $ff
+	dc.b $00, $9f, $00, $ff, $00, $ff, $00, $ff
+	dc.b $00, $9f, $00, $ff, $00, $ff, $00, $ff
+	dc.b $00, $9f, $00, $ff, $00, $ff
+	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
+	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
+	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
+	dc.b $ff, $00, $ff, $00, $ff, $00
+	dc.b $06, $ff, $00, $ff, $00, $ff, $00, $ff
+	dc.b $06, $ff, $00, $ff, $00, $ff, $00, $ff
+	dc.b $06, $ff, $00, $ff, $00, $ff, $00, $ff
+	dc.b $06, $ff, $00, $ff, $00, $ff
 	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
 	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
 	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
