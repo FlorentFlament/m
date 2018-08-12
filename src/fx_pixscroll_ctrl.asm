@@ -78,6 +78,9 @@ fx_pixscroll_vblank SUBROUTINE
 	REPEND
 	m_add_to_pointer ptr, #1
 
+	lda frame_cnt
+	and #$03
+	sta tmp
 	rts
 
 fxp_test_gfx:
