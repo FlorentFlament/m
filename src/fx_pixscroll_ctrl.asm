@@ -79,7 +79,7 @@ fx_pixscroll_vblank SUBROUTINE
 	m_add_to_pointer ptr, #1
 
 	lda frame_cnt
-	and #$03
+	and #$07
 	sta tmp
 	rts
 
