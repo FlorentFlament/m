@@ -1,14 +1,3 @@
-; Display a line while loading 2 elements of next line
-fxp_line_load2elts SUBROUTINE
-	sta WSYNC
-	lda fxp_pf0_buf
-	sta PF1
-	m_fxp_load_elmt
-	m_fxp_load_elmt
-	lda fxp_pf3_buf
-	sta PF1
-	rts
-
 ; Display a line without rotating next line
 ; Use X register
 s_fxp_line_display SUBROUTINE
@@ -81,11 +70,40 @@ s_fxp_2lines_rotleft4 SUBROUTINE
 	m_fxp_rotate_line_left
 	rts
 
+; After this call X and Y have the appropriate values
+; for proper loading of the line elements
+s_fxp_load_elt0_at0 SUBROUTINE
+	ldx #0
+	ldy #0
+	m_fxp_load_elmt
+	ldx #1
+	rts
+
+s_fxp_load_elt0_at4 SUBROUTINE
+	ldx #4
+	ldy #0
+	m_fxp_load_elmt
+	ldx #0
+	rts
+
+; Call the line rotating subroutine according to tmp value
 fxp_call_rotate:
+	ldx tmp
 	lda fxp_line_rotate_h,X
 	pha
 	lda fxp_line_rotate_l,X
 	pha
+	rts
+
+; Call the line loading subroutine according to tmp value
+fxp_call_load:
+	ldx tmp
+	lda fxp_line_load_h,X
+	pha
+	lda fxp_line_load_l,X
+	pha
+	lda fxp_pf3_buf
+	sta PF1
 	rts
 
 ; * ptr must contain a pointer towards the 1st elememt of the next
@@ -108,17 +126,27 @@ fx_pixscroll_kernel SUBROUTINE
 	lda fxp_line + 3
 	sta fxp_pf3_buf
 
-	ldx #$0
-	ldy #$0
+	; Load the next line appropriately
+	; The subroutine deals with updating PF1
+	; After the call X and Y are set to be used by subsequent
+	; calls to m_fxp_load_elmt
+	jsr fxp_call_load
+
+	lda fxp_pf0_buf
+	sta PF1
+	m_fxp_load_elmt
+	lda fxp_pf3_buf
+	sta PF1
+	m_fxp_load_elmt
+	sta WSYNC
+	lda fxp_pf0_buf
+	sta PF1
+	m_fxp_load_elmt
 	m_fxp_load_elmt
 	lda fxp_pf3_buf
 	sta PF1
 
-	jsr fxp_line_load2elts
-	jsr fxp_line_load2elts
-
 	; Rotate the next line appropriately
-	ldx tmp
 	jsr fxp_call_rotate
 
 	ldx fxp_pf0_buf
@@ -146,8 +174,6 @@ fx_pixscroll_kernel SUBROUTINE
 
 	ldx fxp_pf3_buf
 	stx PF1
-	sta WSYNC
-	jsr s_fxp_line_display
 	dec tmp1
 	bmi .end
 	jmp .kern_loop
@@ -166,21 +192,40 @@ fx_pixscroll_kernel SUBROUTINE
 	bpl .zero_fxp_line
 	rts
 
+fxp_line_load_l:
+	dc.b #<(s_fxp_load_elt0_at0 - 1)
+	dc.b #<(s_fxp_load_elt0_at0 - 1)
+	dc.b #<(s_fxp_load_elt0_at0 - 1)
+	dc.b #<(s_fxp_load_elt0_at0 - 1)
+	dc.b #<(s_fxp_load_elt0_at4 - 1)
+	dc.b #<(s_fxp_load_elt0_at4 - 1)
+	dc.b #<(s_fxp_load_elt0_at4 - 1)
+	dc.b #<(s_fxp_load_elt0_at4 - 1)
+fxp_line_load_h:
+	dc.b #>(s_fxp_load_elt0_at0 - 1)
+	dc.b #>(s_fxp_load_elt0_at0 - 1)
+	dc.b #>(s_fxp_load_elt0_at0 - 1)
+	dc.b #>(s_fxp_load_elt0_at0 - 1)
+	dc.b #>(s_fxp_load_elt0_at4 - 1)
+	dc.b #>(s_fxp_load_elt0_at4 - 1)
+	dc.b #>(s_fxp_load_elt0_at4 - 1)
+	dc.b #>(s_fxp_load_elt0_at4 - 1)
+
 fxp_line_rotate_l:
 	dc.b #<(s_fxp_2lines_rotleft0 - 1)
 	dc.b #<(s_fxp_2lines_rotleft1 - 1)
 	dc.b #<(s_fxp_2lines_rotleft2 - 1)
 	dc.b #<(s_fxp_2lines_rotleft3 - 1)
 	dc.b #<(s_fxp_2lines_rotleft4 - 1)
-	dc.b #<(s_fxp_2lines_rotleft0 - 1)
-	dc.b #<(s_fxp_2lines_rotleft1 - 1)
+	dc.b #<(s_fxp_2lines_rotleft3 - 1)
 	dc.b #<(s_fxp_2lines_rotleft2 - 1)
+	dc.b #<(s_fxp_2lines_rotleft1 - 1)
 fxp_line_rotate_h:
 	dc.b #>(s_fxp_2lines_rotleft0 - 1)
 	dc.b #>(s_fxp_2lines_rotleft1 - 1)
 	dc.b #>(s_fxp_2lines_rotleft2 - 1)
 	dc.b #>(s_fxp_2lines_rotleft3 - 1)
 	dc.b #>(s_fxp_2lines_rotleft4 - 1)
-	dc.b #>(s_fxp_2lines_rotleft0 - 1)
-	dc.b #>(s_fxp_2lines_rotleft1 - 1)
+	dc.b #>(s_fxp_2lines_rotleft3 - 1)
 	dc.b #>(s_fxp_2lines_rotleft2 - 1)
+	dc.b #>(s_fxp_2lines_rotleft1 - 1)

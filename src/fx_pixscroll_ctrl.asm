@@ -73,21 +73,31 @@ fx_pixscroll_vblank SUBROUTINE
 	REPEAT 5
 	jsr s_fxp_load_elmt
 	REPEND
-	REPEAT 4
-	jsr s_fxp_rotate_line_left
-	REPEND
-	m_add_to_pointer ptr, #1
 
+	; store pix shift in X and tmp
 	lda frame_cnt
+	lsr
+	lsr
 	and #$07
 	sta tmp
+
+	tax
+	beq .end
+.shift_loop:
+	jsr s_fxp_rotate_line_left
+	dex
+	bne .shift_loop
+
+.end:
+	m_add_to_pointer ptr, #1
+	m_reverse_pf3buf
 	rts
 
 fxp_test_gfx:
-	dc.b $00, $f9, $00, $ff, $00, $ff, $00, $ff
-	dc.b $00, $f9, $00, $ff, $00, $ff, $00, $ff
-	dc.b $00, $f9, $00, $ff, $00, $ff, $00, $ff
-	dc.b $00, $f9, $00, $ff, $00, $ff
+	dc.b $00, $9f, $00, $ff, $00, $ff, $00, $ff
+	dc.b $00, $9f, $00, $ff, $00, $ff, $00, $ff
+	dc.b $00, $9f, $00, $ff, $00, $ff, $00, $ff
+	dc.b $00, $9f, $00, $ff, $00, $ff
 	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
 	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00
 	dc.b $ff, $00, $ff, $00, $ff, $00, $ff, $00

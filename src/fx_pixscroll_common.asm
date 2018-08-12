@@ -48,6 +48,15 @@ I	SET I - 1
 	REPEND
 	ENDM
 
+; reverse PF3 buffer
+	MAC m_reverse_pf3buf
+	lda fxp_line + 3
+	REPEAT 8
+	asl
+	ror fxp_line + 3
+	REPEND
+	ENDM
+
 s_fxp_load_elmt SUBROUTINE
 	m_fxp_load_elmt
 	rts
