@@ -63,6 +63,23 @@ fx_pixscroll_init SUBROUTINE
 
 	rts
 
+fx_pixscroll_vblank SUBROUTINE
+	; Initialize
+	m_copy_pointer fxp_pix_base, ptr
+
+	; Precompute the first line
+	ldx #$00
+	ldy #$00
+	REPEAT 5
+	jsr s_fxp_load_elmt
+	REPEND
+	REPEAT 4
+	jsr s_fxp_rotate_line_left
+	REPEND
+	m_add_to_pointer ptr, #1
+
+	rts
+
 fxp_test_gfx:
 	dc.b $00, $f9, $00, $ff, $00, $ff, $00, $ff
 	dc.b $00, $f9, $00, $ff, $00, $ff, $00, $ff

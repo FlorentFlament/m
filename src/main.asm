@@ -28,6 +28,7 @@ ptr1	ds 2
 
 	;INCLUDE "fx_shutters_control.asm"
 	;INCLUDE "fx_shutters_kernel.asm"
+	INCLUDE "fx_pixscroll_common.asm"
 	INCLUDE "fx_pixscroll_ctrl.asm"
 	INCLUDE "fx_pixscroll_kernel.asm"
 
@@ -47,6 +48,7 @@ main_loop SUBROUTINE
 	lda #39			; (/ (* 34.0 76) 64) = 40.375
 	sta TIM64T
 	;jsr fx_shutters_vblank
+	jsr fx_pixscroll_vblank
 	jsr wait_timint
 
 	; ===== KERNEL =====
