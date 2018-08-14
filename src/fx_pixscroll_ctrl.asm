@@ -38,9 +38,10 @@ fx_pixscroll_init SUBROUTINE
 	lda #$01
 	sta CTRLPF
 	lda #$00
-	sta PF0
 	sta PF1
 	sta PF2
+	lda #$f0
+	sta PF0
 
 	; Set large sprites
 	lda #$07
@@ -54,7 +55,7 @@ fx_pixscroll_init SUBROUTINE
 	; Set the colors
 	lda #$00
 	sta COLUBK
-	lda #$7c
+	lda #$00
 	sta COLUPF
 	sta COLUP0
 	sta COLUP1
@@ -64,8 +65,20 @@ fx_pixscroll_init SUBROUTINE
 fx_pixscroll_vblank SUBROUTINE
 	; Initialize
 	m_copy_pointer fxp_pix_base, ptr
+
+	; update color
+	SET_POINTER ptr1, fxp_test_color
 	lda frame_cnt
-	and #$07
+	lsr
+	lsr
+	and #$0f
+	sta tmp
+	m_add_to_pointer ptr1, tmp
+
+	; Do the picture shifting stuff
+	lda frame_cnt
+	;and #$1f
+	and #$0f
 	bne .no_shift
 
 	; Shift the picture
@@ -99,6 +112,8 @@ fx_pixscroll_vblank SUBROUTINE
 
 	; store pix shift in X and tmp
 	lda frame_cnt
+	lsr
+	;lsr
 	and #$07
 	sta tmp
 
@@ -114,50 +129,58 @@ fx_pixscroll_vblank SUBROUTINE
 	m_reverse_pf3buf
 	rts
 
+fxp_test_color:
+	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de
+	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
+	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de
+	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
+	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de
+	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
+
 fxp_test_gfx:
-	dc.b $00, $00, $00, $00, $00, $00, $00, $1f
-	dc.b $00, $00, $78, $fc, $e0, $e0, $f0, $f0
-	dc.b $e0, $e0, $e0, $60, $00, $00, $1f, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $1f, $00, $ff, $00, $00
-	dc.b $60, $e0, $e0, $e0, $e0, $e0, $e0, $e0
-	dc.b $fc, $78, $00, $00, $ff, $00, $1f, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $30
-	dc.b $00, $ff, $00, $ff, $00, $00, $64, $e4
-	dc.b $e4, $e4, $e4, $e4, $e4, $ec, $fc, $78
-	dc.b $00, $00, $ff, $00, $ff, $00, $30, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $e0
-	dc.b $00, $ff, $00, $00, $78, $fc, $e0, $e0
-	dc.b $f8, $7c, $04, $04, $fc, $78, $00, $00
-	dc.b $ff, $00, $e0, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $e0
-	dc.b $00, $00, $64, $e4, $e4, $e4, $fc, $fc
-	dc.b $e4, $e4, $e4, $64, $00, $00, $e0, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $44, $cc, $00, $00, $fc, $78
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $1f
-	dc.b $00, $00, $78, $fc, $e0, $e0, $f0, $f0
-	dc.b $e0, $e0, $e0, $60, $00, $00, $1f, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $1f, $00, $ff, $00, $00
-	dc.b $60, $e0, $e0, $e0, $e0, $e0, $e0, $e0
-	dc.b $fc, $78, $00, $00, $ff, $00, $1f, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $30
-	dc.b $00, $ff, $00, $ff, $00, $00, $64, $e4
-	dc.b $e4, $e4, $e4, $e4, $e4, $ec, $fc, $78
-	dc.b $00, $00, $ff, $00, $ff, $00, $30, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $e0
-	dc.b $00, $ff, $00, $00, $78, $fc, $e0, $e0
-	dc.b $f8, $7c, $04, $04, $fc, $78, $00, $00
-	dc.b $ff, $00, $e0, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $e0
-	dc.b $00, $00, $64, $e4, $e4, $e4, $fc, $fc
-	dc.b $e4, $e4, $e4, $64, $00, $00, $e0, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $44, $cc, $00, $00, $fc, $78
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $00
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $e0
+	dc.b $ff, $ff, $87, $03, $1f, $1f, $0f, $0f
+	dc.b $1f, $1f, $1f, $9f, $ff, $ff, $e0, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $e0, $ff, $00, $ff, $ff
+	dc.b $9f, $1f, $1f, $1f, $1f, $1f, $1f, $1f
+	dc.b $03, $87, $ff, $ff, $00, $ff, $e0, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $cf
+	dc.b $ff, $00, $ff, $00, $ff, $ff, $9b, $1b
+	dc.b $1b, $1b, $1b, $1b, $1b, $13, $03, $87
+	dc.b $ff, $ff, $00, $ff, $00, $ff, $cf, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $1f
+	dc.b $ff, $00, $ff, $ff, $87, $03, $1f, $1f
+	dc.b $07, $83, $fb, $fb, $03, $87, $ff, $ff
+	dc.b $00, $ff, $1f, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $1f
+	dc.b $ff, $ff, $9b, $1b, $1b, $1b, $03, $03
+	dc.b $1b, $1b, $1b, $9b, $ff, $ff, $1f, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $bb, $33, $ff, $ff, $03, $87
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $e0
+	dc.b $ff, $ff, $87, $03, $1f, $1f, $0f, $0f
+	dc.b $1f, $1f, $1f, $9f, $ff, $ff, $e0, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $e0, $ff, $00, $ff, $ff
+	dc.b $9f, $1f, $1f, $1f, $1f, $1f, $1f, $1f
+	dc.b $03, $87, $ff, $ff, $00, $ff, $e0, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $cf
+	dc.b $ff, $00, $ff, $00, $ff, $ff, $9b, $1b
+	dc.b $1b, $1b, $1b, $1b, $1b, $13, $03, $87
+	dc.b $ff, $ff, $00, $ff, $00, $ff, $cf, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $1f
+	dc.b $ff, $00, $ff, $ff, $87, $03, $1f, $1f
+	dc.b $07, $83, $fb, $fb, $03, $87, $ff, $ff
+	dc.b $00, $ff, $1f, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $1f
+	dc.b $ff, $ff, $9b, $1b, $1b, $1b, $03, $03
+	dc.b $1b, $1b, $1b, $9b, $ff, $ff, $1f, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $bb, $33, $ff, $ff, $03, $87
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff

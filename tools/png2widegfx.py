@@ -51,14 +51,9 @@ def main():
     im   = Image.open(fname).convert('1')
     sanity_check(im)
     arr  = bool_array(im)
-    print(arr)
-    print()
     pfs  = pack_bytes(arr)
-    print(pfs)
-    print()
     cols = by_column(pfs)
-    print(cols)
-    print()
-    print(asmlib.lst2asm(cols))
+    rev  = [~v & 0xff for v in cols]
+    print(asmlib.lst2asm(rev))
 
 main()

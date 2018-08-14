@@ -145,6 +145,7 @@ fxp_call_load:
 
 ; * ptr must contain a pointer towards the 1st elememt of the next
 ;   line to display
+; * ptr1 must contain a pointer towards the 1st color to use
 ; * tmp must contain the number of shift to perform on the line
 ;   in [-4, 3]
 ; The kernel uses tmp1, and A, X, Y registers
@@ -152,7 +153,10 @@ fx_pixscroll_kernel SUBROUTINE
 	lda #29
 	sta tmp1 ; Displaying 30 lines
 .kern_loop:
+	ldy tmp1
+	lda (ptr1),y
 	sta WSYNC
+	sta COLUBK
 	lda fxp_line
 	sta fxp_pf0_buf
 	sta PF1
@@ -221,7 +225,7 @@ fx_pixscroll_kernel SUBROUTINE
 
 .end:
 	sta WSYNC
-	lda #$0
+	lda #$ff
 	sta PF1
 	sta GRP0
 	sta GRP1
