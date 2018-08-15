@@ -77,8 +77,7 @@ fx_pixscroll_vblank SUBROUTINE
 
 	; Do the picture shifting stuff
 	lda frame_cnt
-	;and #$1f
-	and #$0f
+	and #$1f
 	bne .no_shift
 
 	; Shift the picture
@@ -113,7 +112,7 @@ fx_pixscroll_vblank SUBROUTINE
 	; store pix shift in X and tmp
 	lda frame_cnt
 	lsr
-	;lsr
+	lsr
 	and #$07
 	sta tmp
 

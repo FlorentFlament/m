@@ -17,6 +17,7 @@ tmp1	ds 1
 ptr	ds 2
 ptr1	ds 2
 
+	INCLUDE "SilverWoman_nogoto_variables.asm"
 	;INCLUDE "fx_shutters_variables.asm"
 	INCLUDE "fx_pixscroll_variables.asm"
 
@@ -37,6 +38,7 @@ init	CLEAN_START		; Initializes Registers & Memory
 
 	; Initialization
 	; Put here whatever initialization code
+	INCLUDE "SilverWoman_nogoto_init.asm"
 	;jsr fx_shutters_init
 	jsr fx_pixscroll_init
 
@@ -47,6 +49,8 @@ main_loop SUBROUTINE
 	; 34 VBlank lines (76 cycles/line)
 	lda #39			; (/ (* 34.0 76) 64) = 40.375
 	sta TIM64T
+	INCLUDE "SilverWoman_nogoto_player.asm"
+	
 	;jsr fx_shutters_vblank
 	jsr fx_pixscroll_vblank
 	jsr wait_timint
@@ -77,6 +81,8 @@ wait_timint:
 	rts
 
 ; Data
+	INCLUDE "SilverWoman_nogoto_trackdata.asm"
+
 	echo "ROM left: ", ($fffc - *)d, "bytes"
 
 ;;;-----------------------------------------------------------------------------

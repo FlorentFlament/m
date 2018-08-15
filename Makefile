@@ -1,4 +1,4 @@
-INCDIRS=include src
+INCDIRS=include sound_asm src
 DFLAGS=$(patsubst %,-I%,$(INCDIRS)) -f3 -d
 
 # asm files
