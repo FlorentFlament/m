@@ -1,7 +1,7 @@
-def lst2asm(lst):
+def lst2asm(lst, perline=8):
     res = []
     for i,v in enumerate(lst):
-        if i%8 == 0:
+        if i%perline == 0:
             if i != 0:
                 res.append('\n')
             res.append('\tdc.b ')

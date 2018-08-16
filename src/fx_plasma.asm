@@ -7,7 +7,7 @@ fx_plasma_init SUBROUTINE
 	bpl .loop
 	rts
 
-fxp_rotate_palette SUBROUTINE
+fxp_rotate_palette_back SUBROUTINE
 	; Backup first value
 	lda fxpl_palette+15
 	sta tmp
@@ -21,6 +21,21 @@ fxp_rotate_palette SUBROUTINE
 	sta fxpl_palette
 	rts
 
+fxp_rotate_palette SUBROUTINE
+	; Backup first value
+	lda fxpl_palette
+	sta tmp
+	ldx #0
+.rotate_loop
+	lda fxpl_palette+1,X
+	sta fxpl_palette,X
+	inx
+	cpx #15
+	bne .rotate_loop
+	lda tmp
+	sta fxpl_palette+15
+	rts
+
 fx_plasma_vblank SUBROUTINE
 	SET_POINTER ptr, fx_plasma_data
 	lda frame_cnt
@@ -28,7 +43,7 @@ fx_plasma_vblank SUBROUTINE
 	lsr
 	lsr
 	sta tmp
-	m_add_to_pointer ptr, tmp
+	;m_add_to_pointer ptr, tmp
 
 	lda frame_cnt
 	and #$03
@@ -88,7 +103,7 @@ fx_plasma_kernel SUBROUTINE
 	lda #00
 	sta COLUBK
 
-	m_add_to_pointer ptr, 16
+	m_add_to_pointer ptr, 11
 	jsr fxpl_workload_fast
 	dec tmp
 	bpl .display_loop
@@ -99,43 +114,18 @@ fx_plasma_kernel SUBROUTINE
 	rts
 
 fx_plasma_data:
-	dc.b $00, $02, $02, $03, $02, $02, $02, $04
-	dc.b $03, $04, $03, $02, $04, $05, $03, $04
-	dc.b $03, $01, $03, $03, $03, $02, $02, $04
-	dc.b $04, $04, $04, $03, $03, $03, $05, $05
-	dc.b $03, $04, $02, $02, $03, $01, $02, $02
-	dc.b $03, $02, $04, $03, $03, $03, $04, $06
-	dc.b $05, $04, $05, $04, $03, $04, $02, $03
-	dc.b $03, $03, $03, $03, $03, $03, $05, $05
-	dc.b $05, $06, $04, $04, $03, $04, $04, $03
-	dc.b $03, $04, $03, $02, $04, $04, $04, $05
-	dc.b $06, $06, $06, $07, $06, $05, $04, $05
-	dc.b $05, $06, $05, $04, $03, $03, $04, $04
-	dc.b $05, $07, $06, $07, $07, $06, $04, $05
-	dc.b $05, $05, $05, $06, $05, $05, $04, $06
-	dc.b $06, $07, $07, $07, $08, $09, $08, $05
-	dc.b $06, $06, $06, $05, $04, $05, $06, $06
-	dc.b $07, $06, $07, $07, $08, $0a, $09, $08
-	dc.b $06, $06, $05, $06, $06, $06, $06, $06
-	dc.b $07, $06, $07, $07, $09, $08, $09, $09
-	dc.b $09, $07, $07, $07, $07, $07, $08, $07
-	dc.b $06, $08, $08, $07, $08, $09, $0a, $09
-	dc.b $0b, $0a, $09, $09, $07, $08, $09, $08
-	dc.b $09, $07, $08, $09, $08, $09, $09, $0a
-	dc.b $0a, $0b, $0b, $0a, $08, $09, $09, $09
-	dc.b $09, $0a, $08, $08, $09, $08, $09, $09
-	dc.b $09, $0b, $0a, $0b, $09, $0a, $0a, $08
-	dc.b $09, $0a, $09, $09, $09, $0a, $09, $09
-	dc.b $0b, $0b, $0b, $0c, $0c, $09, $0b, $09
-	dc.b $09, $08, $09, $0a, $0a, $0b, $0c, $0a
-	dc.b $0b, $0b, $0c, $0d, $0c, $0d, $0a, $0b
-	dc.b $0a, $0a, $0a, $0a, $0b, $0b, $0c, $0c
-	dc.b $0c, $0b, $0c, $0d, $0d, $0d, $0d, $0a
-	dc.b $0a, $0b, $0a, $0b, $09, $0a, $0c, $0c
-	dc.b $0d, $0e, $0d, $0d, $0e, $0e, $0e, $0f
-	dc.b $0b, $0b, $0b, $09, $0a, $09, $0a, $0b
-	dc.b $0c, $0c, $0c, $0c, $0d, $0d, $0e, $0f
-	dc.b $0f
+
+	dc.b $05, $07, $08, $07, $04, $02, $01, $02, $04, $05, $04
+	dc.b $07, $0b, $0d, $0c, $08, $04, $02, $03, $04, $06, $05
+	dc.b $08, $0d, $0f, $0e, $0a, $06, $03, $03, $05, $06, $07
+	dc.b $08, $0c, $0f, $0d, $0a, $05, $03, $03, $05, $07, $07
+	dc.b $06, $09, $0b, $09, $06, $03, $01, $02, $04, $06, $06
+	dc.b $04, $06, $06, $04, $02, $00, $00, $01, $03, $04, $04
+	dc.b $03, $03, $02, $01, $00, $00, $01, $02, $03, $03, $03
+	dc.b $04, $03, $01, $00, $00, $02, $04, $06, $06, $04, $02
+	dc.b $06, $04, $02, $01, $03, $06, $09, $0b, $09, $06, $02
+	dc.b $07, $05, $03, $03, $05, $0a, $0d, $0f, $0c, $08, $03
+	dc.b $06, $05, $03, $03, $06, $0a, $0e, $0f, $0d, $08, $04
 
 fxpl_palette_orig:
 	dc.b $90, $92, $94, $96, $98, $9a, $9c, $9e

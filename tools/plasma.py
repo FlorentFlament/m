@@ -94,8 +94,7 @@ class Plasma:
 def main():
     plasma = Plasma(SIZE, [0, 50, 150, 200], 15)
     plasma.compute()
-    #print(plasma.get_bytes())
-    buf = bytes([int(f) for f in plasma.get_bytes()])
+    buf = plasma.get_bytes()
     im = Image.frombytes('L', (SIZE,SIZE), buf)
     im.show()
     print(lst2asm(buf))
