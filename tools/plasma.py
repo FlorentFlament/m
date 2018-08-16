@@ -79,7 +79,7 @@ class Plasma:
         flat = [val for line in self.__data for val in line]
         ma = max(flat)
         mi = min(flat)
-        data = [int((f-mi)*255/(ma-mi)) for f in flat]
+        data = [min(int((f-mi)*16/(ma-mi)),15) for f in flat]
         print(max(data))
         print(min(data))
         #print(data)
