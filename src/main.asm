@@ -19,7 +19,8 @@ ptr1	ds 2
 
 	INCLUDE "SilverWoman_nogoto_variables.asm"
 	;INCLUDE "fx_shutters_variables.asm"
-	INCLUDE "fx_pixscroll_variables.asm"
+	;INCLUDE "fx_pixscroll_variables.asm"
+	INCLUDE "fx_plasma_variables.asm"
 
 ;;;-----------------------------------------------------------------------------
 ;;; Code segment
@@ -27,11 +28,13 @@ ptr1	ds 2
 	SEG code
 	ORG $F000
 
+	INCLUDE "common.asm"
 	;INCLUDE "fx_shutters_control.asm"
 	;INCLUDE "fx_shutters_kernel.asm"
-	INCLUDE "fx_pixscroll_common.asm"
-	INCLUDE "fx_pixscroll_ctrl.asm"
-	INCLUDE "fx_pixscroll_kernel.asm"
+	;INCLUDE "fx_pixscroll_common.asm"
+	;INCLUDE "fx_pixscroll_ctrl.asm"
+	;INCLUDE "fx_pixscroll_kernel.asm"
+	INCLUDE "fx_plasma.asm"
 
 ; Then the remaining of the code
 init	CLEAN_START		; Initializes Registers & Memory
@@ -40,7 +43,9 @@ init	CLEAN_START		; Initializes Registers & Memory
 	; Put here whatever initialization code
 	INCLUDE "SilverWoman_nogoto_init.asm"
 	;jsr fx_shutters_init
-	jsr fx_pixscroll_init
+	;jsr fx_pixscroll_init
+
+	jsr fx_plasma_init
 
 main_loop SUBROUTINE
 	VERTICAL_SYNC		; 4 scanlines Vertical Sync signal
@@ -50,9 +55,10 @@ main_loop SUBROUTINE
 	lda #39			; (/ (* 34.0 76) 64) = 40.375
 	sta TIM64T
 	INCLUDE "SilverWoman_nogoto_player.asm"
-	
+
 	;jsr fx_shutters_vblank
-	jsr fx_pixscroll_vblank
+	;jsr fx_pixscroll_vblank
+	jsr fx_plasma_vblank
 	jsr wait_timint
 
 	; ===== KERNEL =====
@@ -60,7 +66,8 @@ main_loop SUBROUTINE
 	lda #19			; (/ (* 248.0 76) 1024) = 18.40
 	sta T1024T
 	;jsr fx_shutters_kernel	; scanline 33 - cycle 23
-	jsr fx_pixscroll_kernel	; scanline 33 - cycle 23
+	;jsr fx_pixscroll_kernel	; scanline 33 - cycle 23
+	jsr fx_plasma_kernel
 	jsr wait_timint		; scanline 289 - cycle 30
 
 	; ===== OVERSCAN ======
