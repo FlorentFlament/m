@@ -17,7 +17,7 @@ class Plasma:
     def __plasma_function(self, coords):
         dists = [distance(coords, s) for s in self.__sources]
         def pfunc(x):
-            return sin(x)/x if x != 0 else 1
+            return sin(x/2)/(x/2) if x != 0 else 1
         return sum([pfunc(d) for d in dists])
 
     def __compute_plasma(self):
@@ -52,11 +52,12 @@ class Plasma:
         return '\n'.join(lines)
 
 def main():
-    plasma = Plasma((11, 11), [(2, 2), (7, 10)])
+    plasma_size = (32, 32)
+    plasma = Plasma(plasma_size, [(2, 5), (13, 25), (33, 16)])
     buf = plasma.get_bytes(15)
     #buf = plasma.get_bytes(255)
-    print(lst2asm(buf,11))
-    im = Image.frombytes('L', (11, 11), buf)
+    print(lst2asm(buf,8))
+    #im = Image.frombytes('L', plasma_size, buf)
     #im.show()
 
 main()
