@@ -41,7 +41,6 @@ fx_plasma_vblank SUBROUTINE
 	lda frame_cnt
 	lsr
 	lsr
-	lsr
 	and #$3f
 	tax
 	lda fxpl_path_x,X
