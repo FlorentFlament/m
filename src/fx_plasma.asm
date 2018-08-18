@@ -38,9 +38,11 @@ fxp_rotate_palette SUBROUTINE
 
 fx_plasma_vblank SUBROUTINE
 	SET_POINTER ptr, fx_plasma_data
-	lda frame_cnt
-	lsr
-	lsr
+	m_copy_pointer frame_cnt, ptr1
+	REPEAT 3
+	m_shift_pointer_right ptr1
+	REPEND
+	lda ptr1
 	and #$3f
 	tax
 	lda fxpl_path_x,X

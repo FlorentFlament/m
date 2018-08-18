@@ -11,7 +11,7 @@
 
 	SEG.U ram
 	ORG $0080
-frame_cnt	ds 1
+frame_cnt	ds 2
 tmp	ds 1
 tmp1	ds 1
 ptr	ds 2
@@ -74,7 +74,7 @@ main_loop SUBROUTINE
 	; 26 Overscan lines
 	lda #22			; (/ (* 26.0 76) 64) = 30.875
 	sta TIM64T
-	inc frame_cnt
+	m_add_to_pointer frame_cnt, #1
 	jsr wait_timint
 
 	jmp main_loop		; scanline 308 - cycle 15

@@ -20,3 +20,10 @@
 	adc {1} + 1
 	sta {1} + 1
 	ENDM
+
+; Shift a pointer (8 adjacent bytes in little endian) by a bit to the right
+; Argument is the pointer to shift
+	MAC m_shift_pointer_right
+	lsr {1}+1
+	ror {1}
+	ENDM
