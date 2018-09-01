@@ -1,5 +1,5 @@
 ; Memory structures required for the shutters FX
-
+	ORG PARTRAM
 gfx_pf_base ds 12 ; pointers towards GFX PF0 - PF5 data
 fb0_base    ds 6  ; Frame buffer 0 (for 1 line i.e 6 PF registers)
 fb1_base    ds 6  ; Frame buffer 1
