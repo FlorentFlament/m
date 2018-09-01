@@ -143,6 +143,7 @@ fxp_call_load:
 
 ; The kernel uses tmp1, and A, X, Y registers
 fx_pixscroll_kernel SUBROUTINE
+	sta WSYNC
 	lda #29
 	sta tmp1 ; Displaying 30 lines
 .kern_loop:
