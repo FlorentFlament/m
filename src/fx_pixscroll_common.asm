@@ -1,12 +1,11 @@
 ; Loads one graphics unit into an fxp_line buffer item
-; ptr points towards the graphic to load
 ; X is the index in the fxp_line
-; Y is the offset from the graphics pointer
+; Y is the offset from the graphics pointer fxp_pix_ptr
 ; ex: ldx #$00
 ;     ldy #$00
 ;     m_fxp_load_elmt
 	MAC m_fxp_load_elmt
-	lda (ptr),y
+	lda (fxp_pix_ptr),y
 	sta fxp_line,x
 	tya
 	clc

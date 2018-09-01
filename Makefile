@@ -7,7 +7,7 @@ SRC=$(wildcard src/*.asm)
 VENV=. venv/bin/activate;
 
 main.bin: src/main.asm $(SRC)
-	dasm $< -o$@ -lmain.lst -smain.sym $(DFLAGS)
+	dasm $< -f3 -o$@ -lmain.lst -smain.sym $(DFLAGS)
 
 venv: venv/bin/activate
 

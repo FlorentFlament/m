@@ -60,20 +60,25 @@ fx_pixscroll_init SUBROUTINE
 	sta COLUP0
 	sta COLUP1
 
-	rts
+	jmp RTSBank
 
+; This subroutine setups:
+; * fxp_pix_ptr
+; * fxp_col_ptr
+; * fxp_shift_rough
+; * fxp_shift_fine
 fx_pixscroll_vblank SUBROUTINE
 	; Initialize
-	m_copy_pointer fxp_pix_base, ptr
+	m_copy_pointer fxp_pix_base, fxp_pix_ptr
 
 	; update color
-	SET_POINTER ptr1, fxp_test_color
+	SET_POINTER fxp_col_ptr, fxp_test_color
 	lda frame_cnt
 	lsr
 	lsr
 	and #$0f
 	sta tmp
-	m_add_to_pointer ptr1, tmp
+	m_add_to_pointer fxp_col_ptr, tmp
 
 	; Do the picture shifting stuff
 	lda frame_cnt
@@ -81,23 +86,23 @@ fx_pixscroll_vblank SUBROUTINE
 	bne .no_shift
 
 	; Shift the picture
-	inc fxp_shift_i
-	lda fxp_shift_i
+	inc fxp_shift_rough
+	lda fxp_shift_rough
 	cmp #6 ; 6 columns picture
 	bne .no_shift
 	lda #0
-	sta fxp_shift_i
+	sta fxp_shift_rough
 
 .no_shift
-	; no rough repositionning if fxp_shift_i is null
-	lda fxp_shift_i
+	; no rough repositionning if fxp_shift_rough is null
+	lda fxp_shift_rough
 	beq .no_rough
 
 	; Shift the pointer in the image
 	; i.e Move the picture by 8 bits
 	tax
 .rough_move:
-	m_add_to_pointer ptr, #30
+	m_add_to_pointer fxp_pix_ptr, #30
 	dex
 	bne .rough_move
 
@@ -109,12 +114,12 @@ fx_pixscroll_vblank SUBROUTINE
 	jsr s_fxp_load_elmt
 	REPEND
 
-	; store pix shift in X and tmp
+	; store pix shift in X and fxp_shift_fine
 	lda frame_cnt
 	lsr
 	lsr
 	and #$07
-	sta tmp
+	sta fxp_shift_fine
 
 	tax
 	beq .end
@@ -124,9 +129,10 @@ fx_pixscroll_vblank SUBROUTINE
 	bne .shift_loop
 
 .end:
-	m_add_to_pointer ptr, #1
+	m_add_to_pointer fxp_pix_ptr, #1
 	m_reverse_pf3buf
-	rts
+
+	jmp RTSBank
 
 fxp_test_color:
 	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de

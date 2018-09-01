@@ -123,18 +123,16 @@ s_fxp_load_elt0_at4 SUBROUTINE
 	ldx #0
 	rts
 
-; Call the line rotating subroutine according to tmp value
 fxp_call_rotate:
-	ldx tmp
+	ldx fxp_shift_fine
 	lda fxp_line_rotate_h,X
 	pha
 	lda fxp_line_rotate_l,X
 	pha
 	rts
 
-; Call the line loading subroutine according to tmp value
 fxp_call_load:
-	ldx tmp
+	ldx fxp_shift_fine
 	lda fxp_line_load_h,X
 	pha
 	lda fxp_line_load_l,X
@@ -143,18 +141,13 @@ fxp_call_load:
 	sta PF1
 	rts
 
-; * ptr must contain a pointer towards the 1st elememt of the next
-;   line to display
-; * ptr1 must contain a pointer towards the 1st color to use
-; * tmp must contain the number of shift to perform on the line
-;   in [-4, 3]
 ; The kernel uses tmp1, and A, X, Y registers
 fx_pixscroll_kernel SUBROUTINE
 	lda #29
 	sta tmp1 ; Displaying 30 lines
 .kern_loop:
 	ldy tmp1
-	lda (ptr1),y
+	lda (fxp_col_ptr),y
 	sta WSYNC
 	sta COLUBK
 	lda fxp_line
@@ -193,7 +186,7 @@ fx_pixscroll_kernel SUBROUTINE
 
 	ldx fxp_pf0_buf
 	stx PF1
-	m_add_to_pointer ptr, #1
+	m_add_to_pointer fxp_pix_ptr, #1
 
 	; Start rotating PF3
 	lda fxp_line + 3
@@ -235,7 +228,8 @@ fx_pixscroll_kernel SUBROUTINE
 	sta fxp_line,x
 	dex
 	bpl .zero_fxp_line
-	rts
+
+	jmp RTSBank
 
 fxp_line_load_l:
 	dc.b #<(s_fxp_load_elt0_at0 - 1)

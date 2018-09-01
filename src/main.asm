@@ -35,29 +35,126 @@ RAMEND  equ $FC
 	INCLUDE "fx_plasma_variables.asm"
 	echo "fx_plasma:", (RAMEND-*)d, "bytes left"
 
-;;;-----------------------------------------------------------------------------
-;;; Code segment
+; Bank switching macro by Tjoppen (slightly adapted)
+RTSBank equ $1FD9
+JMPBank equ $1FE6
 
-	SEG code
-	ORG $F000
+;39 byte bootstrap macro
+;Includes RTSBank, JMPBank routines and JMP to Start in Bank 7
+	MAC END_SEGMENT_CODE
+	;RTSBank
+	;Perform a long RTS
+	tsx
+	lda $02,X
+	;decode bank
+	;bank 0: $1000-$1FFF
+	;bank 1: $3000-$3FFF
+	;...
+	;bank 7: $F000-$FFFF
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	tax
+	nop $1FF4,X ;3 B
+	rts
+	;JMPBank
+	;Perform a long jmp to (ptr)
+	;The bank number is stored in the topmost three bits of (ptr)
+	;Example usage:
+	;   SET_POINTER ptr, Address
+	;   jsr JMPBank
+	;
+	;$1FE6-$1FED
+	lda ptr+1
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	tax
+	;$1FEE-$1FF3
+	nop $1FF4,X ;3 B
+	jmp (ptr)   ;3 B
+	ENDM
 
+	MAC END_SEGMENT
+.BANK	SET {1}
+	echo "Bank",(.BANK)d,":", ((RTSBank + (.BANK * 8192)) - *)d, "free"
+
+	ORG RTSBank + (.BANK * 4096)
+	RORG RTSBank + (.BANK * 8192)
+	END_SEGMENT_CODE
+;$1FF4-$1FFB - These are the bankswitching hotspots
+	.byte 0,0,0,0
+	.byte 0,0,0,$4C ;JMP Start (reading the instruction jumps to bank 7, i.e init address)
+;$1FFC-1FFF
+	.word $1FFB
+	.word $1FFB
+;Bank .BANK+1
+	ORG $1000 + ((.BANK + 1) * 4096)
+	RORG $1000 + ((.BANK + 1) * 8192)
+	ENDM
+
+	; Adding small JSRBank macro
+	MAC JSRBank
+	SET_POINTER ptr, {1}
+	jsr JMPBank
+	ENDM
+; End of bank switching macro definitions
+
+; Handy macros
 	INCLUDE "common.asm"
-	;INCLUDE "fx_shutters_control.asm"
-	;INCLUDE "fx_shutters_kernel.asm"
+
+;-----------------------------------------------------------------------------
+; Code segment
+	echo "--- ROM follows ---"
+	SEG code
+
+; Bank 0
+	ORG $1000
+	RORG $1000
+	INCLUDE "SilverWoman_nogoto_trackdata.asm"
+	INCLUDE "SilverWoman_nogoto_player.asm"
+	jmp RTSBank
+	END_SEGMENT 0
+
+; Bank 1
+PARTSTART_SHUTTER equ *
+	INCLUDE "fx_shutters_control.asm"
+	INCLUDE "fx_shutters_kernel.asm"
+	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
+	END_SEGMENT 1
+
+; Bank 2
+PARTSTART_PIXSCROLL equ *
 	INCLUDE "fx_pixscroll_common.asm"
 	INCLUDE "fx_pixscroll_ctrl.asm"
 	INCLUDE "fx_pixscroll_kernel.asm"
-	;INCLUDE "fx_plasma.asm"
+	echo "fx_pixscroll:", (*-PARTSTART_PIXSCROLL)d, "B"
+	END_SEGMENT 2
 
-; Then the remaining of the code
-init	CLEAN_START		; Initializes Registers & Memory
+; Bank 3
+PARTSTART_PLASMA equ *
+	INCLUDE "fx_plasma.asm"
+	echo "fx_plasma:", (*-PARTSTART_PLASMA)d, "B"
+	END_SEGMENT 3
 
-	; Initialization
-	; Put here whatever initialization code
+; Bank 4
+	END_SEGMENT 4
+
+; Bank 5
+	END_SEGMENT 5
+
+; Bank 6
+	END_SEGMENT 6
+
+; Bank 7
+init	CLEAN_START ; Initializes Registers & Memory
 	INCLUDE "SilverWoman_nogoto_init.asm"
+	JSRBank fx_pixscroll_init
 	;jsr fx_shutters_init
-	jsr fx_pixscroll_init
-
 	;jsr fx_plasma_init
 
 main_loop SUBROUTINE
@@ -67,10 +164,8 @@ main_loop SUBROUTINE
 	; 34 VBlank lines (76 cycles/line)
 	lda #39			; (/ (* 34.0 76) 64) = 40.375
 	sta TIM64T
-	INCLUDE "SilverWoman_nogoto_player.asm"
+	JSRBank fx_pixscroll_vblank
 
-	;jsr fx_shutters_vblank
-	jsr fx_pixscroll_vblank
 	;jsr fx_plasma_vblank
 	jsr wait_timint
 
@@ -79,7 +174,7 @@ main_loop SUBROUTINE
 	lda #19			; (/ (* 248.0 76) 1024) = 18.40
 	sta T1024T
 	;jsr fx_shutters_kernel	; scanline 33 - cycle 23
-	jsr fx_pixscroll_kernel	; scanline 33 - cycle 23
+	JSRBank fx_pixscroll_kernel	; scanline 33 - cycle 23
 	;jsr fx_plasma_kernel
 	jsr wait_timint		; scanline 289 - cycle 30
 
@@ -100,15 +195,14 @@ wait_timint:
 	beq wait_timint
 	rts
 
-; Data
-	INCLUDE "SilverWoman_nogoto_trackdata.asm"
-
-	echo "ROM left: ", ($fffc - *)d, "bytes"
-
 ;;;-----------------------------------------------------------------------------
 ;;; Reset Vector
-
-	SEG reset
-	ORG $FFFC
-	DC.W init
-	DC.W init
+	ORG RTSBank + $7000
+	RORG RTSBank + $E000
+	END_SEGMENT_CODE
+	;$1FF4-$1FFB
+	.byte 0,0,0,0
+	.byte 0,0,0,$4C
+	;$1FFC-1FFF
+	.word init
+	.word init
