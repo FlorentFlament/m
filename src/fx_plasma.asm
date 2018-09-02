@@ -5,7 +5,7 @@ fx_plasma_init SUBROUTINE
 	sta fxpl_palette,X
 	dex
 	bpl .loop
-	rts
+	jmp RTSBank
 
 fxp_rotate_palette_back SUBROUTINE
 	; Backup first value
@@ -36,11 +36,12 @@ fxp_rotate_palette SUBROUTINE
 	sta fxpl_palette+15
 	rts
 
+; Uses ptr1
 fx_plasma_vblank SUBROUTINE
-	SET_POINTER ptr, fx_plasma_data
+	SET_POINTER fxpl_col_ptr, fx_plasma_data
 
 	; Use ptr1 to position the pointer on the plasma map
-	; Then update ptr using fxpl_path_x and fxpl_path_y tables
+	; Then update fxpl_col_ptr using fxpl_path_x and fxpl_path_y tables
 	m_copy_pointer frame_cnt, ptr1
 	REPEAT 3
 	m_shift_pointer_right ptr1
@@ -50,17 +51,17 @@ fx_plasma_vblank SUBROUTINE
 	tax
 	lda fxpl_path_x,X
 	sta tmp
-	m_add_to_pointer ptr, tmp
+	m_add_to_pointer fxpl_col_ptr, tmp
 	ldy fxpl_path_y,X
 	beq .end_add_loop
 .add_loop:
-	m_add_to_pointer ptr, #32 ; 32 pixels per line
+	m_add_to_pointer fxpl_col_ptr, #32 ; 32 pixels per line
 	dey
 	bne .add_loop
 .end_add_loop:
 
-	; Set ptr1 to the beginning of the plasma mask
-	SET_POINTER ptr1, fxpl_mask
+	; Set fxpl_mask_ptr to the beginning of the plasma mask
+	SET_POINTER fxpl_mask_ptr, fxpl_mask
 
 	; Possilby rotate the palette
 	lda frame_cnt
@@ -70,11 +71,9 @@ fx_plasma_vblank SUBROUTINE
 
 .no_palette_rot:
 	jsr fxpl_workload_fast
-	rts
+	jmp RTSBank
 
 ; Load our fast code into fxpl_buffer
-; ptr must points towards the colors to display on the line
-; ptr1 must points towards the line to use as mask (fxpl_graph_mask)
 ; Uses X, Y and A registers
 fxpl_workload_fast SUBROUTINE
 	ldy #0
@@ -82,9 +81,9 @@ I	SET 0
 	REPEAT 11
 	lda #$a9 ; LDA Immediate instruction
 	sta fxpl_buffer + 4*I
-	lda (ptr),Y ; The Color to display
+	lda (fxpl_col_ptr),Y ; The Color to display
 	ora $10
-	and (ptr1),Y
+	and (fxpl_mask_ptr),Y
 	tax
 	lda fxpl_palette,X
 	sta fxpl_buffer + 4*I + 1
@@ -99,9 +98,6 @@ I	SET I + 1
 	sta fxpl_buffer + 44
 	rts
 
-; ptr must point towards the the first color to display
-; ptr1 must point towards the first line of the plasma mask
-; Beware that ptr will be modified !!
 fx_plasma_kernel SUBROUTINE
 	sta WSYNC
 	lda #10 ; Display 11 lines
@@ -126,9 +122,9 @@ fx_plasma_kernel SUBROUTINE
 	sta COLUBK
 
 	; Update pointer to the plasma map (32x32)
-	m_add_to_pointer ptr, 32
+	m_add_to_pointer fxpl_col_ptr, 32
 	; Update pointer to the plasma mask (11x11)
-	m_add_to_pointer ptr1, 11
+	m_add_to_pointer fxpl_mask_ptr, 11
 	jsr fxpl_workload_fast
 	dec tmp
 	bpl .display_loop
@@ -136,7 +132,7 @@ fx_plasma_kernel SUBROUTINE
 	lda #0
 	sta COLUBK
 
-	rts
+	jmp RTSBank
 
 fx_plasma_data:
 	dc.b $16, $17, $17, $17, $16, $15, $14, $13
