@@ -274,7 +274,7 @@ fx_plasma_data:
 fxpl_palette_orig:
 	dc.b $90, $92, $94, $96, $98, $9a, $9c, $9e
 	dc.b $9e, $9c, $9a, $98, $96, $94, $92, $90
-	dc.b $00
+	dc.b $0e
 
 fxpl_path_x:
 	dc.b $0a, $0b, $0c, $0d, $0e, $0f, $10, $10
