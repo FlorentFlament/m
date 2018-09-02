@@ -128,6 +128,7 @@ I	SET I + 1
 	ENDM
 
 fx_shutters_kernel SUBROUTINE
+	sta WSYNC
 	m_precomp_fb
 	ldy mask_m0_cnt
 	bne .m0_block
@@ -162,4 +163,4 @@ fx_shutters_kernel SUBROUTINE
 	sta PF0
 	sta PF1
 	sta PF2
-	rts
+	jmp RTSBank

@@ -38,7 +38,7 @@ fx_shutters_init SUBROUTINE
 	lda #$8c
 	sta COLUPF
 
-	rts
+	jmp RTSBank
 
 
 ; fills mask provided as argument with a value
@@ -203,7 +203,7 @@ fx_shutters_vblank SUBROUTINE
 	sta shnote_cnt
 	inc shtime_cnt
 .end:
-	rts
+	jmp RTSBank
 
 
 fx_shutters_moves:

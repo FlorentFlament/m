@@ -154,8 +154,8 @@ PARTSTART_PLASMA equ *
 init	CLEAN_START ; Initializes Registers & Memory
 	INCLUDE "SilverWoman_nogoto_init.asm"
 	;JSRBank fx_pixscroll_init
-	JSRBank fx_plasma_init
-	;jsr fx_shutters_init
+	;JSRBank fx_plasma_init
+	JSRBank fx_shutters_init
 
 main_loop SUBROUTINE
 	VERTICAL_SYNC		; 4 scanlines Vertical Sync signal
@@ -166,16 +166,17 @@ main_loop SUBROUTINE
 	sta TIM64T
 	JSRBank tt_PlayerStart
 	;JSRBank fx_pixscroll_vblank
-	JSRBank fx_plasma_vblank
+	;JSRBank fx_plasma_vblank
+	JSRBank fx_shutters_vblank
 	jsr wait_timint
 
 	; ===== KERNEL =====
 	; 248 Kernel lines
 	lda #19			; (/ (* 248.0 76) 1024) = 18.40
 	sta T1024T
-	;jsr fx_shutters_kernel	; scanline 33 - cycle 23
 	;JSRBank fx_pixscroll_kernel	; scanline 33 - cycle 23
-	JSRBank fx_plasma_kernel
+	;JSRBank fx_plasma_kernel
+	JSRBank fx_shutters_kernel	; scanline 33 - cycle 23
 	jsr wait_timint		; scanline 289 - cycle 30
 
 	; ===== OVERSCAN ======
