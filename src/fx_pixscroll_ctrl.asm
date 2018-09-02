@@ -55,10 +55,12 @@ fx_pixscroll_init SUBROUTINE
 	; Set the colors
 	lda #$00
 	sta COLUBK
-	lda #$00
 	sta COLUPF
 	sta COLUP0
 	sta COLUP1
+
+	; Initialize FX variables
+	sta fxp_shift_rough
 
 	jmp RTSBank
 

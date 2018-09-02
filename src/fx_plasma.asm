@@ -1,4 +1,11 @@
 fx_plasma_init SUBROUTINE
+	lda #$00
+	sta PF0
+	sta PF1
+	sta PF2
+	sta GRP0
+	sta GRP1
+
 	ldx #16
 .loop:
 	lda fxpl_palette_orig,X

@@ -5,6 +5,11 @@
 	INCLUDE "vcs.h"	; Provides RIOT & TIA memory map
 	INCLUDE "macro.h"	; This file includes some helper macros
 
+; The 2 next constants can be used to ease FXs developments
+; Use START_PART to select on which part to start the demo
+; Set SINGLE_PART to 1 to disable parts switching
+START_PART  equ 0 ; default 0
+SINGLE_PART equ 0 ; default 0
 
 ;;;-----------------------------------------------------------------------------
 ;;; RAM segment
@@ -151,11 +156,46 @@ PARTSTART_PLASMA equ *
 	END_SEGMENT 6
 
 ; Bank 7
+inits:
+	.word fx_shutters_init
+	.word fx_pixscroll_init
+	.word fx_plasma_init
+
+vblanks:
+	.word fx_shutters_vblank
+	.word fx_pixscroll_vblank
+	.word fx_plasma_vblank
+
+kernels:
+	.word fx_shutters_kernel
+	.word fx_pixscroll_kernel
+	.word fx_plasma_kernel
+
+; specifies on which frame to switch parts
+partswitch:
+	.word 256
+	.word 512
+	.word 0 ; Never switches after last part
+
+; Calls current part
+; unique argument is the stuff to call (inits, vblanks or kernels)
+; ex: call_curpart vblanks
+	MAC call_curpart
+	lda curpart
+	asl
+	tax
+	lda {1},X
+	sta ptr
+	lda {1}+1,X
+	sta ptr+1
+	jsr JMPBank
+	ENDM
+
 init	CLEAN_START ; Initializes Registers & Memory
 	INCLUDE "SilverWoman_nogoto_init.asm"
-	;JSRBank fx_pixscroll_init
-	;JSRBank fx_plasma_init
-	JSRBank fx_shutters_init
+	lda #START_PART
+	sta curpart
+	call_curpart inits ; Initialize first part
 
 main_loop SUBROUTINE
 	VERTICAL_SYNC		; 4 scanlines Vertical Sync signal
@@ -164,34 +204,49 @@ main_loop SUBROUTINE
 	; 34 VBlank lines (76 cycles/line)
 	lda #39			; (/ (* 34.0 76) 64) = 40.375
 	sta TIM64T
-	JSRBank tt_PlayerStart
-	;JSRBank fx_pixscroll_vblank
-	;JSRBank fx_plasma_vblank
-	JSRBank fx_shutters_vblank
+	call_curpart vblanks
 	jsr wait_timint
 
 	; ===== KERNEL =====
 	; 248 Kernel lines
 	lda #19			; (/ (* 248.0 76) 1024) = 18.40
 	sta T1024T
-	;JSRBank fx_pixscroll_kernel	; scanline 33 - cycle 23
-	;JSRBank fx_plasma_kernel
-	JSRBank fx_shutters_kernel	; scanline 33 - cycle 23
+	call_curpart kernels
 	jsr wait_timint		; scanline 289 - cycle 30
 
 	; ===== OVERSCAN ======
 	; 26 Overscan lines
 	lda #22			; (/ (* 26.0 76) 64) = 30.875
 	sta TIM64T
+	JSRBank tt_PlayerStart
 	m_add_to_pointer frame_cnt, #1
+	jsr check_partswitch
 	jsr wait_timint
 
 	jmp main_loop		; scanline 308 - cycle 15
 
 
-; X register must contain the number of scanlines to skip
-; X register will have value 0 on exit
-wait_timint:
+check_partswitch SUBROUTINE
+	IF SINGLE_PART
+	rts
+	ENDIF
+	lda curpart
+	asl
+	tax
+	lda partswitch,X
+	cmp frame_cnt
+	bne .no_switch
+	lda partswitch+1,X
+	cmp frame_cnt+1
+	bne .no_switch
+	; Switch part
+	inc curpart
+	call_curpart inits
+.no_switch:
+	rts
+
+
+wait_timint SUBROUTINE
 	lda TIMINT
 	beq wait_timint
 	rts
