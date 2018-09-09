@@ -33,8 +33,8 @@ PARTRAM equ *
 RAMEND  equ $FC
 	echo "RAM available for parts:", (RAMEND-PARTRAM)d, "bytes"
 
-	INCLUDE "fx_shutters_variables.asm"
-	echo "fx_shutters:", (RAMEND-*)d, "bytes left"
+	INCLUDE "fx_plainshut_variables.asm"
+	echo "fx_plainshut:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_pixscroll_variables.asm"
 	echo "fx_pixscroll:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_plasma_variables.asm"
@@ -127,8 +127,8 @@ JMPBank equ $1FE6
 
 ; Bank 1
 PARTSTART_SHUTTER equ *
-	INCLUDE "fx_shutters_control.asm"
-	INCLUDE "fx_shutters_kernel.asm"
+	INCLUDE "fx_plainshut_ctrl.asm"
+	INCLUDE "fx_plainshut_kernel.asm"
 	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
 	END_SEGMENT 1
 
@@ -157,24 +157,24 @@ PARTSTART_PLASMA equ *
 
 ; Bank 7
 inits:
-	.word fx_shutters_init
+	.word fx_plainshut_init
 	.word fx_pixscroll_init
 	.word fx_plasma_init
 
 vblanks:
-	.word fx_shutters_vblank
+	.word fx_plainshut_vblank
 	.word fx_pixscroll_vblank
 	.word fx_plasma_vblank
 
 kernels:
-	.word fx_shutters_kernel
+	.word fx_plainshut_kernel
 	.word fx_pixscroll_kernel
 	.word fx_plasma_kernel
 
 ; specifies on which frame to switch parts
 partswitch:
-	.word 256
 	.word 512
+	.word 1024
 	.word 0 ; Never switches after last part
 
 ; Calls current part
