@@ -32,7 +32,7 @@
 
 fx_pixscroll_init SUBROUTINE
 	; Set the picture to be displayed
-	SET_POINTER fxp_pix_base, fxp_test_gfx
+	SET_POINTER fxp_pix_base, fxp_metro_gfx
 
 	; Set playfield to mirror mode and clear playfield registers
 	lda #$01
@@ -60,6 +60,7 @@ fx_pixscroll_init SUBROUTINE
 	sta COLUP1
 
 	; Initialize FX variables
+	lda #$00
 	sta fxp_shift_rough
 
 	jmp RTSBank
@@ -84,13 +85,13 @@ fx_pixscroll_vblank SUBROUTINE
 
 	; Do the picture shifting stuff
 	lda frame_cnt
-	and #$1f
+	and #$0f
 	bne .no_shift
 
 	; Shift the picture
 	inc fxp_shift_rough
 	lda fxp_shift_rough
-	cmp #6 ; 6 columns picture
+	cmp #24 ; 24 columns picture
 	bne .no_shift
 	lda #0
 	sta fxp_shift_rough
@@ -119,7 +120,7 @@ fx_pixscroll_vblank SUBROUTINE
 	; store pix shift in X and fxp_shift_fine
 	lda frame_cnt
 	lsr
-	lsr
+	;lsr
 	and #$07
 	sta fxp_shift_fine
 
@@ -191,3 +192,6 @@ fxp_test_gfx:
 	dc.b $ff, $ff, $bb, $33, $ff, $ff, $03, $87
 	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
 	dc.b $ff, $ff, $ff, $ff
+
+fxp_metro_gfx:
+	INCLUDE "fx_pixscroll_data.asm"

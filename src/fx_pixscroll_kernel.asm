@@ -148,7 +148,8 @@ fx_pixscroll_kernel SUBROUTINE
 	sta tmp1 ; Displaying 30 lines
 .kern_loop:
 	ldy tmp1
-	lda (fxp_col_ptr),y
+	;lda (fxp_col_ptr),y
+	lda #$3c
 	sta WSYNC
 	sta COLUBK
 	lda fxp_line

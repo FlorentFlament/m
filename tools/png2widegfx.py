@@ -54,6 +54,6 @@ def main():
     pfs  = pack_bytes(arr)
     cols = by_column(pfs)
     rev  = [~v & 0xff for v in cols]
-    print(asmlib.lst2asm(rev))
+    print(asmlib.lst2asm(cols))
 
 main()
