@@ -8,15 +8,15 @@
 
 ; Switch to next shutters color
 	MAC m_fxps_next_color
-	lda fxps_pf_col
+	lda fxps_fg_col
 	sta fxps_bg_col ; Turn PF color to background
 
 	; Load new color
 	lda fxps_col_i
-	and #$01 ; 2 colors for now
+	and #$03 ; 4 colors for now
 	tax
 	lda fxps_colors,X
-	sta fxps_pf_col
+	sta fxps_fg_col
 
 	inc fxps_col_i
 	ENDM
@@ -27,7 +27,7 @@ fx_plainshut_init SUBROUTINE
 	sta fxps_col_i
 	tax
 	lda fxps_colors,X
-	sta fxps_pf_col
+	sta fxps_fg_col
 
 	inc fxps_col_i
 	m_fxps_next_color
@@ -109,4 +109,4 @@ fxps_patterns:
 	.byte 0, 0, 0, 0, 1, 1, 1, 1
 
 fxps_colors:
-	.byte $00, $8c
+	.byte $00, $8c, $9c, $2c

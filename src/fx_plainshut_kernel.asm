@@ -7,7 +7,7 @@ fx_plainshut_kernel SUBROUTINE
 	beq .end_loop
 
 	; Setup foreground color
-	lda fxps_pf_col
+	lda fxps_fg_col
 	sta COLUBK
 
 .upper_loop:
@@ -16,6 +16,7 @@ fx_plainshut_kernel SUBROUTINE
 	bne .upper_loop
 
 .end_loop:
+	; Setup background color
 	lda fxps_bg_col
 	sta COLUBK
 
