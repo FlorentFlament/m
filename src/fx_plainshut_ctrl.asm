@@ -22,8 +22,13 @@
 	ENDM
 
 fx_plainshut_init SUBROUTINE
-	; Setting reasonable colors
+	; Not using players
 	lda #$00
+	sta GRP0
+	sta GRP1
+
+	; Setting reasonable colors
+	sta fxps_move_i
 	sta fxps_col_i
 	tax
 	lda fxps_colors,X

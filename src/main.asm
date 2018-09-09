@@ -159,22 +159,26 @@ PARTSTART_PLASMA equ *
 inits:
 	.word fx_plainshut_init
 	.word fx_pixscroll_init
+	.word fx_plainshut_init
 	.word fx_plasma_init
 
 vblanks:
 	.word fx_plainshut_vblank
 	.word fx_pixscroll_vblank
+	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 
 kernels:
 	.word fx_plainshut_kernel
 	.word fx_pixscroll_kernel
+	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 
 ; specifies on which frame to switch parts
 partswitch:
 	.word 512
 	.word 1024
+	.word 1536
 	.word 0 ; Never switches after last part
 
 ; Calls current part
