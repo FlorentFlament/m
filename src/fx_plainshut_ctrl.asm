@@ -13,7 +13,7 @@
 
 	; Load new color
 	lda fxps_col_i
-	and #$03 ; 4 colors for now
+	and #$1f ; 32 colors for now
 	tax
 	lda fxps_colors,X
 	sta fxps_fg_col
@@ -159,4 +159,7 @@ fxps_patterns:
 	.byte 3, 0, 5, 0, 1, 1, 1, 1
 
 fxps_colors:
-	.byte $00, $8c, $9c, $2c
+	.byte $00, $8c, $9c, $2c, $00, $8c, $9c, $2c
+	.byte $8c, $9c, $2c, $8c, $9c, $2c, $8c, $9c
+	.byte $2c, $8c, $9c, $2c, $8c, $9c, $2c, $8c
+	.byte $9c, $2c, $8c, $9c, $2c, $8c, $9c, $2c
