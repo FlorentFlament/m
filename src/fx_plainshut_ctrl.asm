@@ -24,6 +24,7 @@
 fx_plainshut_init SUBROUTINE
 	; Doing some cleanup
 	lda #$00
+	sta CTRLPF ; Set playfield in non mirror mode
 	sta GRP0
 	sta GRP1
 	sta PF0
@@ -104,21 +105,58 @@ fxps_vblank_topdown SUBROUTINE
 	sta fxps_m0_cnt
 	rts
 
+fxps_vblank_leftright SUBROUTINE
+	m_fxps_clear_pf
+
+	; Setup initial mask index
+	lda frame_cnt
+	and #$07
+	; multiply frame_cnt by 6
+	asl
+	sta fxps_m0_i
+	asl
+	clc
+	adc fxps_m0_i
+	sta fxps_m0_i
+	rts
+
 fxps_vblanks:
 	.word (fxps_vblank_nop - 1)
-	.word (fxps_vblank_topdown - 1)
 	.word (fxps_vblank_nop - 1) ; Same vblank for nop and Switch
+	.word (fxps_vblank_topdown - 1)
 	.word (fxps_vblank_topdown - 1) ; Same vblank for topdown and bottomup
+	.word (fxps_vblank_leftright - 1)
+	.word (fxps_vblank_leftright - 1) ; Same vblank for leftright and rightleft
+
+fxps_leftright_pf:
+	.byte $00, $00, $00, $00, $00, $00
+	.byte $f0, $80, $00, $00, $00, $00
+	.byte $f0, $fc, $00, $00, $00, $00
+	.byte $f0, $ff, $07, $00, $00, $00
+	.byte $f0, $ff, $ff, $00, $00, $00
+	.byte $f0, $ff, $ff, $f0, $80, $00
+	.byte $f0, $ff, $ff, $f0, $fc, $00
+	.byte $f0, $ff, $ff, $f0, $ff, $07
+
+fxps_rightleft_pf:
+	.byte $00, $00, $00, $00, $00, $00
+	.byte $00, $00, $00, $00, $00, $f8
+	.byte $00, $00, $00, $00, $03, $ff
+	.byte $00, $00, $00, $00, $7f, $ff
+	.byte $00, $00, $00, $f0, $ff, $ff
+	.byte $00, $00, $f8, $f0, $ff, $ff
+	.byte $00, $03, $ff, $f0, $ff, $ff
+	.byte $00, $7f, $ff, $f0, $ff, $ff
 
 fxps_patterns:
-	.byte 0, 0, 0, 0, 1, 0, 0, 0
-	.byte 0, 0, 0, 0, 1, 0, 0, 0
+	.byte 0, 0, 0, 0, 2, 0, 0, 0
+	.byte 0, 0, 0, 0, 4, 0, 0, 0
 	.byte 0, 0, 0, 0, 3, 0, 0, 0
+	.byte 0, 0, 0, 0, 5, 0, 0, 0
+	.byte 0, 0, 0, 0, 2, 0, 0, 0
 	.byte 0, 0, 0, 0, 3, 0, 0, 0
-	.byte 0, 0, 0, 0, 1, 0, 0, 0
-	.byte 0, 0, 0, 0, 3, 0, 0, 0
-	.byte 2, 2, 2, 0, 1, 0, 1, 0
-	.byte 3, 0, 3, 0, 2, 2, 2, 2
+	.byte 1, 1, 1, 0, 2, 0, 4, 0
+	.byte 3, 0, 5, 0, 1, 1, 1, 1
 
 fxps_colors:
 	.byte $00, $8c, $9c, $2c

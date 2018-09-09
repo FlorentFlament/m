@@ -4,6 +4,7 @@ fx_plainshut_kernel SUBROUTINE
 	jsr fxps_call_kernel
 	lda #0 ; End with black anyway
 	sta COLUBK
+	sta COLUPF
 	jmp RTSBank
 
 fxps_call_kernel SUBROUTINE
@@ -104,8 +105,51 @@ fxps_kernel_bottomup SUBROUTINE
 .end_loop:
 	rts
 
+; plainshut kernel for left-right and right-left shutter moves
+; First parameter is either: fxps_leftright_pf or fxps_rightleft_pf
+	MAC m_fxps_kernel_horiz
+	; Load proper mask index
+	ldy fxps_m0_i
+	ldx #240
+
+	lda fxps_fg_col
+	sta COLUPF
+
+	sta WSYNC
+	lda fxps_bg_col
+	sta COLUBK
+.loop:
+	lda {1},Y
+	sta PF0
+	lda {1}+1,Y
+	sta PF1
+	lda {1}+2,Y
+	sta PF2
+	SLEEP 8
+	lda {1}+3,Y
+	sta PF0
+	lda {1}+4,Y
+	sta PF1
+	lda {1}+5,Y
+	sta PF2
+
+	sta WSYNC
+	dex
+	bne .loop
+	ENDM
+
+fxps_kernel_leftright SUBROUTINE
+	m_fxps_kernel_horiz fxps_leftright_pf
+	rts
+
+fxps_kernel_rightleft SUBROUTINE
+	m_fxps_kernel_horiz fxps_rightleft_pf
+	rts
+
 fxps_kernels:
 	.word (fxps_kernel_nop - 1)
-	.word (fxps_kernel_topdown - 1)
 	.word (fxps_kernel_switch - 1)
+	.word (fxps_kernel_topdown - 1)
 	.word (fxps_kernel_bottomup - 1)
+	.word (fxps_kernel_leftright - 1)
+	.word (fxps_kernel_rightleft - 1)
