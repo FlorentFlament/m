@@ -35,10 +35,6 @@ fx_plainshut_init SUBROUTINE
 	jmp RTSBank
 
 fx_plainshut_vblank SUBROUTINE
-	 ; Start with black background anyway
- 	lda #00
-	sta COLUBK
-
 	lda frame_cnt
 	and #$07
 	bne .no_change
@@ -74,18 +70,20 @@ fxps_call_vblank SUBROUTINE
 	pha
 	rts
 
-fxps_vblank_nop SUBROUTINE
-	lda #0
-	sta fxps_m0_cnt
-	rts
-
-fxps_vblank_topdown SUBROUTINE
-	; No PF with this shutters mode
+; Just clear playfield registers
+	MAC m_fxps_clear_pf
 	lda #$00
 	sta PF0
 	sta PF1
 	sta PF2
+	ENDM
 
+fxps_vblank_nop SUBROUTINE
+	m_fxps_clear_pf
+	rts
+
+fxps_vblank_topdown SUBROUTINE
+	m_fxps_clear_pf
 	lda frame_cnt
 	and #$07 ; 3 LSBs (i.e 8 frames) patterns
 	REPEAT 5
@@ -97,16 +95,18 @@ fxps_vblank_topdown SUBROUTINE
 fxps_vblanks:
 	.word (fxps_vblank_nop - 1)
 	.word (fxps_vblank_topdown - 1)
+	.word (fxps_vblank_nop - 1) ; Same vblank for nop and Switch
+	.word (fxps_vblank_topdown - 1) ; Same vblank for topdown and bottomup
 
 fxps_patterns:
 	.byte 0, 0, 0, 0, 1, 0, 0, 0
 	.byte 0, 0, 0, 0, 1, 0, 0, 0
+	.byte 0, 0, 0, 0, 3, 0, 0, 0
+	.byte 0, 0, 0, 0, 3, 0, 0, 0
 	.byte 0, 0, 0, 0, 1, 0, 0, 0
-	.byte 0, 0, 0, 0, 1, 0, 0, 0
-	.byte 0, 0, 0, 0, 1, 0, 0, 0
-	.byte 0, 0, 0, 0, 1, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 1, 1, 1, 1
+	.byte 0, 0, 0, 0, 3, 0, 0, 0
+	.byte 2, 2, 2, 0, 1, 0, 1, 0
+	.byte 3, 0, 3, 0, 2, 2, 2, 2
 
 fxps_colors:
 	.byte $00, $8c, $9c, $2c
