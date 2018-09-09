@@ -22,10 +22,17 @@
 	ENDM
 
 fx_plainshut_init SUBROUTINE
-	; Not using players
+	; Doing some cleanup
 	lda #$00
 	sta GRP0
 	sta GRP1
+	sta PF0
+	sta PF1
+	sta PF2
+	sta COLUP0
+	sta COLUP1
+	sta COLUBK
+	sta COLUPF
 
 	; Setting reasonable colors
 	sta fxps_move_i
