@@ -159,7 +159,7 @@ fxps_patterns:
 	.byte 3, 0, 5, 0, 1, 1, 1, 1
 
 fxps_colors:
-	.byte $00, $8c, $9c, $2c, $00, $8c, $9c, $2c
-	.byte $8c, $9c, $2c, $8c, $9c, $2c, $8c, $9c
-	.byte $2c, $8c, $9c, $2c, $8c, $9c, $2c, $8c
-	.byte $9c, $2c, $8c, $9c, $2c, $8c, $9c, $2c
+	.byte $00, $3c, $9c, $8c, $00, $3c, $9c, $8c
+	.byte $3c, $9c, $8c, $3c, $9c, $8c, $3c, $9c
+	.byte $8c, $3c, $9c, $8c, $3c, $9c, $8c, $3c
+	.byte $9c, $8c, $3c, $9c, $8c, $3c, $9c, $8c
