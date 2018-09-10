@@ -60,21 +60,13 @@ fx_pixscroll_init SUBROUTINE
 	sta COLUP0
 	sta COLUP1
 
-	; Initialize FX variables
-	lda #$00
-	sta fxp_shift_rough
-
 	jmp RTSBank
 
 ; This subroutine setups:
 ; * fxp_pix_ptr
-; * fxp_col_ptr
-; * fxp_shift_rough
 ; * fxp_shift_fine
-fx_pixscroll_vblank SUBROUTINE
-	; Initialize
-	m_copy_pointer fxp_pix_base, fxp_pix_ptr
-
+; * fxp_col_ptr
+fx_pixscroll_vblank_color SUBROUTINE
 	; update color
 	SET_POINTER fxp_col_ptr, fxp_test_color
 	lda frame_cnt
@@ -83,35 +75,19 @@ fx_pixscroll_vblank SUBROUTINE
 	and #$0f
 	sta tmp
 	m_add_to_pointer fxp_col_ptr, tmp
+	jmp fx_pixscroll_vblank
 
-	; Do the picture shifting stuff
-	lda frame_cnt
-	and #$1f
-	;and #$07
-	bne .no_shift
+; This subroutine setups:
+; * fxp_pix_ptr
+; * fxp_shift_fine
+fx_pixscroll_vblank SUBROUTINE
+	m_copy_pointer frame_cnt, ptr
+	; Slow movement
+	REPEAT 0
+	m_shift_pointer_right ptr
+	REPEND
+	jsr fxp_compute_move
 
-	; Shift the picture
-	inc fxp_shift_rough
-	lda fxp_shift_rough
-	cmp #28 ; 28 columns picture
-	bne .no_shift
-	lda #0
-	sta fxp_shift_rough
-
-.no_shift
-	; no rough repositionning if fxp_shift_rough is null
-	lda fxp_shift_rough
-	beq .no_rough
-
-	; Shift the pointer in the image
-	; i.e Move the picture by 8 bits
-	tax
-.rough_move:
-	m_add_to_pointer fxp_pix_ptr, #30
-	dex
-	bne .rough_move
-
-.no_rough:
 	; Precompute the first line
 	ldx #$00
 	ldy #$00
@@ -119,15 +95,9 @@ fx_pixscroll_vblank SUBROUTINE
 	jsr s_fxp_load_elmt
 	REPEND
 
-	; store pix shift in X and fxp_shift_fine
-	lda frame_cnt
-	lsr
-	lsr
-	and #$07
-	sta fxp_shift_fine
-
-	tax
+	lda fxp_shift_fine
 	beq .end
+	tax
 .shift_loop:
 	jsr s_fxp_rotate_line_left
 	dex
@@ -138,6 +108,56 @@ fx_pixscroll_vblank SUBROUTINE
 	m_reverse_pf3buf
 
 	jmp RTSBank
+
+; total shift value (bit wise) must be stored in ptr (word)
+; ptr value will be interpreted as follows
+; bits 3-0: bit shifting
+; bits 5-4: byte shifting
+; bite 13-6: screen shifting
+fxp_compute_move SUBROUTINE
+	; 3 LSBs are used for fine shifting (bit wise)
+	lda ptr
+	and #$07
+	sta fxp_shift_fine
+
+	; Set fxp_pix_ptr according to rough (byte wise) move
+	m_copy_pointer fxp_pix_base, fxp_pix_ptr
+
+	; bits 12-4 of ptr are used for rough shifting (byte wise)
+	REPEAT 3
+	m_shift_pointer_right ptr
+	REPEND
+	lda ptr
+	and #$03
+	sta tmp ; byte (i.e rough) shifting
+
+	; Computing screen index
+	REPEAT 2
+	m_shift_pointer_right ptr
+	REPEND
+	lda ptr
+	and #$0f ; 16 screens for now
+	tax
+
+	lda fxps_metro_screens,X
+	beq .no_screen_move
+	tax
+.screen_move:
+	m_add_to_pointer fxp_pix_ptr, #120 ; 120 bytes per screen
+	dex
+	bne .screen_move
+
+.no_screen_move
+	lda tmp ; where we store rough move
+	beq .end
+	tax
+.rough_move:
+	m_add_to_pointer fxp_pix_ptr, #30 ; 30 bytes per column
+	dex
+	bne .rough_move
+
+.end:
+	rts
 
 fxp_test_color:
 	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de
@@ -196,36 +216,7 @@ fxp_test_gfx:
 	dc.b $ff, $ff, $ff, $ff
 
 fxp_metro_gfx:
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-
 	INCLUDE "fx_pixscroll_data.asm"
 
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+fxps_metro_screens:
+	dc.b 0, 1, 2, 3, 4, 5, 8, 4, 5, 8, 4, 5, 6, 1, 2, 10
