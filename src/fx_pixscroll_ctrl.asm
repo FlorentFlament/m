@@ -40,7 +40,8 @@ fx_pixscroll_init SUBROUTINE
 	lda #$00
 	sta PF1
 	sta PF2
-	lda #$f0
+	;lda #$f0
+	lda #$00
 	sta PF0
 
 	; Set large sprites
@@ -53,7 +54,7 @@ fx_pixscroll_init SUBROUTINE
 	m_set_sprite_position 1, #8, #5
 
 	; Set the colors
-	lda #$00
+	lda #$3c
 	sta COLUBK
 	sta COLUPF
 	sta COLUP0
@@ -85,13 +86,14 @@ fx_pixscroll_vblank SUBROUTINE
 
 	; Do the picture shifting stuff
 	lda frame_cnt
-	and #$0f
+	and #$1f
+	;and #$07
 	bne .no_shift
 
 	; Shift the picture
 	inc fxp_shift_rough
 	lda fxp_shift_rough
-	cmp #24 ; 24 columns picture
+	cmp #28 ; 28 columns picture
 	bne .no_shift
 	lda #0
 	sta fxp_shift_rough
@@ -120,7 +122,7 @@ fx_pixscroll_vblank SUBROUTINE
 	; store pix shift in X and fxp_shift_fine
 	lda frame_cnt
 	lsr
-	;lsr
+	lsr
 	and #$07
 	sta fxp_shift_fine
 
@@ -194,4 +196,36 @@ fxp_test_gfx:
 	dc.b $ff, $ff, $ff, $ff
 
 fxp_metro_gfx:
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+
 	INCLUDE "fx_pixscroll_data.asm"
+
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff

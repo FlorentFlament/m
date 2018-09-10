@@ -45,12 +45,24 @@ def by_column(data):
     width = len(data)//30
     return [data[i] for j in range(width) for i in range(j, len(data), width)]
 
+def count_pixels(data):
+    h = {}
+    for d in data:
+        h[d] = h.get(d,0) + 1
+    return h
+
 def main():
     fname = sys.argv[1]
     # Convert to 1 byte in {0,255} per pixel
-    im   = Image.open(fname).convert('1')
-    sanity_check(im)
-    arr  = bool_array(im)
+    im   = Image.open(fname)
+
+    # Beware im.convert('1') seems to introduce bugs !
+    # To be troubleshooted and fixed upstream !
+    # In the mean time using im.convert('L') instead
+    grey = im.convert('L')
+    sanity_check(grey)
+
+    arr  = bool_array(grey)
     pfs  = pack_bytes(arr)
     cols = by_column(pfs)
     rev  = [~v & 0xff for v in cols]

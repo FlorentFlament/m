@@ -149,7 +149,7 @@ fx_pixscroll_kernel SUBROUTINE
 .kern_loop:
 	ldy tmp1
 	;lda (fxp_col_ptr),y
-	lda #$3c
+	lda #$00
 	sta WSYNC
 	sta COLUBK
 	lda fxp_line
