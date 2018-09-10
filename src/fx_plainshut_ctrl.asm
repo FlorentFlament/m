@@ -161,5 +161,5 @@ fxps_patterns:
 fxps_colors:
 	.byte $00, $3c, $9c, $8c, $00, $3c, $9c, $8c
 	.byte $3c, $9c, $8c, $3c, $9c, $8c, $3c, $9c
-	.byte $8c, $3c, $9c, $8c, $3c, $9c, $8c, $3c
+	.byte $8c, $00, $9c, $8c, $3c, $9c, $8c, $3c
 	.byte $9c, $8c, $3c, $9c, $8c, $3c, $9c, $8c
