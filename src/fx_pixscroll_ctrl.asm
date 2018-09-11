@@ -37,12 +37,6 @@ fx_pixscroll_init SUBROUTINE
 	; Set playfield to mirror mode and clear playfield registers
 	lda #$01
 	sta CTRLPF
-	lda #$00
-	sta PF1
-	sta PF2
-	;lda #$f0
-	lda #$00
-	sta PF0
 
 	; Set large sprites
 	lda #$07
@@ -53,9 +47,22 @@ fx_pixscroll_init SUBROUTINE
 	m_set_sprite_position 0, #6, #7
 	m_set_sprite_position 1, #8, #5
 
+	; Sets non-displayable zone and hidden zone to $00
+	lda #$00
+	sta PF0
+	sta PF2
+
+	; Sets displayable zone to $ff
+	lda #$ff
+	sta PF1
+	sta GRP0
+	sta GRP1
+
 	; Set the colors
-	lda #$3c
+	lda #$00
 	sta COLUBK
+
+	lda #$3c
 	sta COLUPF
 	sta COLUP0
 	sta COLUP1
