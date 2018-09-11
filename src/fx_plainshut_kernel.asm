@@ -146,6 +146,25 @@ fxps_kernel_rightleft SUBROUTINE
 	m_fxps_kernel_horiz fxps_rightleft_pf
 	rts
 
+fxps_kernel_vertstripe_8 SUBROUTINE
+	m_fxps_kernel_horiz fxps_kernel_vertstripe_8_data
+	rts
+
+fxps_kernel_vertstripe_16 SUBROUTINE
+	m_fxps_kernel_horiz fxps_kernel_vertstripe_16_data
+	rts
+
+fxps_kernel_vertstripe_24 SUBROUTINE
+	m_fxps_kernel_horiz fxps_kernel_vertstripe_24_data
+	rts
+
+fxps_kernel_vertstripe_8_data:
+	.byte $00, $00, $f0, $f0, $00, $00
+fxps_kernel_vertstripe_16_data:
+	.byte $00, $00, $ff, $f0, $f0, $00
+fxps_kernel_vertstripe_24_data:
+	.byte $00, $0f, $ff, $f0, $ff, $00
+
 fxps_kernels:
 	.word (fxps_kernel_nop - 1)
 	.word (fxps_kernel_switch - 1)
@@ -153,3 +172,6 @@ fxps_kernels:
 	.word (fxps_kernel_bottomup - 1)
 	.word (fxps_kernel_leftright - 1)
 	.word (fxps_kernel_rightleft - 1)
+	.word (fxps_kernel_vertstripe_8 - 1)
+	.word (fxps_kernel_vertstripe_16 - 1)
+	.word (fxps_kernel_vertstripe_24 - 1)

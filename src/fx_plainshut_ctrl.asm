@@ -8,16 +8,23 @@
 
 ; Switch to next shutters color
 	MAC m_fxps_next_color
-	lda fxps_fg_col
-	sta fxps_bg_col ; Turn PF color to background
 
 	; Load new color
 	lda fxps_col_i
 	and #$1f ; 32 colors for now
 	tax
 	lda fxps_colors,X
+	; if the color didn't change, don't switch
+	cmp fxps_fg_col
+	beq .end
+
+	sta tmp
+	lda fxps_fg_col
+	sta fxps_bg_col ; Turn PF color to background
+	lda tmp
 	sta fxps_fg_col
 
+.end:
 	inc fxps_col_i
 	ENDM
 
@@ -107,7 +114,6 @@ fxps_vblank_topdown SUBROUTINE
 
 fxps_vblank_leftright SUBROUTINE
 	m_fxps_clear_pf
-
 	; Setup initial mask index
 	lda frame_cnt
 	and #$07
@@ -120,6 +126,12 @@ fxps_vblank_leftright SUBROUTINE
 	sta fxps_m0_i
 	rts
 
+fxps_vblank_vertstripe SUBROUTINE
+	m_fxps_clear_pf
+	lda #0
+	sta fxps_m0_i
+	rts
+
 fxps_vblanks:
 	.word (fxps_vblank_nop - 1)
 	.word (fxps_vblank_nop - 1) ; Same vblank for nop and Switch
@@ -127,6 +139,9 @@ fxps_vblanks:
 	.word (fxps_vblank_topdown - 1) ; Same vblank for topdown and bottomup
 	.word (fxps_vblank_leftright - 1)
 	.word (fxps_vblank_leftright - 1) ; Same vblank for leftright and rightleft
+	.word (fxps_vblank_vertstripe - 1)
+	.word (fxps_vblank_vertstripe - 1)
+	.word (fxps_vblank_vertstripe - 1)
 
 fxps_leftright_pf:
 	.byte $00, $00, $00, $00, $00, $00
@@ -156,10 +171,9 @@ fxps_patterns:
 	.byte 0, 0, 0, 0, 2, 0, 0, 0
 	.byte 0, 0, 0, 0, 3, 0, 0, 0
 	.byte 1, 1, 1, 0, 2, 0, 4, 0
-	.byte 3, 0, 5, 0, 1, 1, 1, 1
+	.byte 3, 0, 5, 0, 1, 6, 7, 8
 
 fxps_colors:
 	.byte $00, $3c, $9c, $8c, $00, $3c, $9c, $8c
-	.byte $3c, $9c, $8c, $3c, $9c, $8c, $3c, $9c
-	.byte $8c, $00, $9c, $8c, $3c, $9c, $8c, $3c
-	.byte $9c, $8c, $3c, $9c, $8c, $3c, $9c, $8c
+	.byte $3c, $9c, $8c, $3c, $9c, $8c, $00, $3c
+	.byte $3c, $3c
