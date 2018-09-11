@@ -1,0 +1,72 @@
+* Define (first version of) the timeline with all the parts of the
+  demo
+
+  - Gameboy intro
+  - Shutters (volets)
+  - M logo (we can call the demo 'M')
+  - Flush text
+  - Shutters
+  - Train (right -> left)
+  - Animation of metro doors opening
+  - Plasma FX blue with 2 GFXs
+  - Shutters ?
+  - Train (left -> right)
+  - Plasma FX red (or pink) with 2 GFXs
+  - Credits
+  - Greetings
+
+* FX Intro gameboy with Flush logo
+
+  Pour l'intro, le volet s’enchaînera parfaitement, genre fond vert GB
+  + arrivée du logo Flush + "toudi !" puis volet du fond vert vers le
+  noir et enchaînements de volets... Faut juste trouver une astuce
+  pour la disparition du logo.
+
+* FX logo M
+
+* FX Flush text going from alternatively from left to right and right
+  to left (using the train FX kernel)
+
+* FX multi-color 11x11 with shapes changing according to the music
+  (using the plasma FX kernel)
+
+* FX Train - update movement with varying speed slow -> fast -> slow
+
+* FX Train - Add new part with train moving from left to right
+
+* FX animations - Implement multiple animations sent by Glafouk ; )
+
+* FX tunnel or FX moving rails ?
+
+  "tu saurais plutôt le gérer en carré, genre des mouvement de
+   perspective sur droite/gauche genre barres + points (les morceaux
+   de tunnels + les lumières) et en haut des barres épaisses pour
+   faire le haut, et en bas des rails (donc deux barres verticales
+   "tordues" + des barres horiz qui défilent) ?"
+
+* FX 11x11 plasma, cycle between the different 11x11 GFXs.
+
+  Details: Start with an empty plasma, then have first white GFX
+  blinkink with the music, then staying, then blinking again and
+  disappearing. Then to the same thing with the next GFX. We can have
+  several Plasma parts with different colors and GFXs, separated by
+  other FXs, like the shutters.
+
+* FX color (or 8 grey levels) video using the 11x11 plasma mode ?
+
+* 3D rotation (vertical then horizontal) of the M logo ?
+
+* FX wave (or chewing gum) on the M logo ?
+
+  sinon un effet "chewing gum" si on imagine que le M est rempli avec
+  des lignes de différentes couleurs, faire grossir/rapetisser des
+  lignes, avec un genre de rebond.
+
+* FX linen by line on the M logo ?
+
+  Et genre vu qu'il est fait de lignes (comme le logo flush de .bin)
+  peut être le faire arriver en ligne par ligne (et le faire partir,
+  genre il arrive par le haut, il repart par le bas).
+
+* Text kernel at the end for credits & greetings (we already have the
+  font)
