@@ -6,7 +6,6 @@ fx_intro_init SUBROUTINE
 
 	lda #$00
 	sta fxi_logo_pos
-	sta fxi_cnt
 	jmp RTSBank
 
 fx_intro_vblank SUBROUTINE
@@ -32,12 +31,9 @@ fx_intro_vblank SUBROUTINE
 	bmi .end
 
 .go_down:
-	inc fxi_cnt
-	lda fxi_cnt
-	cmp #2
+	lda frame_cnt
+	and #$01
 	bne .end
-	lda #$00
-	sta fxi_cnt
 	inc fxi_logo_pos
 
 .end:
