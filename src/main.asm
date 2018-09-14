@@ -33,6 +33,8 @@ PARTRAM equ *
 RAMEND  equ $FC
 	echo "RAM available for parts:", (RAMEND-PARTRAM)d, "bytes"
 
+	INCLUDE "fx_intro_variables.asm"
+	echo "fx_intro:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_plainshut_variables.asm"
 	echo "fx_plainshut:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_pixscroll_variables.asm"
@@ -147,6 +149,10 @@ PARTSTART_PLASMA equ *
 	END_SEGMENT 3
 
 ; Bank 4
+PARTSTART_INTRO equ *
+	INCLUDE "fx_intro_ctrl.asm"
+	INCLUDE "fx_intro_kernel.asm"
+	echo "fx_intro:", (*-PARTSTART_INTRO)d, "B"
 	END_SEGMENT 4
 
 ; Bank 5
@@ -157,18 +163,21 @@ PARTSTART_PLASMA equ *
 
 ; Bank 7
 inits:
+	.word fx_intro_init
 	.word fx_plainshut_init
 	.word fx_pixscroll_init
 	.word fx_plainshut_init
 	.word fx_plasma_init
 
 vblanks:
+	.word fx_intro_vblank
 	.word fx_plainshut_vblank
 	.word fx_pixscroll_vblank
 	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 
 kernels:
+	.word fx_intro_kernel
 	.word fx_plainshut_kernel
 	.word fx_pixscroll_kernel
 	.word fx_plainshut_kernel
@@ -179,6 +188,7 @@ partswitch:
 	.word 512
 	.word 1024
 	.word 1536
+	.word 2048
 	.word 0 ; Never switches after last part
 
 ; Calls current part
