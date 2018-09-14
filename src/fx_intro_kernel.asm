@@ -1,5 +1,6 @@
 fx_intro_kernel SUBROUTINE
 	lda fxi_logo_pos
+	beq .end
 	cmp #80 ; Logo height
 	bpl .call_fxi_slide
 	jsr fxi_enter
@@ -7,7 +8,7 @@ fx_intro_kernel SUBROUTINE
 .call_fxi_slide
 	sec
 	sbc #80
-	tax
+	sta tmp
 	jsr fxi_slide
 
 .end:
@@ -18,15 +19,36 @@ fx_intro_kernel SUBROUTINE
 	jmp RTSBank
 
 fxi_enter SUBROUTINE
+	lda #80
+	sec
+	sbc fxi_logo_pos
+	tax
+	and #$07 ; inter-line displacement
+	sta tmp
+	lda #$07
+	sec
+	sbc tmp
+	tay
+	txa
+	and #$f8 ; line offset
+	lsr ; /2
+	sta tmp
+	lsr ; /4
+	clc
+	adc tmp
+
+	tax
+	jsr fxi_display
 	rts
 
-; X register must contain the desired logo position in [0, 160]
+; tmp register must contain the desired logo position in [0, 160]
 fxi_slide SUBROUTINE
 	; Beware subtlety. The first WSYNC there ends the last blank
 	; line. So this top_loop only skips fxi_logo_pos-1
 	; lines. The last line to be skipped is done by the first
 	; WSYNC of the bottom_loop. And the last line displayed by
 	; the WSYNC after the bottom loop.
+	ldx tmp
 	beq .skip_top
 .top_loop:
 	sta WSYNC
@@ -35,11 +57,20 @@ fxi_slide SUBROUTINE
 
 .skip_top:
 	ldx #0
+	ldy #7
+	jsr fxi_display
+	rts
+
+; X register must index of the first line of the logo to display.
+; Y register must index the number of pixel lines of the first logo line to display.
+; if X=0, the whole logo will be displayed
+; if Y=7, only entire logo lines will be displayed
+fxi_display SUBROUTINE
+	jmp .inner_loop
 .bottom_loop:
 	ldy #7
 .inner_loop:
 	sta WSYNC
-.skip_sync
 	lda fx_intro_gfx,X
 	sta PF0
 	lda fx_intro_gfx+1,X
