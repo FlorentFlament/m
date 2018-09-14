@@ -15,17 +15,9 @@
   - Credits
   - Greetings
 
-* FX Intro gameboy with Flush logo
-
-  Pour l'intro, le volet s’enchaînera parfaitement, genre fond vert GB
-  + arrivée du logo Flush + "toudi !" puis volet du fond vert vers le
-  noir et enchaînements de volets... Faut juste trouver une astuce
-  pour la disparition du logo.
-
 * FX logo M
 
-* FX Flush text going from alternatively from left to right and right
-  to left (using the train FX kernel)
+* FX animations - Implement multiple animations sent by Glafouk ; )
 
 * FX multi-color 11x11 with shapes changing according to the music
   (using the plasma FX kernel)
@@ -33,8 +25,6 @@
 * FX Train - update movement with varying speed slow -> fast -> slow
 
 * FX Train - Add new part with train moving from left to right
-
-* FX animations - Implement multiple animations sent by Glafouk ; )
 
 * FX tunnel or FX moving rails ?
 
@@ -70,3 +60,17 @@
 
 * Text kernel at the end for credits & greetings (we already have the
   font)
+
+
+Done
+====
+
+* FX Intro gameboy with Flush logo
+
+  Pour l'intro, le volet s’enchaînera parfaitement, genre fond vert GB
+  + arrivée du logo Flush + "toudi !" puis volet du fond vert vers le
+  noir et enchaînements de volets... Faut juste trouver une astuce
+  pour la disparition du logo.
+
+* FX Flush text going from alternatively from left to right and right
+  to left (using the train FX kernel) -> Won't do - Intro is enough
