@@ -29,8 +29,13 @@
 	ENDM
 
 fx_plainshut1_init SUBROUTINE
-	SET_POINTER fxps_pat_ptr, fxps_patterns1
+	SET_POINTER fxps_pat_ptr, fxps_patterns
 	SET_POINTER fxps_col_ptr, fxps_colors1
+	jmp fx_plainshut_init
+
+fx_plainshut2_init SUBROUTINE
+	SET_POINTER fxps_pat_ptr, fxps_patterns
+	SET_POINTER fxps_col_ptr, fxps_colors2
 	jmp fx_plainshut_init
 
 fx_plainshut_init SUBROUTINE
@@ -175,7 +180,7 @@ fxps_rightleft_pf:
 	.byte $00, $03, $ff, $f0, $ff, $ff
 	.byte $00, $7f, $ff, $f0, $ff, $ff
 
-fxps_patterns1:
+fxps_patterns:
 	.byte 0, 1, 0, 0, 2, 0, 0, 0
 	.byte 0, 0, 0, 0, 4, 0, 0, 0
 	.byte 0, 0, 0, 0, 3, 0, 0, 0
@@ -189,3 +194,8 @@ fxps_colors1:
 	.byte $9c, $8c, $00, $3c, $9c, $00, $8c, $3c
 	.byte $9c, $8c, $3c, $9c, $8c, $3c, $9c, $00
 	.byte $3c, $3c, $3c
+
+fxps_colors2:
+	.byte $9c, $8c, $00, $3c, $9c, $00, $8c, $3c
+	.byte $9c, $8c, $3c, $9c, $8c, $3c, $9c, $00
+	.byte $9c, $9c, $9c
