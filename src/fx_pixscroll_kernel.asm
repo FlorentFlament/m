@@ -144,14 +144,23 @@ fxp_call_load:
 ; The kernel uses tmp1, and A, X, Y registers
 fx_pixscroll_kernel SUBROUTINE
 	sta WSYNC
+
 	lda #29
 	sta tmp1 ; Displaying 30 lines
-.kern_loop:
+
+	SLEEP 48
+	; prepare for kern_loop
 	ldy tmp1
-	;lda (fxp_col_ptr),y
 	lda #$00
-	sta WSYNC
 	sta COLUBK
+	; Set background color at the very last minute
+	;lda (fxp_col_ptr),y
+	lda #$3c
+	sta COLUP0
+	sta COLUP1
+	sta COLUPF
+.kern_loop:
+	sta WSYNC
 	lda fxp_line
 	sta fxp_pf0_buf
 	sta PF1
@@ -216,6 +225,8 @@ fx_pixscroll_kernel SUBROUTINE
 
 	dec tmp1
 	bmi .end
+
+	ldy tmp1
 	jmp .kern_loop
 
 .end:
@@ -224,6 +235,11 @@ fx_pixscroll_kernel SUBROUTINE
 	sta PF1
 	sta GRP0
 	sta GRP1
+
+	lda #$00
+	sta COLUPF
+	sta COLUP0
+	sta COLUP1
 
 	ldx #$04
 .zero_fxp_line

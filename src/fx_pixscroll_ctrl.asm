@@ -61,8 +61,6 @@ fx_pixscroll_init SUBROUTINE
 	; Set the colors
 	lda #$00
 	sta COLUBK
-
-	lda #$3c
 	sta COLUPF
 	sta COLUP0
 	sta COLUP1
