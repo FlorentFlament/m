@@ -1,4 +1,5 @@
 	ORG PARTRAM
+fxps_cnt    ds 2 ; 16-bits counter
 fxps_bg_col ds 1 ; Shutters background color
 fxps_fg_col ds 1 ; Shutters foreground color
 fxps_col_i  ds 1 ; Shutters color index

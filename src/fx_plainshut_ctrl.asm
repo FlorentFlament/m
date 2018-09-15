@@ -1,6 +1,6 @@
 ; Computes the pattern index into ptr
 	MAC m_fxps_compute_pattern
-	m_copy_pointer frame_cnt, ptr
+	m_copy_pointer fxps_cnt, ptr
 	REPEAT 3
 	m_shift_pointer_right ptr
 	REPEND
@@ -52,10 +52,15 @@ fx_plainshut_init SUBROUTINE
 	inc fxps_col_i
 	m_fxps_next_color
 
+	; Initializing counter
+	lda #$00
+	sta fxps_cnt
+	sta fxps_cnt+1
+
 	jmp RTSBank
 
 fx_plainshut_vblank SUBROUTINE
-	lda frame_cnt
+	lda fxps_cnt
 	and #$07
 	bne .no_change
 
@@ -78,6 +83,8 @@ fx_plainshut_vblank SUBROUTINE
 
 .no_change:
 	jsr fxps_call_vblank
+
+	m_add_to_pointer fxps_cnt, 1
 	jmp RTSBank
 
 fxps_call_vblank SUBROUTINE
@@ -104,7 +111,7 @@ fxps_vblank_nop SUBROUTINE
 
 fxps_vblank_topdown SUBROUTINE
 	m_fxps_clear_pf
-	lda frame_cnt
+	lda fxps_cnt
 	and #$07 ; 3 LSBs (i.e 8 frames) patterns
 	REPEAT 5
 	asl
@@ -115,9 +122,9 @@ fxps_vblank_topdown SUBROUTINE
 fxps_vblank_leftright SUBROUTINE
 	m_fxps_clear_pf
 	; Setup initial mask index
-	lda frame_cnt
+	lda fxps_cnt
 	and #$07
-	; multiply frame_cnt by 6
+	; multiply fxps_cnt by 6
 	asl
 	sta fxps_m0_i
 	asl

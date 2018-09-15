@@ -184,12 +184,17 @@ kernels:
 	.word fx_plasma_kernel
 
 ; specifies on which frame to switch parts
+INTRO_SWITCH     equ 256
+SHUTTERS1_SWITCH equ INTRO_SWITCH + 512
+TRAIN1_SWITCH    equ SHUTTERS1_SWITCH + 512
+SHUTTERS2_SWITCH equ TRAIN1_SWITCH + 512
+PLASMA_SWITCH    equ 0 ; Never switches
 partswitch:
-	.word 512
-	.word 1024
-	.word 1536
-	.word 2048
-	.word 0 ; Never switches after last part
+	.word INTRO_SWITCH
+	.word SHUTTERS1_SWITCH
+	.word TRAIN1_SWITCH
+	.word SHUTTERS2_SWITCH
+	.word PLASMA_SWITCH
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)

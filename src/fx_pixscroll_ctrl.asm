@@ -67,6 +67,11 @@ fx_pixscroll_init SUBROUTINE
 	sta COLUP0
 	sta COLUP1
 
+	; Init counter
+	lda #$00
+	sta fxp_cnt
+	sta fxp_cnt+1
+
 	jmp RTSBank
 
 ; This subroutine setups:
@@ -76,7 +81,7 @@ fx_pixscroll_init SUBROUTINE
 fx_pixscroll_vblank_color SUBROUTINE
 	; update color
 	SET_POINTER fxp_col_ptr, fxp_test_color
-	lda frame_cnt
+	lda fxp_cnt
 	lsr
 	lsr
 	and #$0f
@@ -88,7 +93,7 @@ fx_pixscroll_vblank_color SUBROUTINE
 ; * fxp_pix_ptr
 ; * fxp_shift_fine
 fx_pixscroll_vblank SUBROUTINE
-	m_copy_pointer frame_cnt, ptr
+	m_copy_pointer fxp_cnt, ptr
 	; Slow movement
 	REPEAT 0
 	m_shift_pointer_right ptr
@@ -114,6 +119,7 @@ fx_pixscroll_vblank SUBROUTINE
 	m_add_to_pointer fxp_pix_ptr, #1
 	m_reverse_pf3buf
 
+	m_add_to_pointer fxp_cnt, 1
 	jmp RTSBank
 
 ; total shift value (bit wise) must be stored in ptr (word)
@@ -146,7 +152,7 @@ fxp_compute_move SUBROUTINE
 	and #$0f ; 16 screens for now
 	tax
 
-	lda fxps_metro_screens,X
+	lda fxp_metro_screens,X
 	beq .no_screen_move
 	tax
 .screen_move:
@@ -225,5 +231,5 @@ fxp_test_gfx:
 fxp_metro_gfx:
 	INCLUDE "fx_pixscroll_data.asm"
 
-fxps_metro_screens:
+fxp_metro_screens:
 	dc.b 0, 1, 2, 3, 4, 5, 8, 4, 5, 8, 4, 5, 6, 1, 2, 10

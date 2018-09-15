@@ -9,31 +9,17 @@ fx_intro_init SUBROUTINE
 	jmp RTSBank
 
 fx_intro_vblank SUBROUTINE
-	; Logo must stop after 384 frames
-	; go down for 320 frames/pixels then stop
+	; go down for 160 frames/pixels then stop
 	lda frame_cnt+1
-	cmp #$01
-	bmi .skip_64frames
 	bne .end
-	; if equals we must test LSB
 	lda frame_cnt
-	cmp #$80
-	bpl .end
-	cmp #$7c
-	bpl .end
-	jmp .go_down
-
-.skip_64frames:
+	and #$80
+	beq .move_logo ; frame_cnt < 128
 	lda frame_cnt
-	cmp #$80
-	bpl .go_down
-	cmp #$40
-	bmi .end
-
-.go_down:
-	lda frame_cnt
-	and #$01
-	bne .end
+	and #$7f
+	cmp #32
+	bpl .end ; frame_cnt >= 128+32
+.move_logo
 	inc fxi_logo_pos
 
 .end:
