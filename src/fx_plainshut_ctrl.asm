@@ -171,7 +171,7 @@ fxps_rightleft_pf:
 	.byte $00, $7f, $ff, $f0, $ff, $ff
 
 fxps_patterns:
-	.byte 0, 0, 0, 0, 2, 0, 0, 0
+	.byte 0, 1, 0, 0, 2, 0, 0, 0
 	.byte 0, 0, 0, 0, 4, 0, 0, 0
 	.byte 0, 0, 0, 0, 3, 0, 0, 0
 	.byte 0, 0, 0, 0, 5, 0, 0, 0
@@ -181,6 +181,6 @@ fxps_patterns:
 	.byte 3, 0, 5, 0, 1, 6, 7, 8
 
 fxps_colors:
-	.byte $00, $3c, $9c, $8c, $00, $3c, $9c, $8c
-	.byte $3c, $9c, $8c, $3c, $9c, $8c, $00, $3c
-	.byte $3c, $3c
+	.byte $9c, $8c, $00, $3c, $9c, $00, $8c, $3c
+	.byte $9c, $8c, $3c, $9c, $8c, $3c, $9c, $00
+	.byte $3c, $3c, $3c

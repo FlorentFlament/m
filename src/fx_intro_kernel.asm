@@ -16,6 +16,19 @@ fx_intro_kernel SUBROUTINE
 	sta PF0
 	sta PF1
 	sta PF2
+
+	; skip remaining kernel lines
+	lda #240
+	sec
+	sbc fxi_logo_pos
+	tax
+.bottom_loop:
+	sta WSYNC
+	dex
+	bne .bottom_loop
+
+	lda #$00
+	sta COLUBK
 	jmp RTSBank
 
 fxi_enter SUBROUTINE
@@ -52,6 +65,8 @@ fxi_slide SUBROUTINE
 	beq .skip_top
 .top_loop:
 	sta WSYNC
+	lda #$3c
+	sta COLUBK
 	dex
 	bne .top_loop
 
@@ -71,13 +86,15 @@ fxi_display SUBROUTINE
 	ldy #7
 .inner_loop:
 	sta WSYNC
+	lda #$3c
+	sta COLUBK
 	lda fx_intro_gfx,X
 	sta PF0
 	lda fx_intro_gfx+1,X
 	sta PF1
 	lda fx_intro_gfx+2,X
 	sta PF2
-	SLEEP 6
+	SLEEP 2
 	lda fx_intro_gfx+3,X
 	sta PF0
 	lda fx_intro_gfx+4,X
@@ -99,13 +116,13 @@ fxi_display SUBROUTINE
 
 
 fx_intro_gfx:
-	dc.b $0f, $f1, $c1, $4f, $78, $13
-	dc.b $8f, $fb, $e1, $4f, $fd, $13
-	dc.b $8f, $c3, $e1, $4f, $e1, $13
-	dc.b $8f, $c3, $e1, $4f, $e1, $13
-	dc.b $8f, $e3, $e1, $4f, $f9, $1f
-	dc.b $8f, $e3, $e1, $4f, $7d, $1f
-	dc.b $8f, $c3, $e1, $4f, $05, $13
-	dc.b $8f, $c3, $e1, $6f, $05, $13
-	dc.b $8f, $c3, $ef, $7f, $fd, $13
-	dc.b $0f, $c1, $c7, $3f, $78, $13
+	dc.b $0f, $00, $00, $0f, $00, $00
+	dc.b $0f, $00, $00, $0f, $00, $00
+	dc.b $0f, $07, $c6, $2f, $ed, $00
+	dc.b $0f, $0e, $c6, $af, $8d, $00
+	dc.b $0f, $0c, $c6, $2f, $cf, $00
+	dc.b $0f, $0e, $c6, $2f, $6d, $00
+	dc.b $0f, $0c, $c6, $af, $ed, $00
+	dc.b $0f, $0c, $dc, $9f, $cd, $00
+	dc.b $0f, $00, $00, $0f, $00, $00
+	dc.b $0f, $00, $00, $0f, $00, $00
