@@ -12,8 +12,8 @@
 	; Load new color
 	lda fxps_col_i
 	and #$1f ; 32 colors for now
-	tax
-	lda fxps_colors,X
+	tay
+	lda (fxps_col_ptr),Y
 	; if the color didn't change, don't switch
 	cmp fxps_fg_col
 	beq .end
@@ -27,6 +27,11 @@
 .end:
 	inc fxps_col_i
 	ENDM
+
+fx_plainshut1_init SUBROUTINE
+	SET_POINTER fxps_pat_ptr, fxps_patterns1
+	SET_POINTER fxps_col_ptr, fxps_colors1
+	jmp fx_plainshut_init
 
 fx_plainshut_init SUBROUTINE
 	; Doing some cleanup
@@ -45,8 +50,8 @@ fx_plainshut_init SUBROUTINE
 	; Setting reasonable colors
 	sta fxps_move_i
 	sta fxps_col_i
-	tax
-	lda fxps_colors,X
+	tay
+	lda (fxps_col_ptr),Y
 	sta fxps_fg_col
 
 	inc fxps_col_i
@@ -76,8 +81,8 @@ fx_plainshut_vblank SUBROUTINE
 	; Setup next move
 	lda ptr
 	and #$3f ; 64 patterns for now
-	tax
-	lda fxps_patterns,X
+	tay
+	lda (fxps_pat_ptr),Y
 	sta fxps_move_i
 	beq .no_change
 
@@ -170,7 +175,7 @@ fxps_rightleft_pf:
 	.byte $00, $03, $ff, $f0, $ff, $ff
 	.byte $00, $7f, $ff, $f0, $ff, $ff
 
-fxps_patterns:
+fxps_patterns1:
 	.byte 0, 1, 0, 0, 2, 0, 0, 0
 	.byte 0, 0, 0, 0, 4, 0, 0, 0
 	.byte 0, 0, 0, 0, 3, 0, 0, 0
@@ -180,7 +185,7 @@ fxps_patterns:
 	.byte 1, 1, 1, 0, 2, 0, 4, 0
 	.byte 3, 0, 5, 0, 1, 6, 7, 8
 
-fxps_colors:
+fxps_colors1:
 	.byte $9c, $8c, $00, $3c, $9c, $00, $8c, $3c
 	.byte $9c, $8c, $3c, $9c, $8c, $3c, $9c, $00
 	.byte $3c, $3c, $3c

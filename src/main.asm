@@ -164,9 +164,9 @@ PARTSTART_INTRO equ *
 ; Bank 7
 inits:
 	.word fx_intro_init
-	.word fx_plainshut_init
+	.word fx_plainshut1_init
 	.word fx_pixscroll_init
-	.word fx_plainshut_init
+	.word fx_plainshut1_init
 	.word fx_plasma_init
 
 vblanks:
