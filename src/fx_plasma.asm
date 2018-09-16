@@ -1,3 +1,24 @@
+; Copy palette from ROM to RAM
+; This should be removed at some point
+	MAC m_copy_palette
+	ldx #16
+.loop:
+	lda {1},X
+	sta fxpl_palette,X
+	dex
+	bpl .loop
+	ENDM
+
+fx_plasma1_init SUBROUTINE
+	SET_POINTER fxpl_tim_ptr, fxpl_timeline1
+	m_copy_palette fxpl_palette_orig1
+	jmp fx_plasma_init
+
+fx_plasma2_init SUBROUTINE
+	SET_POINTER fxpl_tim_ptr, fxpl_timeline2
+	m_copy_palette fxpl_palette_orig2
+	jmp fx_plasma_init
+
 fx_plasma_init SUBROUTINE
 	lda #$00
 	sta PF0
@@ -8,12 +29,6 @@ fx_plasma_init SUBROUTINE
 	sta fxpl_cnt
 	sta fxpl_cnt+1
 
-	ldx #16
-.loop:
-	lda fxpl_palette_orig,X
-	sta fxpl_palette,X
-	dex
-	bpl .loop
 	jmp RTSBank
 
 fxp_rotate_palette_back SUBROUTINE
@@ -51,8 +66,10 @@ fx_plasma_vblank SUBROUTINE
 	REPEAT 3
 	m_shift_pointer_right ptr
 	REPEND
-	ldx ptr
-	lda fxpl_timeline,X
+	lda ptr
+	and #$3f ; 64 bytes for now
+	tay
+	lda (fxpl_tim_ptr),Y
 	asl
 	tax
 	lda fxpl_masks,X
@@ -288,11 +305,6 @@ fx_plasma_data:
 	dc.b $12, $11, $11, $10, $10, $11, $11, $13
 	dc.b $14, $15, $16, $16, $17, $17, $16, $16
 
-fxpl_palette_orig:
-	dc.b $90, $92, $94, $96, $98, $9a, $9c, $9e
-	dc.b $9e, $9c, $9a, $98, $96, $94, $92, $90
-	dc.b $0e
-
 fxpl_path_x:
 	dc.b $0a, $0b, $0c, $0d, $0e, $0f, $10, $10
 	dc.b $11, $12, $12, $13, $13, $14, $14, $14
@@ -339,6 +351,32 @@ fxpl_mask_glafouk:
 	dc.b $0f, $0f, $10, $10, $0f, $0f, $0f, $10, $10, $0f, $0f
 	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
 
+fxpl_mask_m:
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $10, $10, $0f, $0f, $0f, $0f, $0f, $10, $10, $0f
+	dc.b $0f, $10, $10, $10, $0f, $0f, $0f, $10, $10, $10, $0f
+	dc.b $0f, $10, $10, $10, $10, $0f, $10, $10, $10, $10, $0f
+	dc.b $0f, $10, $10, $0f, $10, $10, $10, $0f, $10, $10, $0f
+	dc.b $0f, $10, $10, $0f, $0f, $10, $0f, $0f, $10, $10, $0f
+	dc.b $0f, $10, $10, $0f, $0f, $0f, $0f, $0f, $10, $10, $0f
+	dc.b $0f, $10, $10, $0f, $0f, $0f, $0f, $0f, $10, $10, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $10, $10, $10, $10, $10, $10, $10, $10, $10, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+
+fxpl_mask_metro:
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $10, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f
+	dc.b $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f
+	dc.b $0f, $0f, $10, $10, $10, $10, $10, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $10, $10, $10, $10, $10, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $10, $0f, $10, $10, $10, $0f, $10, $0f, $0f
+	dc.b $0f, $0f, $10, $10, $10, $10, $10, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $10, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $0f, $0f, $0f, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+
 fxpl_mask_atari:
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
@@ -368,10 +406,22 @@ fxpl_mask_vcs:
 fxpl_masks:
 	dc.w fxpl_mask_blank
 	dc.w fxpl_mask_glafouk
+	dc.w fxpl_mask_m
+	dc.w fxpl_mask_metro
 	dc.w fxpl_mask_atari
 	dc.w fxpl_mask_vcs
 
-fxpl_timeline:
+fxpl_palette_orig1:
+	dc.b $90, $92, $94, $96, $98, $9a, $9c, $9e
+	dc.b $9e, $9c, $9a, $98, $96, $94, $92, $90
+	dc.b $0e
+
+fxpl_palette_orig2:
+	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
+	dc.b $8e, $8c, $8a, $88, $86, $84, $82, $80
+	dc.b $0e
+
+fxpl_timeline1:
 	.byte 0, 0, 0, 0, 2, 2, 2, 2
 	.byte 2, 2, 2, 2, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 3, 3, 3, 3
@@ -380,3 +430,13 @@ fxpl_timeline:
 	.byte 2, 2, 2, 2, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 3, 3, 0, 0
 	.byte 2, 2, 0, 0, 3, 2, 3, 2
+
+fxpl_timeline2:
+	.byte 0, 0, 0, 0, 4, 4, 4, 4
+	.byte 4, 4, 4, 4, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 5, 5, 5, 5
+	.byte 5, 5, 5, 5, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 4, 4, 4, 4
+	.byte 4, 4, 4, 4, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 5, 5, 5, 5
+	.byte 5, 5, 5, 5, 4, 5, 4, 5

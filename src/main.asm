@@ -166,8 +166,9 @@ inits:
 	.word fx_plainshut1_init
 	.word fx_pixscroll_init
 	.word fx_plainshut2_init
-	.word fx_plasma_init
-	.word fx_plainshut2_init
+	.word fx_plasma1_init
+	.word fx_plainshut3_init
+	.word fx_plasma2_init
 
 vblanks:
 	.word fx_intro_vblank
@@ -176,6 +177,7 @@ vblanks:
 	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 	.word fx_plainshut_vblank
+	.word fx_plasma_vblank
 
 kernels:
 	.word fx_intro_kernel
@@ -184,21 +186,24 @@ kernels:
 	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 	.word fx_plainshut_kernel
+	.word fx_plasma_kernel
 
 ; specifies on which frame to switch parts
 INTRO_SWITCH     equ                     256
 SHUTTERS1_SWITCH equ INTRO_SWITCH     +  512
 TRAIN1_SWITCH    equ SHUTTERS1_SWITCH +  512
 SHUTTERS2_SWITCH equ TRAIN1_SWITCH    +  512
-PLASMA_SWITCH    equ SHUTTERS2_SWITCH +  512
-SHUTTERS3_SWITCH equ 0
+PLASMA1_SWITCH   equ SHUTTERS2_SWITCH +  512
+SHUTTERS3_SWITCH equ PLASMA1_SWITCH + 512
+PLASMA2_SWITCH   equ 0
 partswitch:
 	.word INTRO_SWITCH
 	.word SHUTTERS1_SWITCH
 	.word TRAIN1_SWITCH
 	.word SHUTTERS2_SWITCH
-	.word PLASMA_SWITCH
+	.word PLASMA1_SWITCH
 	.word SHUTTERS3_SWITCH
+	.word PLASMA2_SWITCH
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)
