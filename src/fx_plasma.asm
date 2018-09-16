@@ -6,6 +6,7 @@ fx_plasma_init SUBROUTINE
 	sta GRP0
 	sta GRP1
 	sta fxpl_cnt
+	sta fxpl_cnt+1
 
 	ldx #16
 .loop:
@@ -46,7 +47,11 @@ fxp_rotate_palette SUBROUTINE
 
 fx_plasma_vblank SUBROUTINE
 	; Set fxpl_mask_ptr to the beginning of the plasma mask
-	ldx fxpl_cnt
+	m_copy_pointer fxpl_cnt, ptr
+	REPEAT 3
+	m_shift_pointer_right ptr
+	REPEND
+	ldx ptr
 	lda fxpl_timeline,X
 	asl
 	tax
@@ -89,11 +94,7 @@ fx_plasma_vblank_common SUBROUTINE
 .no_palette_rot:
 	jsr fxpl_workload_fast
 
-	lda frame_cnt
-	and #$07
-	bne .end
-	inc fxpl_cnt
-.end:
+	m_add_to_pointer fxpl_cnt, 1
 	jmp RTSBank
 
 ; Load our fast code into fxpl_buffer
