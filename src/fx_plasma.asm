@@ -5,6 +5,7 @@ fx_plasma_init SUBROUTINE
 	sta PF2
 	sta GRP0
 	sta GRP1
+	sta fxpl_cnt
 
 	ldx #16
 .loop:
@@ -43,8 +44,20 @@ fxp_rotate_palette SUBROUTINE
 	sta fxpl_palette+15
 	rts
 
-; Uses ptr
 fx_plasma_vblank SUBROUTINE
+	; Set fxpl_mask_ptr to the beginning of the plasma mask
+	ldx fxpl_cnt
+	lda fxpl_timeline,X
+	asl
+	tax
+	lda fxpl_masks,X
+	sta fxpl_mask_ptr
+	lda fxpl_masks+1,X
+	sta fxpl_mask_ptr+1
+	jmp fx_plasma_vblank_common
+
+; Uses ptr
+fx_plasma_vblank_common SUBROUTINE
 	SET_POINTER fxpl_col_ptr, fx_plasma_data
 
 	; Use ptr to position the pointer on the plasma map
@@ -67,9 +80,6 @@ fx_plasma_vblank SUBROUTINE
 	bne .add_loop
 .end_add_loop:
 
-	; Set fxpl_mask_ptr to the beginning of the plasma mask
-	SET_POINTER fxpl_mask_ptr, fxpl_mask_blank
-
 	; Possilby rotate the palette
 	lda frame_cnt
 	and #$03 ; possible values are #$00, #$01, #$03
@@ -78,6 +88,12 @@ fx_plasma_vblank SUBROUTINE
 
 .no_palette_rot:
 	jsr fxpl_workload_fast
+
+	lda frame_cnt
+	and #$07
+	bne .end
+	inc fxpl_cnt
+.end:
 	jmp RTSBank
 
 ; Load our fast code into fxpl_buffer
@@ -321,3 +337,26 @@ fxpl_mask_blank:
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+
+fxpl_masks:
+	dc.w fxpl_mask_blank
+	dc.w fxpl_mask_glafouk
+
+fxpl_timeline:
+	.byte 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 1, 1, 0, 0
+	.byte 1, 1, 0, 0, 1, 0, 1, 0
+
+	.byte 1, 1, 1, 1, 1, 1, 1, 1
+	.byte 1, 1, 1, 1, 1, 1, 1, 1
+	.byte 1, 1, 1, 1, 1, 1, 1, 1
+	.byte 1, 1, 1, 1, 1, 1, 1, 1
+	.byte 1, 1, 1, 1, 1, 1, 1, 1
+	.byte 1, 1, 1, 1, 1, 1, 1, 1
+	.byte 1, 1, 1, 1, 1, 1, 1, 1
+	.byte 0, 1, 0, 0, 1, 0, 1, 0

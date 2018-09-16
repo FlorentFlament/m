@@ -1,3 +1,18 @@
+WIP
+===
+
+* FX 11x11 plasma, cycle between the different 11x11 GFXs.
+
+  Details: Start with an empty plasma, then have first white GFX
+  blinkink with the music, then staying, then blinking again and
+  disappearing. Then to the same thing with the next GFX. We can have
+  several Plasma parts with different colors and GFXs, separated by
+  other FXs, like the shutters.
+
+
+TODO
+====
+
 * Define (first version of) the timeline with all the parts of the
   demo
 
@@ -34,14 +49,6 @@
    faire le haut, et en bas des rails (donc deux barres verticales
    "tordues" + des barres horiz qui défilent) ?"
 
-* FX 11x11 plasma, cycle between the different 11x11 GFXs.
-
-  Details: Start with an empty plasma, then have first white GFX
-  blinkink with the music, then staying, then blinking again and
-  disappearing. Then to the same thing with the next GFX. We can have
-  several Plasma parts with different colors and GFXs, separated by
-  other FXs, like the shutters.
-
 * FX color (or 8 grey levels) video using the 11x11 plasma mode ?
 
 * 3D rotation (vertical then horizontal) of the M logo ?
@@ -60,6 +67,14 @@
 
 * Text kernel at the end for credits & greetings (we already have the
   font)
+
+
+Optimizations
+=============
+
+* fx_plainshut_ctrl: fxps_cnt could be on 8-bit only and updated every
+  8 frames, so that we don't need to recompute the frame every frame
+  (m_fxps_compute_pattern).
 
 
 Done
