@@ -43,17 +43,17 @@ fxp_rotate_palette SUBROUTINE
 	sta fxpl_palette+15
 	rts
 
-; Uses ptr1
+; Uses ptr
 fx_plasma_vblank SUBROUTINE
 	SET_POINTER fxpl_col_ptr, fx_plasma_data
 
-	; Use ptr1 to position the pointer on the plasma map
+	; Use ptr to position the pointer on the plasma map
 	; Then update fxpl_col_ptr using fxpl_path_x and fxpl_path_y tables
-	m_copy_pointer frame_cnt, ptr1
+	m_copy_pointer frame_cnt, ptr
 	REPEAT 3
-	m_shift_pointer_right ptr1
+	m_shift_pointer_right ptr
 	REPEND
-	lda ptr1
+	lda ptr
 	and #$3f
 	tax
 	lda fxpl_path_x,X
@@ -68,7 +68,7 @@ fx_plasma_vblank SUBROUTINE
 .end_add_loop:
 
 	; Set fxpl_mask_ptr to the beginning of the plasma mask
-	SET_POINTER fxpl_mask_ptr, fxpl_mask
+	SET_POINTER fxpl_mask_ptr, fxpl_mask_blank
 
 	; Possilby rotate the palette
 	lda frame_cnt
@@ -296,7 +296,7 @@ fxpl_path_y:
 	dc.b $09, $07, $05, $03, $02, $01, $00, $00
 	dc.b $00, $01, $02, $03, $04, $06, $08, $0a
 
-fxpl_mask:
+fxpl_mask_glafouk:
 	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
 	dc.b $0f, $0f, $10, $10, $0f, $0f, $0f, $10, $10, $0f, $0f
 	dc.b $0f, $10, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $10, $0f
@@ -308,3 +308,16 @@ fxpl_mask:
 	dc.b $0f, $10, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $10, $0f
 	dc.b $0f, $0f, $10, $10, $0f, $0f, $0f, $10, $10, $0f, $0f
 	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
+
+fxpl_mask_blank:
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f

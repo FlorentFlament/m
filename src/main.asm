@@ -23,7 +23,6 @@ SINGLE_PART equ 0 ; default 0
 tmp	equ tt_ptr
 tmp1	equ tt_ptr+1
 ptr	ds 2
-ptr1	ds 2
 frame_cnt	ds 2 ; 16 bits frames counter
 curpart   ds 1 ; Index of current part (FX)
 
