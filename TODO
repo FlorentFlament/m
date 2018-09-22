@@ -1,14 +1,7 @@
 WIP
 ===
 
-* FX 11x11 plasma, cycle between the different 11x11 GFXs.
-
-  Details: Start with an empty plasma, then have first white GFX
-  blinkink with the music, then staying, then blinking again and
-  disappearing. Then to the same thing with the next GFX. We can have
-  several Plasma parts with different colors and GFXs, separated by
-  other FXs, like the shutters.
-
+* FX animations - Implement multiple animations sent by Glafouk ; )
 
 TODO
 ====
@@ -31,8 +24,6 @@ TODO
   - Greetings
 
 * FX logo M
-
-* FX animations - Implement multiple animations sent by Glafouk ; )
 
 * FX multi-color 11x11 with shapes changing according to the music
   (using the plasma FX kernel)
@@ -78,8 +69,14 @@ Optimizations
 Done
 ====
 
-* FX Intro gameboy with Flush logo
+* FX 11x11 plasma, cycle between the different 11x11 GFXs.
+  Details: Start with an empty plasma, then have first white GFX
+  blinkink with the music, then staying, then blinking again and
+  disappearing. Then to the same thing with the next GFX. We can have
+  several Plasma parts with different colors and GFXs, separated by
+  other FXs, like the shutters.
 
+* FX Intro gameboy with Flush logo
   Pour l'intro, le volet s’enchaînera parfaitement, genre fond vert GB
   + arrivée du logo Flush + "toudi !" puis volet du fond vert vers le
   noir et enchaînements de volets... Faut juste trouver une astuce

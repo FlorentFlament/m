@@ -38,6 +38,8 @@ RAMEND  equ $FC
 	echo "fx_plainshut:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_pixscroll_variables.asm"
 	echo "fx_pixscroll:", (RAMEND-*)d, "bytes left"
+	INCLUDE "fx_animation_variables.asm"
+	echo "fx_animation:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_plasma_variables.asm"
 	echo "fx_plasma:", (RAMEND-*)d, "bytes left"
 
@@ -155,6 +157,9 @@ PARTSTART_INTRO equ *
 	END_SEGMENT 4
 
 ; Bank 5
+PARTSTART_ANIMATION equ *
+	INCLUDE "fx_animation.asm"
+	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
 	END_SEGMENT 5
 
 ; Bank 6
@@ -165,6 +170,7 @@ inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
 	.word fx_pixscroll_init
+	.word fx_animation_init
 	.word fx_plainshut2_init
 	.word fx_plasma1_init
 	.word fx_plainshut3_init
@@ -174,6 +180,7 @@ vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
 	.word fx_pixscroll_vblank
+	.word fx_animation_vblank
 	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 	.word fx_plainshut_vblank
@@ -183,23 +190,26 @@ kernels:
 	.word fx_intro_kernel
 	.word fx_plainshut_kernel
 	.word fx_pixscroll_kernel
+	.word fx_animation_kernel
 	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 
 ; specifies on which frame to switch parts
-INTRO_SWITCH     equ                     256
-SHUTTERS1_SWITCH equ INTRO_SWITCH     +  512
-TRAIN1_SWITCH    equ SHUTTERS1_SWITCH +  512
-SHUTTERS2_SWITCH equ TRAIN1_SWITCH    +  512
-PLASMA1_SWITCH   equ SHUTTERS2_SWITCH +  512
-SHUTTERS3_SWITCH equ PLASMA1_SWITCH + 512
-PLASMA2_SWITCH   equ 0
+INTRO_SWITCH      equ                     256
+SHUTTERS1_SWITCH  equ INTRO_SWITCH      + 512
+TRAIN1_SWITCH     equ SHUTTERS1_SWITCH  + 512
+ANIMATION1_SWITCH equ TRAIN1_SWITCH     + 512
+SHUTTERS2_SWITCH  equ ANIMATION1_SWITCH + 512
+PLASMA1_SWITCH    equ SHUTTERS2_SWITCH  + 512
+SHUTTERS3_SWITCH  equ PLASMA1_SWITCH    + 512
+PLASMA2_SWITCH    equ 0
 partswitch:
 	.word INTRO_SWITCH
 	.word SHUTTERS1_SWITCH
 	.word TRAIN1_SWITCH
+	.word ANIMATION1_SWITCH
 	.word SHUTTERS2_SWITCH
 	.word PLASMA1_SWITCH
 	.word SHUTTERS3_SWITCH
