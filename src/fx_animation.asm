@@ -15,11 +15,36 @@ fx_animation_init SUBROUTINE
 	jmp RTSBank
 
 fx_animation_vblank SUBROUTINE
-I	SET 0
-	REPEAT 6
-	SET_POINTER fxa_pf0_ptr+2*I, fxa_lapinmainA+30*I
-I	SET I+1
-	REPEND
+	lda fxa_cnt
+	lsr
+	lsr
+	lsr
+	and #$07
+	tax
+	lda fxa_timeline,X
+	asl
+	tax
+	lda fxa_pics,X
+	sta ptr
+	lda fxa_pics+1,X
+	sta ptr+1
+
+	SET_POINTER tmp, fxa_pf0_ptr ; Using tmp & tmp1 as pointer
+
+	ldy #0
+	ldx #5
+.loop:
+	lda ptr
+	sta (tmp),Y
+	m_add_to_pointer tmp, #1
+	lda ptr+1
+	sta (tmp),Y
+	m_add_to_pointer tmp, #1
+	m_add_to_pointer ptr, #30
+	dex
+	bpl .loop
+
+	inc fxa_cnt
 	jmp RTSBank
 
 fx_animation_kernel SUBROUTINE
@@ -67,38 +92,52 @@ fxa_lapinmainA:
 	dc.b $0f, $0f, $0f, $0f, $0f, $0e, $0d, $0a, $07, $08, $0f, $0f, $0f, $00, $0f
 
 fxa_lapinmainB:
-	dc.b $0f, $20, $08, $0f, $d0, $c3
-	dc.b $ff, $10, $a8, $8f, $22, $90
-	dc.b $0f, $25, $44, $4f, $09, $a0
-	dc.b $af, $22, $04, $9f, $05, $4a
-	dc.b $4f, $20, $09, $5f, $9e, $44
-	dc.b $0f, $90, $f5, $8f, $22, $90
-	dc.b $0f, $98, $45, $4f, $09, $9e
-	dc.b $ef, $62, $04, $9f, $a0, $50
-	dc.b $4f, $20, $e9, $2f, $f2, $44
-	dc.b $0f, $a2, $97, $4f, $22, $30
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $fd, $fd, $fd, $fd, $fd, $fc, $fa, $f9, $fa, $fd, $fc, $fd, $3c, $dd, $dd
+	dc.b $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $3c, $fd
+	dc.b $7f, $7f, $7f, $7f, $7f, $7e, $3d, $3a, $01, $be, $83, $3a, $72, $6d, $6f
+	dc.b $af, $4f, $cf, $af, $6f, $6f, $6f, $6f, $6f, $6f, $6f, $6f, $6f, $70, $7f
+	dc.b $60, $60, $e0, $c0, $90, $b0, $b0, $b0, $60, $50, $30, $70, $e0, $00, $f0
+	dc.b $80, $70, $f0, $b0, $10, $a0, $10, $f0, $f0, $f0, $f0, $f0, $f0, $f0, $f0
+	dc.b $ee, $66, $76, $32, $ba, $f4, $86, $7b, $fb, $fb, $fb, $f6, $fc, $fa, $06
+	dc.b $ce, $ee, $ae, $16, $b0, $ff, $68, $67, $50, $56, $aa, $aa, $da, $ea, $f2
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0e, $0e, $0c, $0e, $0e, $0f, $07, $0b, $0b
+	dc.b $0b, $0b, $0b, $0b, $0b, $0a, $09, $0a, $07, $08, $0b, $0b, $0b, $07, $0f
 
 fxa_lapinmainC:
-	dc.b $0f, $24, $00, $0f, $d0, $43
-	dc.b $2f, $00, $a8, $8f, $22, $02
-	dc.b $0f, $25, $44, $4f, $40, $a0
-	dc.b $af, $22, $24, $0f, $05, $4a
-	dc.b $4f, $24, $00, $5f, $9e, $44
-	dc.b $2f, $00, $f5, $8f, $22, $02
-	dc.b $0f, $98, $45, $4f, $40, $9e
-	dc.b $ef, $62, $24, $0f, $a0, $50
-	dc.b $4f, $24, $e8, $2f, $f2, $44
-	dc.b $2f, $22, $97, $4f, $22, $22
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $fd, $fd, $fd, $fd, $fd, $fc, $fc, $fd, $fc, $fd, $fc, $fd, $3d, $dd, $dd
+	dc.b $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $3d, $fd
+	dc.b $fd, $fd, $fd, $fd, $fd, $fc, $fd, $fa, $01, $be, $83, $3a, $fa, $fd, $7d
+	dc.b $3d, $dd, $dd, $bd, $7d, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
+	dc.b $60, $60, $e0, $c0, $90, $b0, $b0, $b0, $60, $50, $30, $f0, $80, $00, $f0
+	dc.b $b0, $c0, $f0, $b0, $10, $a0, $10, $f0, $f0, $f0, $f0, $f0, $f0, $f0, $f0
+	dc.b $ee, $66, $76, $32, $ba, $f4, $86, $7b, $fb, $fb, $fb, $f6, $fc, $fa, $06
+	dc.b $ce, $ee, $ae, $16, $b0, $ff, $68, $67, $50, $56, $aa, $aa, $da, $ea, $f2
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0e, $0e, $0c, $0e, $0e, $0f, $07, $0b, $0b
+	dc.b $0b, $0b, $0b, $0b, $0b, $0a, $09, $0a, $07, $08, $0b, $0b, $0b, $07, $0f
 
 fxa_lapinmainD:
-	dc.b $0f, $24, $00, $0f, $d0, $43
-	dc.b $2f, $00, $a8, $8f, $22, $02
-	dc.b $0f, $25, $44, $4f, $40, $a0
-	dc.b $af, $22, $24, $0f, $05, $4a
-	dc.b $4f, $24, $00, $5f, $9e, $44
-	dc.b $2f, $00, $f5, $8f, $22, $02
-	dc.b $0f, $98, $45, $4f, $40, $9e
-	dc.b $ef, $62, $24, $0f, $a0, $50
-	dc.b $4f, $24, $e8, $2f, $f2, $44
-	dc.b $2f, $22, $97, $4f, $22, $23
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $fd, $fd, $e5, $f1, $f1, $d8, $80, $e1, $f0, $f1, $c0, $80, $18, $d0, $d1
+	dc.b $c5, $cd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $3d, $fd
+	dc.b $fd, $fd, $f5, $f1, $f8, $98, $c1, $e2, $01, $be, $83, $32, $e2, $c0, $70
+	dc.b $30, $c4, $dc, $bd, $7d, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
+	dc.b $60, $60, $e0, $c0, $90, $b0, $b0, $b0, $60, $50, $30, $f0, $80, $00, $f0
+	dc.b $b0, $c0, $f0, $b0, $10, $a0, $10, $f0, $f0, $f0, $f0, $f0, $f0, $f0, $f0
+	dc.b $ee, $66, $76, $32, $ba, $f4, $86, $7b, $fb, $fb, $fb, $f6, $fc, $fa, $06
+	dc.b $ce, $ee, $ae, $16, $b0, $ff, $68, $67, $50, $56, $aa, $aa, $da, $ea, $f2
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0e, $0e, $0c, $0e, $0e, $0f, $07, $0b, $0b
+	dc.b $0b, $0b, $0b, $0b, $0b, $0a, $09, $0a, $07, $08, $0b, $0b, $0b, $07, $0f
 
+fxa_pics:
+	dc.w fxa_lapinmainA
+	dc.w fxa_lapinmainB
+	dc.w fxa_lapinmainC
+	dc.w fxa_lapinmainD
+
+fxa_timeline:
+	dc.b 0, 1, 2, 3, 2, 3, 2, 1
