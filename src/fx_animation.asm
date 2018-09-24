@@ -19,7 +19,8 @@ fx_animation_vblank SUBROUTINE
 	lsr
 	lsr
 	lsr
-	and #$07
+	lsr
+	;and #$0f
 	tax
 	lda fxa_timeline,X
 	asl
@@ -48,6 +49,7 @@ fx_animation_vblank SUBROUTINE
 	jmp RTSBank
 
 fx_animation_kernel SUBROUTINE
+	sta WSYNC
 	ldy #29
 .outer_loop:
 	ldx #7
@@ -112,12 +114,12 @@ fxa_lapinmainC:
 	dc.b $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $3d, $fd
 	dc.b $fd, $fd, $fd, $fd, $fd, $fc, $fd, $fa, $01, $be, $83, $3a, $fa, $fd, $7d
 	dc.b $3d, $dd, $dd, $bd, $7d, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
-	dc.b $60, $60, $e0, $c0, $90, $b0, $b0, $b0, $60, $50, $30, $f0, $80, $00, $f0
+	dc.b $60, $60, $e0, $c0, $90, $b0, $b0, $b0, $60, $50, $30, $70, $e0, $00, $f0
 	dc.b $b0, $c0, $f0, $b0, $10, $a0, $10, $f0, $f0, $f0, $f0, $f0, $f0, $f0, $f0
-	dc.b $ee, $66, $76, $32, $ba, $f4, $86, $7b, $fb, $fb, $fb, $f6, $fc, $fa, $06
-	dc.b $ce, $ee, $ae, $16, $b0, $ff, $68, $67, $50, $56, $aa, $aa, $da, $ea, $f2
-	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0e, $0e, $0c, $0e, $0e, $0f, $07, $0b, $0b
-	dc.b $0b, $0b, $0b, $0b, $0b, $0a, $09, $0a, $07, $08, $0b, $0b, $0b, $07, $0f
+	dc.b $ef, $67, $77, $33, $bb, $f5, $86, $7b, $fb, $fb, $fb, $f6, $fd, $fb, $07
+	dc.b $cf, $ef, $af, $17, $b0, $ff, $68, $67, $50, $57, $ab, $ab, $db, $eb, $f3
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0e, $0e, $0e, $0e, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0e, $0d, $0a, $07, $08, $0f, $0f, $0f, $0f, $0f
 
 fxa_lapinmainD:
 	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
@@ -126,12 +128,12 @@ fxa_lapinmainD:
 	dc.b $c5, $cd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $dd, $3d, $fd
 	dc.b $fd, $fd, $f5, $f1, $f8, $98, $c1, $e2, $01, $be, $83, $32, $e2, $c0, $70
 	dc.b $30, $c4, $dc, $bd, $7d, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
-	dc.b $60, $60, $e0, $c0, $90, $b0, $b0, $b0, $60, $50, $30, $f0, $80, $00, $f0
+	dc.b $60, $60, $e0, $c0, $90, $b0, $b0, $b0, $60, $50, $30, $70, $e0, $00, $f0
 	dc.b $b0, $c0, $f0, $b0, $10, $a0, $10, $f0, $f0, $f0, $f0, $f0, $f0, $f0, $f0
-	dc.b $ee, $66, $76, $32, $ba, $f4, $86, $7b, $fb, $fb, $fb, $f6, $fc, $fa, $06
-	dc.b $ce, $ee, $ae, $16, $b0, $ff, $68, $67, $50, $56, $aa, $aa, $da, $ea, $f2
-	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0e, $0e, $0c, $0e, $0e, $0f, $07, $0b, $0b
-	dc.b $0b, $0b, $0b, $0b, $0b, $0a, $09, $0a, $07, $08, $0b, $0b, $0b, $07, $0f
+	dc.b $ef, $67, $77, $33, $bb, $f5, $86, $7b, $fb, $fb, $fb, $f6, $fd, $fb, $07
+	dc.b $cf, $ef, $af, $17, $b0, $ff, $68, $67, $50, $57, $ab, $ab, $db, $eb, $f3
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0e, $0e, $0e, $0e, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0e, $0d, $0a, $07, $08, $0f, $0f, $0f, $0f, $0f
 
 fxa_pics:
 	dc.w fxa_lapinmainA
@@ -140,4 +142,5 @@ fxa_pics:
 	dc.w fxa_lapinmainD
 
 fxa_timeline:
-	dc.b 0, 1, 2, 3, 2, 3, 2, 1
+	dc.b 0, 0, 1, 1, 1, 1, 2, 2
+	dc.b 2, 2, 3, 3, 2, 2, 3, 3
