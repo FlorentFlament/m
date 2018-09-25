@@ -1,8 +1,6 @@
 WIP
 ===
 
-* FX animations - Implement multiple animations sent by Glafouk ; )
-
 TODO
 ====
 
@@ -68,6 +66,8 @@ Optimizations
 
 Done
 ====
+
+* FX animations - Rabbit animation
 
 * FX 11x11 plasma, cycle between the different 11x11 GFXs.
   Details: Start with an empty plasma, then have first white GFX
