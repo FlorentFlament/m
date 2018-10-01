@@ -33,7 +33,7 @@
 fx_pixscroll_init SUBROUTINE
 	; Set the picture to be displayed
 	SET_POINTER fxp_pix_base, fxp_metro_gfx
-
+	SET_POINTER fxp_scr_base, fxp_metro_screens
 	; Set playfield to mirror mode and clear playfield registers
 	lda #$01
 	sta CTRLPF
@@ -148,9 +148,9 @@ fxp_compute_move SUBROUTINE
 	REPEND
 	lda ptr
 	and #$0f ; 16 screens for now
-	tax
+	tay
 
-	lda fxp_metro_screens,X
+	lda (fxp_scr_base),Y
 	beq .no_screen_move
 	tax
 .screen_move:

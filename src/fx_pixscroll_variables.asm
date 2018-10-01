@@ -1,6 +1,7 @@
 	ORG PARTRAM
 fxp_cnt         ds 2 ; 16-bits counter
 fxp_pix_base    ds 2 ; Pointer towards the picture to display (base address)
+fxp_scr_base    ds 2 ; Pointer towards the screens sequence of the pictures to display
 fxp_pix_ptr     ds 2 ; pointer towards the 1st elememt of the next line to display
 fxp_col_ptr     ds 2 ; Pointer towards the 1st color to use
 
