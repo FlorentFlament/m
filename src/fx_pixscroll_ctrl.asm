@@ -36,6 +36,12 @@ fx_pixscroll_metro_init SUBROUTINE
 	SET_POINTER fxp_scr_base, fxp_metro_screens
 	jmp fx_pixscroll_init_common
 
+fx_pixscroll_inside_init SUBROUTINE
+	; Set the picture to be displayed
+	SET_POINTER fxp_pix_base, fxp_inside_gfx
+	SET_POINTER fxp_scr_base, fxp_inside_screens
+	jmp fx_pixscroll_init_common
+
 fx_pixscroll_init_common SUBROUTINE
 	; Set playfield to mirror mode and clear playfield registers
 	lda #$01
@@ -88,17 +94,25 @@ fx_pixscroll_vblank_color SUBROUTINE
 	and #$0f
 	sta tmp
 	m_add_to_pointer fxp_col_ptr, tmp
-	jmp fx_pixscroll_vblank
+	jmp fx_pixscroll_metro_vblank
 
 ; This subroutine setups:
 ; * fxp_pix_ptr
 ; * fxp_shift_fine
-fx_pixscroll_vblank SUBROUTINE
+fx_pixscroll_metro_vblank SUBROUTINE
+	m_copy_pointer fxp_cnt, ptr
+	jmp fx_pixscroll_vblank_common
+
+fx_pixscroll_inside_vblank SUBROUTINE
 	m_copy_pointer fxp_cnt, ptr
 	; Slow movement
-	REPEAT 0
+	REPEAT 1
 	m_shift_pointer_right ptr
 	REPEND
+	jmp fx_pixscroll_vblank_common
+
+; ptr signifies the deplacement of the picture
+fx_pixscroll_vblank_common SUBROUTINE
 	jsr fxp_compute_move
 
 	; Precompute the first line
@@ -181,56 +195,14 @@ fxp_test_color:
 	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de
 	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
 
-fxp_test_gfx:
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $e0
-	dc.b $ff, $ff, $87, $03, $1f, $1f, $0f, $0f
-	dc.b $1f, $1f, $1f, $9f, $ff, $ff, $e0, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $e0, $ff, $00, $ff, $ff
-	dc.b $9f, $1f, $1f, $1f, $1f, $1f, $1f, $1f
-	dc.b $03, $87, $ff, $ff, $00, $ff, $e0, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $cf
-	dc.b $ff, $00, $ff, $00, $ff, $ff, $9b, $1b
-	dc.b $1b, $1b, $1b, $1b, $1b, $13, $03, $87
-	dc.b $ff, $ff, $00, $ff, $00, $ff, $cf, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $1f
-	dc.b $ff, $00, $ff, $ff, $87, $03, $1f, $1f
-	dc.b $07, $83, $fb, $fb, $03, $87, $ff, $ff
-	dc.b $00, $ff, $1f, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $1f
-	dc.b $ff, $ff, $9b, $1b, $1b, $1b, $03, $03
-	dc.b $1b, $1b, $1b, $9b, $ff, $ff, $1f, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $bb, $33, $ff, $ff, $03, $87
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $e0
-	dc.b $ff, $ff, $87, $03, $1f, $1f, $0f, $0f
-	dc.b $1f, $1f, $1f, $9f, $ff, $ff, $e0, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $e0, $ff, $00, $ff, $ff
-	dc.b $9f, $1f, $1f, $1f, $1f, $1f, $1f, $1f
-	dc.b $03, $87, $ff, $ff, $00, $ff, $e0, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $cf
-	dc.b $ff, $00, $ff, $00, $ff, $ff, $9b, $1b
-	dc.b $1b, $1b, $1b, $1b, $1b, $13, $03, $87
-	dc.b $ff, $ff, $00, $ff, $00, $ff, $cf, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $1f
-	dc.b $ff, $00, $ff, $ff, $87, $03, $1f, $1f
-	dc.b $07, $83, $fb, $fb, $03, $87, $ff, $ff
-	dc.b $00, $ff, $1f, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $1f
-	dc.b $ff, $ff, $9b, $1b, $1b, $1b, $03, $03
-	dc.b $1b, $1b, $1b, $9b, $ff, $ff, $1f, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $bb, $33, $ff, $ff, $03, $87
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff
-
 fxp_metro_gfx:
 	INCLUDE "fx_pixscroll_data.asm"
 
 fxp_metro_screens:
 	dc.b 0, 1, 2, 3, 4, 5, 8, 4, 5, 8, 4, 5, 6, 1, 2, 10
+
+fxp_inside_gfx:
+	INCLUDE "fx_pixscroll_data_inside.asm"
+
+fxp_inside_screens:
+	dc.b 0, 1, 2, 3, 4, 5, 6, 7

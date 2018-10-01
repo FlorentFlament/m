@@ -173,16 +173,20 @@ inits:
 	.word fx_animation_init
 	.word fx_plainshut2_init
 	.word fx_plasma1_init
+	.word fx_plainshut2_init
+	.word fx_pixscroll_inside_init
 	.word fx_plainshut3_init
 	.word fx_plasma2_init
 
 vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
-	.word fx_pixscroll_vblank
+	.word fx_pixscroll_metro_vblank
 	.word fx_animation_vblank
 	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
+	.word fx_plainshut_vblank
+	.word fx_pixscroll_inside_vblank
 	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 
@@ -194,6 +198,8 @@ kernels:
 	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 	.word fx_plainshut_kernel
+	.word fx_pixscroll_kernel
+	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 
 ; specifies on which frame to switch parts
@@ -204,6 +210,8 @@ ANIMATION1_SWITCH equ TRAIN1_SWITCH     + 512
 SHUTTERS2_SWITCH  equ ANIMATION1_SWITCH + 512
 PLASMA1_SWITCH    equ SHUTTERS2_SWITCH  + 512
 SHUTTERS3_SWITCH  equ PLASMA1_SWITCH    + 512
+INSIDE_SWITCH     equ SHUTTERS3_SWITCH  + 512
+SHUTTERS4_SWITCH  equ INSIDE_SWITCH     + 512
 PLASMA2_SWITCH    equ 0
 partswitch:
 	.word INTRO_SWITCH
@@ -213,6 +221,8 @@ partswitch:
 	.word SHUTTERS2_SWITCH
 	.word PLASMA1_SWITCH
 	.word SHUTTERS3_SWITCH
+	.word INSIDE_SWITCH
+	.word SHUTTERS4_SWITCH
 	.word PLASMA2_SWITCH
 
 ; Calls current part
