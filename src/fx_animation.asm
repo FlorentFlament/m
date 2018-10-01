@@ -14,22 +14,37 @@ fx_animation_init SUBROUTINE
 
 	jmp RTSBank
 
-fx_animation_vblank SUBROUTINE
+fx_animation_lapin_vblank SUBROUTINE
 	lda fxa_cnt
+	REPEAT 4
 	lsr
-	lsr
-	lsr
-	lsr
-	;and #$0f
+	REPEND
 	tax
-	lda fxa_timeline,X
+	lda fxa_lapin_timeline,X
 	asl
 	tax
-	lda fxa_pics,X
+	lda fxa_lapin_pics,X
 	sta ptr
-	lda fxa_pics+1,X
+	lda fxa_lapin_pics+1,X
 	sta ptr+1
+	jmp fx_animation_vblank_common
 
+fx_animation_meufkick_vblank SUBROUTINE
+	lda fxa_cnt
+	REPEAT 4
+	lsr
+	REPEND
+	tax
+	lda fxa_meufkick_timeline,X
+	asl
+	tax
+	lda fxa_meufkick_pics,X
+	sta ptr
+	lda fxa_meufkick_pics+1,X
+	sta ptr+1
+	jmp fx_animation_vblank_common
+
+fx_animation_vblank_common SUBROUTINE
 	SET_POINTER tmp, fxa_pf0_ptr ; Using tmp & tmp1 as pointer
 
 	ldy #0
@@ -81,12 +96,22 @@ fx_animation_kernel SUBROUTINE
 
 	INCLUDE "fx_animation_data_lapin.asm"
 
-fxa_pics:
+fxa_lapin_pics:
 	dc.w fxa_lapinmainA
 	dc.w fxa_lapinmainB
 	dc.w fxa_lapinmainC
 	dc.w fxa_lapinmainD
 
-fxa_timeline:
+fxa_lapin_timeline:
+	dc.b 0, 0, 1, 1, 1, 1, 2, 2
+	dc.b 2, 2, 3, 2, 3, 2, 3, 2
+
+fxa_meufkick_pics:
+	dc.w fxa_lapinmainA
+	dc.w fxa_lapinmainB
+	dc.w fxa_lapinmainC
+	dc.w fxa_lapinmainD
+
+fxa_meufkick_timeline:
 	dc.b 0, 0, 1, 1, 1, 1, 2, 2
 	dc.b 2, 2, 3, 2, 3, 2, 3, 2
