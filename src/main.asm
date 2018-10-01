@@ -173,7 +173,7 @@ inits:
 	.word fx_animation_init
 	.word fx_plainshut2_init
 	.word fx_plasma1_init
-	.word fx_plainshut2_init
+	.word fx_plainshut1_init
 	.word fx_pixscroll_inside_init
 	.word fx_plainshut3_init
 	.word fx_plasma2_init
@@ -209,9 +209,9 @@ TRAIN1_SWITCH     equ SHUTTERS1_SWITCH  + 512
 ANIMATION1_SWITCH equ TRAIN1_SWITCH     + 512
 SHUTTERS2_SWITCH  equ ANIMATION1_SWITCH + 512
 PLASMA1_SWITCH    equ SHUTTERS2_SWITCH  + 512
-SHUTTERS3_SWITCH  equ PLASMA1_SWITCH    + 512
-INSIDE_SWITCH     equ SHUTTERS3_SWITCH  + 512
-SHUTTERS4_SWITCH  equ INSIDE_SWITCH     + 512
+SHUTTERS1B_SWITCH equ PLASMA1_SWITCH    + 512
+INSIDE_SWITCH     equ SHUTTERS1B_SWITCH + 512
+SHUTTERS3_SWITCH  equ INSIDE_SWITCH     + 512
 PLASMA2_SWITCH    equ 0
 partswitch:
 	.word INTRO_SWITCH
@@ -220,9 +220,9 @@ partswitch:
 	.word ANIMATION1_SWITCH
 	.word SHUTTERS2_SWITCH
 	.word PLASMA1_SWITCH
-	.word SHUTTERS3_SWITCH
+	.word SHUTTERS1B_SWITCH
 	.word INSIDE_SWITCH
-	.word SHUTTERS4_SWITCH
+	.word SHUTTERS3_SWITCH
 	.word PLASMA2_SWITCH
 
 ; Calls current part
