@@ -30,10 +30,13 @@
 	sta HMP{1}
 	ENDM
 
-fx_pixscroll_init SUBROUTINE
+fx_pixscroll_metro_init SUBROUTINE
 	; Set the picture to be displayed
 	SET_POINTER fxp_pix_base, fxp_metro_gfx
 	SET_POINTER fxp_scr_base, fxp_metro_screens
+	jmp fx_pixscroll_init_common
+
+fx_pixscroll_init_common SUBROUTINE
 	; Set playfield to mirror mode and clear playfield registers
 	lda #$01
 	sta CTRLPF

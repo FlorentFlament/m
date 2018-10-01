@@ -169,7 +169,7 @@ PARTSTART_ANIMATION equ *
 inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
-	.word fx_pixscroll_init
+	.word fx_pixscroll_metro_init
 	.word fx_animation_init
 	.word fx_plainshut2_init
 	.word fx_plasma1_init
