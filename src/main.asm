@@ -188,7 +188,7 @@ vblanks:
 	.word fx_plasma_vblank
 	.word fx_plainshut_vblank
 	.word fx_pixscroll_inside_vblank
-	.word fx_animation_lapin_vblank
+	.word fx_animation_meufkick_vblank
 	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 
