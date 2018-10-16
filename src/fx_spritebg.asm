@@ -136,17 +136,23 @@ fx_spritebg_init SUBROUTINE
 	SET_POINTER fxsb_bg_base, fx_spritebg_pf0
 	jmp RTSBank
 
+; Macro incrementing a register and resetting it if > than max val
+	MAC m_fxsb_inc_mod
+	inc {1}
+	lda {1}
+	cmp {2}
+	bne .end
+	lda #0
+	sta {1}
+.end
+	ENDM
+
 fx_spritebg_vblank SUBROUTINE
 	; Setup sprite
 	lda frame_cnt
 	and #$03
 	bne .after_sprite_update
-	inc fxsb_sprite_idx
-	lda fxsb_sprite_idx
-	cmp #3
-	bne .after_sprite_update
-	lda #0
-	sta fxsb_sprite_idx
+	m_fxsb_inc_mod fxsb_sprite_idx, #3
 
 .after_sprite_update:
 	lda fxsb_sprite_idx
@@ -161,12 +167,7 @@ fx_spritebg_vblank SUBROUTINE
 	lda frame_cnt
 	and #$01
 	bne .after_bg_update
-	inc fxsb_bg_idx
-	lda fxsb_bg_idx
-	cmp #11
-	bne .after_bg_update
-	lda #0
-	sta fxsb_bg_idx
+	m_fxsb_inc_mod fxsb_bg_idx, #11
 
 .after_bg_update
 	SET_POINTER fxsb_bg_base, fx_spritebg_pf0
