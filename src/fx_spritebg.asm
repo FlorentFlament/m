@@ -124,14 +124,35 @@ fx_spritebg_init SUBROUTINE
 	sta WSYNC
 	sta HMOVE
 
+	; Initialize sprite to be displayed
+	lda #0
+	sta fxsb_sprite_idx
+
 	m_fxsb_init_fastcode
 
 	; WIP Test base pointers
 	SET_POINTER fxsb_bg_base, fx_spritebg_pf0
-	SET_POINTER fxsb_sp_base, fx_spritebg_sp0
 	jmp RTSBank
 
 fx_spritebg_vblank SUBROUTINE
+	lda frame_cnt
+	and #$03
+	bne .after_sprite_update
+	inc fxsb_sprite_idx
+	lda fxsb_sprite_idx
+	cmp #3
+	bne .after_sprite_update
+	lda #0
+	sta fxsb_sprite_idx
+
+.after_sprite_update:
+	lda fxsb_sprite_idx
+	asl
+	tay
+	lda fx_spritebg_sprites,Y
+	sta fxsb_sp_base
+	lda fx_spritebg_sprites+1,Y
+	sta fxsb_sp_base+1
 	m_fxsb_update_fastcode
 	jmp RTSBank
 
@@ -156,43 +177,43 @@ fx_spritebg_kernel SUBROUTINE
 
 	jmp RTSBank
 
+; /home/florent/src/SV2018/graphics/glafouk/2018-10-02-01/anime-fond-40x30-bw.png
 fx_spritebg_pf0:
-	.byte $aa, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55
-fx_spritebg_pf1:
-	.byte $55, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc
-fx_spritebg_pf2:
-	.byte $aa, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55
-fx_spritebg_pf3:
-	.byte $aa, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc
-fx_spritebg_pf4:
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
-	.byte $55, $55, $55, $55, $55, $55
-fx_spritebg_pf5:
-	.byte $aa, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-	.byte $cc, $cc, $cc, $cc, $cc, $cc
+	dc.b $10, $00, $10, $10, $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10
+	dc.b $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10, $10, $10, $10, $10
+	dc.b $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6, $00, $00, $00, $fe, $00, $c6, $c6
+	dc.b $d6, $fe, $ee, $c6, $00, $00, $00, $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6
+	dc.b $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c, $00, $00, $00, $fc, $00, $8c, $8c
+	dc.b $ac, $fc, $dc, $8c, $00, $00, $00, $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c
+	dc.b $10, $00, $10, $10, $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10
+	dc.b $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10, $10, $10, $10, $10
+	dc.b $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6, $00, $00, $00, $fe, $00, $c6, $c6
+	dc.b $d6, $fe, $ee, $c6, $00, $00, $00, $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6
+	dc.b $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c, $00, $00, $00, $fc, $00, $8c, $8c
+	dc.b $ac, $fc, $dc, $8c, $00, $00, $00, $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c
+
 fx_spritebg_sp0:
-	.byte $ff, $99, $99, $99, $99, $99, $99, $99
-	.byte $99, $99, $99, $99, $99, $99, $99, $99
-	.byte $99, $99, $99, $99, $99, $99, $99, $99
-	.byte $99, $99, $99, $99, $99, $99
+; graphics/glafouk/2018-10-02-01/anime-fond-sprite32x30-spriteA.png
+	dc.b $00, $00, $00, $40, $ff, $20, $10, $3f, $08, $04, $0f, $02, $0f, $1f, $1b
+	dc.b $11, $1b, $1f, $1f, $1f, $18, $10, $10, $10, $10, $1f, $0f, $00, $00, $00
+	dc.b $00, $00, $00, $02, $ff, $04, $08, $fc, $10, $20, $f0, $40, $f0, $f8, $d8
+	dc.b $88, $d8, $f8, $f8, $f8, $18, $08, $08, $08, $08, $f8, $f0, $00, $00, $00
+
 fx_spritebg_sp1:
-	.byte $ff, $66, $66, $66, $66, $66, $66, $66
-	.byte $66, $66, $66, $66, $66, $66, $66, $66
-	.byte $66, $66, $66, $66, $66, $66, $66, $66
-	.byte $66, $66, $66, $66, $66, $66
+; graphics/glafouk/2018-10-02-01/anime-fond-sprite32x30-spriteB.png
+	dc.b $00, $00, $00, $ff, $40, $20, $7f, $10, $08, $1f, $06, $0f, $1f, $1b, $11
+	dc.b $1b, $1f, $1f, $1f, $18, $10, $10, $10, $10, $1f, $0f, $00, $00, $00, $00
+	dc.b $00, $00, $00, $ff, $02, $04, $fe, $08, $10, $f8, $60, $f0, $f8, $d8, $88
+	dc.b $d8, $f8, $f8, $f8, $18, $08, $08, $08, $08, $f8, $f0, $00, $00, $00, $00
+
+fx_spritebg_sp2:
+; graphics/glafouk/2018-10-02-01/anime-fond-sprite32x30-spriteC.png
+	dc.b $00, $00, $00, $80, $40, $ff, $20, $10, $3f, $08, $04, $03, $0f, $1f, $1b
+	dc.b $11, $1b, $1f, $1f, $1f, $18, $10, $10, $10, $10, $1f, $0f, $00, $00, $00
+	dc.b $00, $00, $00, $01, $02, $ff, $04, $08, $fc, $10, $20, $c0, $f0, $f8, $d8
+	dc.b $88, $d8, $f8, $f8, $f8, $18, $08, $08, $08, $08, $f8, $f0, $00, $00, $00
+
+fx_spritebg_sprites:
+	dc.w fx_spritebg_sp0
+	dc.w fx_spritebg_sp1
+	dc.w fx_spritebg_sp2
