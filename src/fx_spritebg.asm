@@ -103,6 +103,27 @@ fx_spritebg_init SUBROUTINE
 	lda #$00
 	sta COLUBK
 
+	; quad sized players
+	lda #$07
+	sta NUSIZ0
+	sta NUSIZ1
+
+	; Positioning the players
+	sta WSYNC
+	ldy #5
+.pos_loop	dey
+	bpl .pos_loop
+	SLEEP 3
+	sta RESP0
+	SLEEP 8
+	sta RESP1
+	lda #$10
+	sta HMP0
+	lda #$20
+	sta HMP1
+	sta WSYNC
+	sta HMOVE
+
 	m_fxsb_init_fastcode
 
 	; WIP Test base pointers
@@ -136,22 +157,22 @@ fx_spritebg_kernel SUBROUTINE
 	jmp RTSBank
 
 fx_spritebg_pf0:
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
+	.byte $aa, $55, $55, $55, $55, $55, $55, $55
 	.byte $55, $55, $55, $55, $55, $55, $55, $55
 	.byte $55, $55, $55, $55, $55, $55, $55, $55
 	.byte $55, $55, $55, $55, $55, $55
 fx_spritebg_pf1:
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
+	.byte $55, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc
 fx_spritebg_pf2:
-	.byte $55, $55, $55, $55, $55, $55, $55, $55
+	.byte $aa, $55, $55, $55, $55, $55, $55, $55
 	.byte $55, $55, $55, $55, $55, $55, $55, $55
 	.byte $55, $55, $55, $55, $55, $55, $55, $55
 	.byte $55, $55, $55, $55, $55, $55
 fx_spritebg_pf3:
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
+	.byte $aa, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 `	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc
@@ -161,17 +182,17 @@ fx_spritebg_pf4:
 	.byte $55, $55, $55, $55, $55, $55, $55, $55
 	.byte $55, $55, $55, $55, $55, $55
 fx_spritebg_pf5:
-	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
+	.byte $aa, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc
 fx_spritebg_sp0:
-	.byte $99, $99, $99, $99, $99, $99, $99, $99
+	.byte $ff, $99, $99, $99, $99, $99, $99, $99
 	.byte $99, $99, $99, $99, $99, $99, $99, $99
 	.byte $99, $99, $99, $99, $99, $99, $99, $99
 	.byte $99, $99, $99, $99, $99, $99
 fx_spritebg_sp1:
-	.byte $66, $66, $66, $66, $66, $66, $66, $66
+	.byte $ff, $66, $66, $66, $66, $66, $66, $66
 	.byte $66, $66, $66, $66, $66, $66, $66, $66
 	.byte $66, $66, $66, $66, $66, $66, $66, $66
 	.byte $66, $66, $66, $66, $66, $66
