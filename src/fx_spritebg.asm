@@ -174,7 +174,7 @@ fx_spritebg_pf2:
 fx_spritebg_pf3:
 	.byte $aa, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
-`	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
+	.byte $cc, $cc, $cc, $cc, $cc, $cc, $cc, $cc
 	.byte $cc, $cc, $cc, $cc, $cc, $cc
 fx_spritebg_pf4:
 	.byte $55, $55, $55, $55, $55, $55, $55, $55
