@@ -70,7 +70,7 @@ fx_spritebg_fastcode:
 	m_add_to_pointer tmp, #30 ; 30 pixs high sprites
 	lda tmp
 	sta fxsb_buffer + 25
-	lda tmp+2
+	lda tmp+1
 	sta fxsb_buffer + 26
 	;42  705b		       b9 e3 d0	      lda	fx_spritebg_pf3,Y
 	m_add_to_pointer ptr, #30 ; 30 pixs high background
