@@ -1,3 +1,5 @@
+FXSB_BG_MODULUS equ #41
+
 ; 51 bytes fastcode
 fx_spritebg_fastcode:
 			;28  703e	  .outer_loop
@@ -50,13 +52,13 @@ fx_spritebg_fastcode:
 	lda ptr+1
 	sta fxsb_buffer + 6
 	;34  7047		       b9 a3 d0	      lda	fx_spritebg_pf1,Y
-	m_add_to_pointer ptr, #30 ; 30 pixs high background
+	m_add_to_pointer ptr, FXSB_BG_MODULUS ; FBM pixs high background
 	lda ptr
 	sta fxsb_buffer + 10
 	lda ptr+1
 	sta fxsb_buffer + 11
 	;36  704c		       b9 c3 d0	      lda	fx_spritebg_pf2,Y
-	m_add_to_pointer ptr, #30 ; 30 pixs high background
+	m_add_to_pointer ptr, FXSB_BG_MODULUS ; FBM pixs high background
 	lda ptr
 	sta fxsb_buffer + 15
 	lda ptr+1
@@ -73,19 +75,19 @@ fx_spritebg_fastcode:
 	lda tmp+1
 	sta fxsb_buffer + 26
 	;42  705b		       b9 e3 d0	      lda	fx_spritebg_pf3,Y
-	m_add_to_pointer ptr, #30 ; 30 pixs high background
+	m_add_to_pointer ptr, FXSB_BG_MODULUS ; FBM pixs high background
 	lda ptr
 	sta fxsb_buffer + 30
 	lda ptr+1
 	sta fxsb_buffer + 31
 	;44  7060		       b9 03 d1	      lda	fx_spritebg_pf4,Y
-	m_add_to_pointer ptr, #30 ; 30 pixs high background
+	m_add_to_pointer ptr, FXSB_BG_MODULUS ; FBM pixs high background
 	lda ptr
 	sta fxsb_buffer + 35
 	lda ptr+1
 	sta fxsb_buffer + 36
 	;46  7065		       b9 23 d1	      lda	fx_spritebg_pf5,Y
-	m_add_to_pointer ptr, #30 ; 30 pixs high background
+	m_add_to_pointer ptr, FXSB_BG_MODULUS ; FBM pixs high background
 	lda ptr
 	sta fxsb_buffer + 40
 	lda ptr+1
@@ -135,6 +137,7 @@ fx_spritebg_init SUBROUTINE
 	jmp RTSBank
 
 fx_spritebg_vblank SUBROUTINE
+	; Setup sprite
 	lda frame_cnt
 	and #$03
 	bne .after_sprite_update
@@ -153,6 +156,22 @@ fx_spritebg_vblank SUBROUTINE
 	sta fxsb_sp_base
 	lda fx_spritebg_sprites+1,Y
 	sta fxsb_sp_base+1
+
+	; Setup background
+	lda frame_cnt
+	and #$01
+	bne .after_bg_update
+	inc fxsb_bg_idx
+	lda fxsb_bg_idx
+	cmp #11
+	bne .after_bg_update
+	lda #0
+	sta fxsb_bg_idx
+
+.after_bg_update
+	SET_POINTER fxsb_bg_base, fx_spritebg_pf0
+	m_add_to_pointer fxsb_bg_base, fxsb_bg_idx
+
 	m_fxsb_update_fastcode
 	jmp RTSBank
 
@@ -179,16 +198,27 @@ fx_spritebg_kernel SUBROUTINE
 
 ; /home/florent/src/SV2018/graphics/glafouk/2018-10-02-01/anime-fond-40x30-bw.png
 fx_spritebg_pf0:
+	dc.b $10, $00, $10, $10, $10, $10, $10, $10, $00, $00, $00
 	dc.b $10, $00, $10, $10, $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10
 	dc.b $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10, $10, $10, $10, $10
+
+	dc.b $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6, $00, $00, $00
 	dc.b $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6, $00, $00, $00, $fe, $00, $c6, $c6
 	dc.b $d6, $fe, $ee, $c6, $00, $00, $00, $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6
+
+	dc.b $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c, $00, $00, $00
 	dc.b $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c, $00, $00, $00, $fc, $00, $8c, $8c
 	dc.b $ac, $fc, $dc, $8c, $00, $00, $00, $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c
+
+	dc.b $10, $00, $10, $10, $10, $10, $10, $10, $00, $00, $00
 	dc.b $10, $00, $10, $10, $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10
 	dc.b $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10, $10, $10, $10, $10
+
+	dc.b $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6, $00, $00, $00
 	dc.b $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6, $00, $00, $00, $fe, $00, $c6, $c6
 	dc.b $d6, $fe, $ee, $c6, $00, $00, $00, $fe, $00, $c6, $c6, $d6, $fe, $ee, $c6
+
+	dc.b $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c, $00, $00, $00
 	dc.b $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c, $00, $00, $00, $fc, $00, $8c, $8c
 	dc.b $ac, $fc, $dc, $8c, $00, $00, $00, $fc, $00, $8c, $8c, $ac, $fc, $dc, $8c
 
