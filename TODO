@@ -4,33 +4,76 @@ WIP
 TODO
 ====
 
-* Define (first version of) the timeline with all the parts of the
-  demo
+* Timeline with all the parts of the demo
 
-  - Gameboy intro
-  - Shutters (volets)
-  - M logo (we can call the demo 'M')
-  - Flush text
-  - Shutters
-  - Train (right -> left)
-  - Animation of metro doors opening
-  - Plasma FX blue with 2 GFXs
-  - Shutters ?
-  - Train (left -> right)
-  - Plasma FX red (or pink) with 2 GFXs
-  - Credits
-  - Greetings
+  - Gameboy intro (5s)
+  - Shutters (volets) (10s)
+  ---- 15s intro
 
-* FX logo M
+  - Right->Left scroller: Train (10s)
+  - Animation: Portique (5s)
+  - Vertical anim: metro ticket (10s)
+  - Vertical anim: quai souris (10s)
+  - Animation: metro doors opening (5s)
+  - Plasma FX blue with 2 GFXs (10s)
+  - Shutters (10s)
+  ---- 60s part
 
-* FX multi-color 11x11 with shapes changing according to the music
-  (using the plasma FX kernel)
+  - 3 colors anim: Train BG + sprite (10s)
+  - Right->Left scroller: Look inside (10s)
+  - Vertical anim: ligne metro (5s)
+  - Amination: girl kicking lapin (5s)
+  - Plasma FX yellow (10s)
+  - Shutters (10s)
+  ---- 50s part
+
+  - 3 colors anim: walking rabbit - 3 colors animation (10s)
+  - Vertical anim: PauvreLapin (10s)
+  - Right->Left scroller: station wall (10s)
+  - Vertical anim: mistress stella (10s)
+  - Plasma FX red (or pink) with 2 GFXs (10s)
+  ---- 50s part
+
+  - Credits & Greetings (20s)
+  ---- 20s end
+
+--------
+Total duration: 195s (3min 15sec)
+
+
+Quick wins:
+===========
+
+* Animation: Portique
+
+* Horizontal scroll: mur station
+
+* 3 colors anim: walking rabbit - 3 colors animation (10s)
+
+
+Next:
+=====
+
+* Text kernel at the end for credits & greetings (we already have the
+  font)
+
+* High graphics:
+  - mistressStella
+  - pauvreLapin
+  - quai souris
+  - ligne metro
+
+* GFX sur volets
+
+
+Nice to have
+============
+
+* FX 3 colors train + bg: Smoother with varying speed
 
 * FX Train - update movement with varying speed slow -> fast -> slow
 
-* FX Train - Add new part with train moving from left to right
-
-* FX tunnel or FX moving rails ?
+* ???? FX tunnel or FX moving rails ?
 
   "tu saurais plutôt le gérer en carré, genre des mouvement de
    perspective sur droite/gauche genre barres + points (les morceaux
@@ -38,24 +81,26 @@ TODO
    faire le haut, et en bas des rails (donc deux barres verticales
    "tordues" + des barres horiz qui défilent) ?"
 
-* FX color (or 8 grey levels) video using the 11x11 plasma mode ?
-
-* 3D rotation (vertical then horizontal) of the M logo ?
-
 * FX wave (or chewing gum) on the M logo ?
 
   sinon un effet "chewing gum" si on imagine que le M est rempli avec
   des lignes de différentes couleurs, faire grossir/rapetisser des
   lignes, avec un genre de rebond.
 
-* FX linen by line on the M logo ?
+* ???? FX linen by line on the M logo ?
 
   Et genre vu qu'il est fait de lignes (comme le logo flush de .bin)
   peut être le faire arriver en ligne par ligne (et le faire partir,
   genre il arrive par le haut, il repart par le bas).
 
-* Text kernel at the end for credits & greetings (we already have the
-  font)
+* ???? FX multi-color 11x11 with shapes changing according to the
+  music (using the plasma FX kernel)
+
+* ???? FX color (or 8 grey levels) video using the 11x11 plasma mode ?
+
+* ???? 3D rotation (vertical then horizontal) of the M logo ?
+
+* ???? FX Train - Add new part with train moving from left to right
 
 
 Optimizations
