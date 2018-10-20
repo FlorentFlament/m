@@ -19,6 +19,11 @@ fx_plasma2_init SUBROUTINE
 	m_copy_palette fxpl_palette_orig2
 	jmp fx_plasma_init
 
+fx_plasma3_init SUBROUTINE
+	SET_POINTER fxpl_tim_ptr, fxpl_timeline3
+	m_copy_palette fxpl_palette_orig3
+	jmp fx_plasma_init
+
 fx_plasma_init SUBROUTINE
 	lda #$00
 	sta PF0
@@ -417,6 +422,11 @@ fxpl_palette_orig1:
 	dc.b $0e
 
 fxpl_palette_orig2:
+	dc.b $30, $32, $34, $36, $38, $3a, $3c, $3e
+	dc.b $3e, $3c, $3a, $38, $36, $34, $32, $30
+	dc.b $0e
+
+fxpl_palette_orig3:
 	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
 	dc.b $8e, $8c, $8a, $88, $86, $84, $82, $80
 	dc.b $0e
@@ -432,6 +442,16 @@ fxpl_timeline1:
 	.byte 2, 2, 0, 0, 3, 2, 3, 2
 
 fxpl_timeline2:
+	.byte 0, 0, 0, 0, 4, 4, 4, 4
+	.byte 4, 4, 4, 4, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 5, 5, 5, 5
+	.byte 5, 5, 5, 5, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 4, 4, 4, 4
+	.byte 4, 4, 4, 4, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 5, 5, 5, 5
+	.byte 5, 5, 5, 5, 4, 5, 4, 5
+
+fxpl_timeline3:
 	.byte 0, 0, 0, 0, 4, 4, 4, 4
 	.byte 4, 4, 4, 4, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 5, 5, 5, 5
