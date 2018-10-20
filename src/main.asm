@@ -157,6 +157,9 @@ PARTSTART_INTRO equ *
 	INCLUDE "fx_intro_ctrl.asm"
 	INCLUDE "fx_intro_kernel.asm"
 	echo "fx_intro:", (*-PARTSTART_INTRO)d, "B"
+PARTSTART_ANIM2 equ *
+	INCLUDE "fx_animation2.asm"
+	echo "fx_animation2:", (*-PARTSTART_ANIM2)d, "B"
 	END_SEGMENT 4
 
 ; Bank 5
@@ -181,6 +184,7 @@ inits:
 	.word fx_plainshut2_init
 	.word fx_plasma1_init
 	.word fx_plainshut1_init
+	.word fx_animation_init
 	.word fx_pixscroll_inside_init
 	.word fx_animation_init
 	.word fx_plainshut3_init
@@ -195,6 +199,7 @@ vblanks:
 	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 	.word fx_plainshut_vblank
+	.word fx_animation_portique_vblank
 	.word fx_pixscroll_inside_vblank
 	.word fx_animation_meufkick_vblank
 	.word fx_plainshut_vblank
@@ -209,7 +214,8 @@ kernels:
 	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 	.word fx_plainshut_kernel
-	.word fx_pixscroll_kernel
+	.word fx_animation2_kernel ; portique
+	.word fx_pixscroll_kernel ; what's inside
 	.word fx_animation_kernel
 	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
@@ -223,7 +229,8 @@ SPRITEBG_SWITCH   equ ANIMATION1_SWITCH + 512
 SHUTTERS2_SWITCH  equ SPRITEBG_SWITCH   + 512
 PLASMA1_SWITCH    equ SHUTTERS2_SWITCH  + 512
 SHUTTERS1B_SWITCH equ PLASMA1_SWITCH    + 512
-INSIDE_SWITCH     equ SHUTTERS1B_SWITCH + 512
+PORTIQUE_SWITCH   equ SHUTTERS1B_SWITCH + 512
+INSIDE_SWITCH     equ PORTIQUE_SWITCH   + 512
 ANIMATION2_SWITCH equ INSIDE_SWITCH     + 512
 SHUTTERS3_SWITCH  equ ANIMATION2_SWITCH + 512
 PLASMA2_SWITCH    equ 0
@@ -236,6 +243,7 @@ partswitch:
 	.word SHUTTERS2_SWITCH
 	.word PLASMA1_SWITCH
 	.word SHUTTERS1B_SWITCH
+	.word PORTIQUE_SWITCH
 	.word INSIDE_SWITCH
 	.word ANIMATION2_SWITCH
 	.word SHUTTERS3_SWITCH
