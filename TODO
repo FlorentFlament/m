@@ -63,7 +63,6 @@ Quick wins
 ----------
 
 * Monochrome anima:
-  - Portique hitting rabbit
   - Rabbit asking phone number
 
 * Horizontal scroller:
@@ -131,6 +130,9 @@ Nice to have
 
 Optimizations
 -------------
+
+* fx_animation: reduce size of animations by 33% by using 4 bytes per
+  line instead of 6.
 
 * fx_plasma: No need to copy the color table in memory.
 
