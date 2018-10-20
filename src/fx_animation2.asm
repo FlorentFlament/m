@@ -2,6 +2,10 @@ fx_animation_portique_vblank SUBROUTINE
 	m_fxa_vblank portique
 	jmp fx_animation2_vblank_common
 
+fx_animation_meufDrague_vblank SUBROUTINE
+	m_fxa_vblank meufDrague
+	jmp fx_animation2_vblank_common
+
 fx_animation2_vblank_common SUBROUTINE
 	m_fxa_vblank_common
 	jmp RTSBank
@@ -11,6 +15,7 @@ fx_animation2_kernel SUBROUTINE
 	jmp RTSBank
 
 	INCLUDE "fx_animation_data_portique.asm"
+	INCLUDE "fx_animation_data_meufDrague.asm"
 
 fxa_portique_pics:
 	dc.w fxa_portiqueA
@@ -27,3 +32,18 @@ fxa_portique_pics:
 fxa_portique_timeline:
 	dc.b 0, 0, 1, 2, 3, 4, 5, 6
 	dc.b 7, 8, 7, 8, 7, 8, 9, 0
+
+fxa_meufDrague_pics:
+	dc.w fxa_meufDragueA
+	dc.w fxa_meufDragueB
+	dc.w fxa_meufDragueC
+	dc.w fxa_meufDragueD
+	dc.w fxa_meufDragueE
+	dc.w fxa_meufDragueF
+	dc.w fxa_meufDragueG
+	dc.w fxa_meufDragueH
+	dc.w fxa_meufDragueI
+
+fxa_meufDrague_timeline:
+	dc.b 0, 1, 2, 2, 3, 3, 3, 2
+	dc.b 4, 4, 4, 2, 5, 6, 7, 8

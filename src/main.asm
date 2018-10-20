@@ -185,6 +185,7 @@ inits:
 	.word fx_animation_init ; portique
 	.word fx_pixscroll_inside_init ; look inside
 	.word fx_spritebg_init ; moving train
+	.word fx_animation_init ; girl punching lapin
 	.word fx_animation_init ; girl kicking lapin
 	.word fx_plasma2_init ; red plasma
 
@@ -198,6 +199,7 @@ vblanks:
 	.word fx_animation_portique_vblank ; portique
 	.word fx_pixscroll_inside_vblank ; look inside
 	.word fx_spritebg_vblank ; moving train
+	.word fx_animation_meufDrague_vblank ; girl punching lapin
 	.word fx_animation_meufkick_vblank ; girl kicking lapin
 	.word fx_plasma_vblank ; red plasma
 
@@ -211,6 +213,7 @@ kernels:
 	.word fx_animation2_kernel ; portique
 	.word fx_pixscroll_kernel ; look inside
 	.word fx_spritebg_kernel ; moving train
+	.word fx_animation2_kernel ; girl punching lapin
 	.word fx_animation_kernel ; girl kicking lapin
 	.word fx_plasma_kernel ; red plasma
 
@@ -225,6 +228,7 @@ PORTIQUE_SWITCH   equ SHUTTERS1B_SWITCH + 512
 INSIDE_SWITCH     equ PORTIQUE_SWITCH   + 512
 SPRITEBG_SWITCH   equ INSIDE_SWITCH     + 512
 ANIMATION2_SWITCH equ SPRITEBG_SWITCH   + 512
+ANIMATION3_SWITCH equ ANIMATION2_SWITCH + 512
 PLASMA2_SWITCH    equ 0
 partswitch:
 	.word INTRO_SWITCH
@@ -237,6 +241,7 @@ partswitch:
 	.word INSIDE_SWITCH
 	.word SPRITEBG_SWITCH
 	.word ANIMATION2_SWITCH
+	.word ANIMATION3_SWITCH
 	.word PLASMA2_SWITCH
 
 ; Calls current part
