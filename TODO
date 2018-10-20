@@ -1,45 +1,66 @@
 WIP
 ===
 
-TODO
-====
+Story
+-----
 
-* Timeline with all the parts of the demo
+  * Part 1
+    - Metro arrives
+    - Rabbit uses a ticket to take the metro
+    - Walks through the metro corridors
+    - Has its hand stuck in the metro door
+
+  * Part 2
+    - Rabbit tries to follow a girl but is hit by the door
+    - Is inside the moving metro
+    - Tries to have the girl's phone number, gets a punch instead
+
+  * Part 3
+    - Metro moving all around the city
+    - Arrives at the station
+    - Rabbit puts his hand on the girl's ass and gets a kick
+    - Ending: Girls power & Mistress Stella
+
+Detailed timeline
+-----------------
 
   - Gameboy intro (5s)
   - Shutters (volets) (10s)
   ---- 15s intro
 
-  - Right->Left scroller: Train (10s)
-  - Animation: Portique (5s)
-  - Vertical anim: metro ticket (10s)
-  - Vertical anim: quai souris (10s)
-  - Animation: metro doors opening (5s)
-  - Plasma FX blue with 2 GFXs (10s)
+  - Horizontal scroller : Train arrives (10s)
+  - Vertical anim       : metro ticket (10s)
+  - 3 colors anim       : walking rabbit (10s)
+  - Monochrome anim     : rabbit hand stuck in metro door (10s)
+  - Plasma (blue) (10s)
   - Shutters (10s)
   ---- 60s part
 
-  - 3 colors anim: Train BG + sprite (10s)
-  - Right->Left scroller: Look inside (10s)
-  - Vertical anim: ligne metro (5s)
-  - Amination: girl kicking lapin (5s)
-  - Plasma FX yellow (10s)
+  - Monochrome anim     : Portique hitting rabbit (10s)
+  - Horizontal scroller : Look inside (10s)
+  - 3 colors anim       : Moving train (10s)
+  - Monochrome anim     : rabbit want to have girl's phone number (10s)
+  - Plasma (yellow) (10s)
   - Shutters (10s)
-  ---- 50s part
+  ---- 60s part
 
-  - 3 colors anim: walking rabbit - 3 colors animation (10s)
-  - Vertical anim: PauvreLapin (10s)
-  - Right->Left scroller: station wall (10s)
-  - Vertical anim: mistress stella (10s)
-  - Plasma FX red (or pink) with 2 GFXs (10s)
-  ---- 50s part
+  - Vertical scroller   : metro line (10s)
+  - Horizontal scroller : station wall (10s)
+  - Monochrome anim     : girl kicking lapin (10s)
+  - Horizontal scroller : girls power (10s)
+  - Vertical scroller   : mistress stella (10s)
+  - Plasma (red) (10s)
+  ---- 60s part
 
   - Credits & Greetings (20s)
   ---- 20s end
 
 --------
-Total duration: 195s (3min 15sec)
+Total duration: 215s (3min 35sec)
 
+
+TODO
+====
 
 Quick wins:
 ===========
@@ -59,11 +80,12 @@ Next:
 
 * High graphics:
   - mistressStella
-  - pauvreLapin
   - quai souris
   - ligne metro
 
 * GFX sur volets
+
+* Change parts colors (not to have everything green)
 
 
 Nice to have
