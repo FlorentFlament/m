@@ -178,69 +178,65 @@ PARTSTART_SPRITEBG equ *
 inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
-	.word fx_pixscroll_metro_init
-	.word fx_animation_init
-	.word fx_spritebg_init
-	.word fx_plasma1_init
+	.word fx_pixscroll_metro_init ; train arrives
+	.word fx_animation_init ; rabbit hand in metro door
+	.word fx_plasma1_init ; blue plasma
 	.word fx_plainshut1_init
-	.word fx_animation_init
-	.word fx_pixscroll_inside_init
-	.word fx_animation_init
-	.word fx_plasma2_init
+	.word fx_animation_init ; portique
+	.word fx_pixscroll_inside_init ; look inside
+	.word fx_spritebg_init ; moving train
+	.word fx_animation_init ; girl kicking lapin
+	.word fx_plasma2_init ; red plasma
 
 vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
-	.word fx_pixscroll_metro_vblank
-	.word fx_animation_lapin_vblank
-	.word fx_spritebg_vblank
-	.word fx_plasma_vblank
+	.word fx_pixscroll_metro_vblank ; train arrives
+	.word fx_animation_lapin_vblank ; rabbit hand in metro door
+	.word fx_plasma_vblank ; blue plasma
 	.word fx_plainshut_vblank
-	.word fx_animation_portique_vblank
-	.word fx_pixscroll_inside_vblank
-	.word fx_animation_meufkick_vblank
-	.word fx_plasma_vblank
+	.word fx_animation_portique_vblank ; portique
+	.word fx_pixscroll_inside_vblank ; look inside
+	.word fx_spritebg_vblank ; moving train
+	.word fx_animation_meufkick_vblank ; girl kicking lapin
+	.word fx_plasma_vblank ; red plasma
 
 kernels:
 	.word fx_intro_kernel
 	.word fx_plainshut_kernel
-	.word fx_pixscroll_kernel
-	.word fx_animation_kernel
-	.word fx_spritebg_kernel
-	.word fx_plasma_kernel
+	.word fx_pixscroll_kernel ; train arrives
+	.word fx_animation_kernel ; rabbit hand in metro door
+	.word fx_plasma_kernel ; blue plasma
 	.word fx_plainshut_kernel
 	.word fx_animation2_kernel ; portique
-	.word fx_pixscroll_kernel ; what's inside
-	.word fx_animation_kernel
-	.word fx_plasma_kernel
+	.word fx_pixscroll_kernel ; look inside
+	.word fx_spritebg_kernel ; moving train
+	.word fx_animation_kernel ; girl kicking lapin
+	.word fx_plasma_kernel ; red plasma
 
 ; specifies on which frame to switch parts
 INTRO_SWITCH      equ                     256
 SHUTTERS1_SWITCH  equ INTRO_SWITCH      + 512
 TRAIN1_SWITCH     equ SHUTTERS1_SWITCH  + 512
 ANIMATION1_SWITCH equ TRAIN1_SWITCH     + 512
-SPRITEBG_SWITCH   equ ANIMATION1_SWITCH + 512
-SHUTTERS2_SWITCH  equ SPRITEBG_SWITCH   + 512
-PLASMA1_SWITCH    equ SHUTTERS2_SWITCH  + 512
+PLASMA1_SWITCH    equ ANIMATION1_SWITCH + 512
 SHUTTERS1B_SWITCH equ PLASMA1_SWITCH    + 512
 PORTIQUE_SWITCH   equ SHUTTERS1B_SWITCH + 512
 INSIDE_SWITCH     equ PORTIQUE_SWITCH   + 512
-ANIMATION2_SWITCH equ INSIDE_SWITCH     + 512
-SHUTTERS3_SWITCH  equ ANIMATION2_SWITCH + 512
+SPRITEBG_SWITCH   equ INSIDE_SWITCH     + 512
+ANIMATION2_SWITCH equ SPRITEBG_SWITCH   + 512
 PLASMA2_SWITCH    equ 0
 partswitch:
 	.word INTRO_SWITCH
 	.word SHUTTERS1_SWITCH
 	.word TRAIN1_SWITCH
 	.word ANIMATION1_SWITCH
-	.word SPRITEBG_SWITCH
-	.word SHUTTERS2_SWITCH
 	.word PLASMA1_SWITCH
 	.word SHUTTERS1B_SWITCH
 	.word PORTIQUE_SWITCH
 	.word INSIDE_SWITCH
+	.word SPRITEBG_SWITCH
 	.word ANIMATION2_SWITCH
-	.word SHUTTERS3_SWITCH
 	.word PLASMA2_SWITCH
 
 ; Calls current part
