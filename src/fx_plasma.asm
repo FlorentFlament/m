@@ -408,6 +408,32 @@ fxpl_mask_vcs:
 	dc.b $0f, $10, $10, $10, $10, $10, $10, $10, $10, $10, $0f
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
 
+fxpl_mask_boy:
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $10, $10, $10, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $10, $10, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $0f, $10, $0f, $10, $0f
+	dc.b $0f, $0f, $10, $0f, $0f, $0f, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $0f
+	dc.b $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $0f
+	dc.b $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $10, $0f, $0f, $0f, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+
+fxpl_mask_girl:
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $0f, $0f, $0f, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f
+	dc.b $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $0f, $0f, $0f, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+
 fxpl_masks:
 	dc.w fxpl_mask_blank
 	dc.w fxpl_mask_glafouk
@@ -415,6 +441,8 @@ fxpl_masks:
 	dc.w fxpl_mask_metro
 	dc.w fxpl_mask_atari
 	dc.w fxpl_mask_vcs
+	dc.w fxpl_mask_boy
+	dc.w fxpl_mask_girl
 
 fxpl_palette_orig1:
 	dc.b $90, $92, $94, $96, $98, $9a, $9c, $9e
@@ -442,14 +470,14 @@ fxpl_timeline1:
 	.byte 2, 2, 0, 0, 3, 2, 3, 2
 
 fxpl_timeline2:
-	.byte 0, 0, 0, 0, 4, 4, 4, 4
-	.byte 4, 4, 4, 4, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 5, 5, 5, 5
-	.byte 5, 5, 5, 5, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 4, 4, 4, 4
-	.byte 4, 4, 4, 4, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 5, 5, 5, 5
-	.byte 5, 5, 5, 5, 4, 5, 4, 5
+	.byte 0, 0, 0, 0, 6, 6, 6, 6
+	.byte 6, 6, 6, 6, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 7, 7, 7, 7
+	.byte 7, 7, 7, 7, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 6, 6, 6, 6
+	.byte 6, 6, 6, 6, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 7, 7, 7, 7
+	.byte 7, 7, 7, 7, 6, 7, 6, 7
 
 fxpl_timeline3:
 	.byte 0, 0, 0, 0, 4, 4, 4, 4
