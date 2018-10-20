@@ -101,6 +101,11 @@ fx_spritebg_init SUBROUTINE
 	sta COLUP0
 	sta COLUP1
 
+	; No mirror Playfield
+	lda #$00
+	sta CTRLPF
+	sta fxsb_bg_idx
+
 	; COLUBK will be set at the very last minute
 	lda #$00
 	sta COLUBK
