@@ -116,6 +116,7 @@ JMPBank equ $1FE6
 
 ; Handy macros
 	INCLUDE "common.asm"
+	INCLUDE "fx_animation_common.asm"
 
 ;-----------------------------------------------------------------------------
 ; Code segment

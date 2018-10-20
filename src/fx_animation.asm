@@ -15,33 +15,11 @@ fx_animation_init SUBROUTINE
 	jmp RTSBank
 
 fx_animation_lapin_vblank SUBROUTINE
-	lda fxa_cnt
-	REPEAT 4
-	lsr
-	REPEND
-	tax
-	lda fxa_lapin_timeline,X
-	asl
-	tax
-	lda fxa_lapin_pics,X
-	sta ptr
-	lda fxa_lapin_pics+1,X
-	sta ptr+1
+	m_fxa_vblank lapin
 	jmp fx_animation_vblank_common
 
 fx_animation_meufkick_vblank SUBROUTINE
-	lda fxa_cnt
-	REPEAT 4
-	lsr
-	REPEND
-	tax
-	lda fxa_meufkick_timeline,X
-	asl
-	tax
-	lda fxa_meufkick_pics,X
-	sta ptr
-	lda fxa_meufkick_pics+1,X
-	sta ptr+1
+	m_fxa_vblank meufkick
 	jmp fx_animation_vblank_common
 
 fx_animation_vblank_common SUBROUTINE
