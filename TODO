@@ -1,8 +1,5 @@
-WIP
-===
-
 Story
------
+=====
 
   * Part 1
     - Metro arrives
@@ -22,14 +19,14 @@ Story
     - Ending: Girls power & Mistress Stella
 
 Detailed timeline
------------------
+=================
 
   - Gameboy intro (5s)
   - Shutters (volets) (10s)
   ---- 15s intro
 
   - Horizontal scroller : Train arrives (10s)
-  - Vertical anim       : metro ticket (10s)
+  - Vertical scroller   : metro ticket (10s)
   - 3 colors anim       : walking rabbit (10s)
   - Monochrome anim     : rabbit hand stuck in metro door (10s)
   - Plasma (blue) (10s)
@@ -62,26 +59,33 @@ Total duration: 215s (3min 35sec)
 TODO
 ====
 
-Quick wins:
-===========
+Quick wins
+----------
 
-* Animation: Portique
+* Monochrome anima:
+  - Portique hitting rabbit
+  - Rabbit asking phone number
 
-* Horizontal scroll: mur station
+* Horizontal scroller:
+  - station wall
+  - girls power
 
-* 3 colors anim: walking rabbit - 3 colors animation (10s)
+* 3 colors anim:
+  - walking rabbit
 
 
-Next:
-=====
+Next
+----
+
+* Check that everything's working properly on hardware
 
 * Text kernel at the end for credits & greetings (we already have the
   font)
 
-* High graphics:
-  - mistressStella
-  - quai souris
-  - ligne metro
+* Vertical scroller:
+  - metro ticket
+  - metro line
+  - mistress Stella
 
 * GFX sur volets
 
@@ -89,7 +93,7 @@ Next:
 
 
 Nice to have
-============
+------------
 
 * FX 3 colors train + bg: Smoother with varying speed
 
@@ -126,7 +130,7 @@ Nice to have
 
 
 Optimizations
-=============
+-------------
 
 * fx_plasma: No need to copy the color table in memory.
 
