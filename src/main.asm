@@ -181,13 +181,11 @@ inits:
 	.word fx_pixscroll_metro_init
 	.word fx_animation_init
 	.word fx_spritebg_init
-	.word fx_plainshut2_init
 	.word fx_plasma1_init
 	.word fx_plainshut1_init
 	.word fx_animation_init
 	.word fx_pixscroll_inside_init
 	.word fx_animation_init
-	.word fx_plainshut3_init
 	.word fx_plasma2_init
 
 vblanks:
@@ -196,13 +194,11 @@ vblanks:
 	.word fx_pixscroll_metro_vblank
 	.word fx_animation_lapin_vblank
 	.word fx_spritebg_vblank
-	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 	.word fx_plainshut_vblank
 	.word fx_animation_portique_vblank
 	.word fx_pixscroll_inside_vblank
 	.word fx_animation_meufkick_vblank
-	.word fx_plainshut_vblank
 	.word fx_plasma_vblank
 
 kernels:
@@ -211,13 +207,11 @@ kernels:
 	.word fx_pixscroll_kernel
 	.word fx_animation_kernel
 	.word fx_spritebg_kernel
-	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 	.word fx_plainshut_kernel
 	.word fx_animation2_kernel ; portique
 	.word fx_pixscroll_kernel ; what's inside
 	.word fx_animation_kernel
-	.word fx_plainshut_kernel
 	.word fx_plasma_kernel
 
 ; specifies on which frame to switch parts
