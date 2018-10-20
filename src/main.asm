@@ -187,6 +187,7 @@ inits:
 	.word fx_spritebg_init ; moving train
 	.word fx_animation_init ; girl punching lapin
 	.word fx_plasma2_init ; yellow plasma
+	.word fx_plainshut1_init
 	.word fx_animation_init ; girl kicking lapin
 	.word fx_plasma3_init ; red plasma
 
@@ -202,6 +203,7 @@ vblanks:
 	.word fx_spritebg_vblank ; moving train
 	.word fx_animation_meufDrague_vblank ; girl punching lapin
 	.word fx_plasma_vblank ; yellow plasma
+	.word fx_plainshut_vblank
 	.word fx_animation_meufkick_vblank ; girl kicking lapin
 	.word fx_plasma_vblank ; red plasma
 
@@ -217,6 +219,7 @@ kernels:
 	.word fx_spritebg_kernel ; moving train
 	.word fx_animation2_kernel ; girl punching lapin
 	.word fx_plasma_kernel ; yellow plasma
+	.word fx_plainshut_kernel
 	.word fx_animation_kernel ; girl kicking lapin
 	.word fx_plasma_kernel ; red plasma
 
@@ -232,7 +235,8 @@ INSIDE_SWITCH     equ PORTIQUE_SWITCH   + 512
 SPRITEBG_SWITCH   equ INSIDE_SWITCH     + 512
 ANIMATION2_SWITCH equ SPRITEBG_SWITCH   + 512
 PLASMA2_SWITCH    equ ANIMATION2_SWITCH + 512
-ANIMATION3_SWITCH equ PLASMA2_SWITCH    + 512
+SHUTTERS1C_SWITCH equ PLASMA2_SWITCH    + 512
+ANIMATION3_SWITCH equ SHUTTERS1C_SWITCH + 512
 PLASMA3_SWITCH    equ 0
 partswitch:
 	.word INTRO_SWITCH
@@ -246,6 +250,7 @@ partswitch:
 	.word SPRITEBG_SWITCH
 	.word ANIMATION2_SWITCH
 	.word PLASMA2_SWITCH
+	.word SHUTTERS1C_SWITCH
 	.word ANIMATION3_SWITCH
 	.word PLASMA3_SWITCH
 
