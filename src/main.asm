@@ -224,35 +224,35 @@ kernels:
 	.word fx_plasma_kernel ; red plasma
 
 ; specifies on which frame to switch parts
-INTRO_SWITCH      equ                     256
-SHUTTERS1_SWITCH  equ INTRO_SWITCH      + 512
-TRAIN1_SWITCH     equ SHUTTERS1_SWITCH  + 512
-ANIMATION1_SWITCH equ TRAIN1_SWITCH     + 512
-PLASMA1_SWITCH    equ ANIMATION1_SWITCH + 512
-SHUTTERS1B_SWITCH equ PLASMA1_SWITCH    + 512
-PORTIQUE_SWITCH   equ SHUTTERS1B_SWITCH + 512
-INSIDE_SWITCH     equ PORTIQUE_SWITCH   + 512
-SPRITEBG_SWITCH   equ INSIDE_SWITCH     + 512
-ANIMATION2_SWITCH equ SPRITEBG_SWITCH   + 512
-PLASMA2_SWITCH    equ ANIMATION2_SWITCH + 512
-SHUTTERS1C_SWITCH equ PLASMA2_SWITCH    + 512
-ANIMATION3_SWITCH equ SHUTTERS1C_SWITCH + 512
-PLASMA3_SWITCH    equ 0
+M_I    equ 256
+M_P0   equ M_I  + 512
+M_P1   equ M_P0 + 512
+M_P2   equ M_P1 + 512
+M_P3   equ M_P2 + 512
+M_P4   equ M_P3 + 512
+M_P5   equ M_P4 + 512
+M_P6   equ M_P5 + 512
+M_P7   equ M_P6 + 512
+M_P8   equ M_P7 + 512
+M_P9   equ M_P8 + 512
+M_P10  equ M_P9 + 512
+M_P11  equ M_P10+ 512
+M_PEND equ 0
 partswitch:
-	.word INTRO_SWITCH
-	.word SHUTTERS1_SWITCH
-	.word TRAIN1_SWITCH
-	.word ANIMATION1_SWITCH
-	.word PLASMA1_SWITCH
-	.word SHUTTERS1B_SWITCH
-	.word PORTIQUE_SWITCH
-	.word INSIDE_SWITCH
-	.word SPRITEBG_SWITCH
-	.word ANIMATION2_SWITCH
-	.word PLASMA2_SWITCH
-	.word SHUTTERS1C_SWITCH
-	.word ANIMATION3_SWITCH
-	.word PLASMA3_SWITCH
+	.word M_I
+	.word M_P0
+	.word M_P1
+	.word M_P2
+	.word M_P3
+	.word M_P4
+	.word M_P5
+	.word M_P6
+	.word M_P7
+	.word M_P8
+	.word M_P9
+	.word M_P10
+	.word M_P11
+	.word M_PEND
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)
