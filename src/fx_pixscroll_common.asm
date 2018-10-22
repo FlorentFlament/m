@@ -46,10 +46,34 @@ I	SET I + 1
 	REPEND
 	ENDM
 
-s_fxp_load_elmt SUBROUTINE
-	m_fxp_load_elmt
-	rts
-
-s_fxp_rotate_line_left SUBROUTINE
-	m_fxp_rotate_line_left
-	rts
+; Sets a sprite horizontal position
+; * 1st argument is the sprite to setup (0 or 1)
+; * 2nd argument is the rough position
+; * 3rd argument is the fine position in [-8, 7]
+; ex: m_set_sprite_position 0, 5, 3
+	MAC m_set_sprite_position
+	sta WSYNC
+	; rough positioning
+	ldx {2}
+.rough_pos:
+	dex
+	bpl .rough_pos
+	sta RESP{1}
+	; fine positioning
+	lda {3}
+	REPEAT 4
+	asl
+	REPEND
+	; Beware ! HMPx value must be in bits 7-4
+	sta HMP{1}
+	sta WSYNC
+	sta HMOVE
+	ldx #5
+.wait_loop:
+	dex
+	bpl .wait_loop
+	lda #0
+	; Beware HMPx should not be modified during 24 computer
+	; cycles after HMOVE
+	sta HMP{1}
+	ENDM

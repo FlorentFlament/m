@@ -1,16 +1,10 @@
-fx_pixscroll_metro_init SUBROUTINE
+fx_pixscroll_metro_init2 SUBROUTINE
 	; Set the picture to be displayed
-	SET_POINTER fxp_pix_base, fxp_metro_gfx
-	SET_POINTER fxp_scr_base, fxp_metro_screens
-	jmp fx_pixscroll_init_common
+	SET_POINTER fxp_pix_base, fxp_metroline_gfx
+	SET_POINTER fxp_scr_base, fxp_metroline_screens
+	jmp fx_pixscroll_init_common2
 
-fx_pixscroll_inside_init SUBROUTINE
-	; Set the picture to be displayed
-	SET_POINTER fxp_pix_base, fxp_inside_gfx
-	SET_POINTER fxp_scr_base, fxp_inside_screens
-	jmp fx_pixscroll_init_common
-
-fx_pixscroll_init_common SUBROUTINE
+fx_pixscroll_init_common2 SUBROUTINE
 	; Set playfield to mirror mode and clear playfield registers
 	lda #$01
 	sta CTRLPF
@@ -49,62 +43,38 @@ fx_pixscroll_init_common SUBROUTINE
 
 	jmp RTSBank
 
-
-s_fxp_load_elmt SUBROUTINE
+s_fxp2_load_elmt SUBROUTINE
 	m_fxp_load_elmt
 	rts
 
-s_fxp_rotate_line_left SUBROUTINE
+s_fxp2_rotate_line_left SUBROUTINE
 	m_fxp_rotate_line_left
 	rts
 
-; TODO: Remove this dead code
-; This subroutine setups:
-; * fxp_pix_ptr
-; * fxp_shift_fine
-; * fxp_col_ptr
-fx_pixscroll_vblank_color SUBROUTINE
-	; update color
-	SET_POINTER fxp_col_ptr, fxp_test_color
-	lda fxp_cnt
-	lsr
-	lsr
-	and #$0f
-	sta tmp
-	m_add_to_pointer fxp_col_ptr, tmp
-	jmp fx_pixscroll_metro_vblank
-
-; This subroutine setups:
-; * fxp_pix_ptr
-; * fxp_shift_fine
-fx_pixscroll_metro_vblank SUBROUTINE
-	m_copy_pointer fxp_cnt, ptr
-	jmp fx_pixscroll_vblank_common
-
-fx_pixscroll_inside_vblank SUBROUTINE
+fx_pixscroll_metroline_vblank SUBROUTINE
 	m_copy_pointer fxp_cnt, ptr
 	; Slow movement
 	REPEAT 1
 	m_shift_pointer_right ptr
 	REPEND
-	jmp fx_pixscroll_vblank_common
+	jmp fx_pixscroll_vblank2_common
 
 ; ptr signifies the deplacement of the picture
-fx_pixscroll_vblank_common SUBROUTINE
-	jsr fxp_compute_move
+fx_pixscroll_vblank2_common SUBROUTINE
+	jsr fxp2_compute_move
 
 	; Precompute the first line
 	ldx #$00
 	ldy #$00
 	REPEAT 5
-	jsr s_fxp_load_elmt
+	jsr s_fxp2_load_elmt
 	REPEND
 
 	lda fxp_shift_fine
 	beq .end
 	tax
 .shift_loop:
-	jsr s_fxp_rotate_line_left
+	jsr s_fxp2_rotate_line_left
 	dex
 	bne .shift_loop
 
@@ -120,7 +90,7 @@ fx_pixscroll_vblank_common SUBROUTINE
 ; bits 3-0: bit shifting
 ; bits 5-4: byte shifting
 ; bite 13-6: screen shifting
-fxp_compute_move SUBROUTINE
+fxp2_compute_move SUBROUTINE
 	; 3 LSBs are used for fine shifting (bit wise)
 	lda ptr
 	and #$07
@@ -165,24 +135,9 @@ fxp_compute_move SUBROUTINE
 .end:
 	rts
 
-fxp_test_color:
-	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de
-	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
-	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de
-	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
-	dc.b $d0, $d2, $d4, $d6, $d8, $da, $dc, $de
-	dc.b $80, $82, $84, $86, $88, $8a, $8c, $8e
 
+fxp_metroline_screens:
+	dc.b 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 
-fxp_metro_screens:
-	dc.b 0, 1, 2, 3, 4, 5, 8, 4, 5, 8, 4, 5, 6, 1, 2, 10
-
-fxp_inside_screens:
-	dc.b 0, 1, 2, 3, 4, 5, 6, 7
-
-
-fxp_metro_gfx:
-	INCLUDE "fx_pixscroll_data.asm"
-
-fxp_inside_gfx:
-	INCLUDE "fx_pixscroll_data_inside.asm"
+fxp_metroline_gfx:
+	INCLUDE "fx_pixscroll_data_metroline.asm"

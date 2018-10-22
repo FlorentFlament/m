@@ -117,6 +117,7 @@ JMPBank equ $1FE6
 ; Handy macros
 	INCLUDE "common.asm"
 	INCLUDE "fx_animation_common.asm"
+	INCLUDE "fx_pixscroll_common.asm"
 
 ;-----------------------------------------------------------------------------
 ; Code segment
@@ -135,12 +136,13 @@ JMPBank equ $1FE6
 PARTSTART_SHUTTER equ *
 	INCLUDE "fx_plainshut_ctrl.asm"
 	INCLUDE "fx_plainshut_kernel.asm"
+	INCLUDE "fx_pixscroll_ctrl2.asm"
+	INCLUDE "fx_pixscroll_kernel2.asm"
 	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
 	END_SEGMENT 1
 
 ; Bank 2
 PARTSTART_PIXSCROLL equ *
-	INCLUDE "fx_pixscroll_common.asm"
 	INCLUDE "fx_pixscroll_ctrl.asm"
 	INCLUDE "fx_pixscroll_kernel.asm"
 	echo "fx_pixscroll:", (*-PARTSTART_PIXSCROLL)d, "B"
@@ -178,6 +180,7 @@ PARTSTART_SPRITEBG equ *
 inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
+	.word fx_pixscroll_metro_init2 ; train arrives
 	.word fx_pixscroll_metro_init ; train arrives
 	.word fx_animation_init ; rabbit hand in metro door
 	.word fx_plasma1_init ; blue plasma
@@ -194,6 +197,7 @@ inits:
 vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
+	.word fx_pixscroll_metroline_vblank ; train arrives
 	.word fx_pixscroll_metro_vblank ; train arrives
 	.word fx_animation_lapin_vblank ; rabbit hand in metro door
 	.word fx_plasma_vblank ; blue plasma
@@ -210,6 +214,7 @@ vblanks:
 kernels:
 	.word fx_intro_kernel
 	.word fx_plainshut_kernel
+	.word fx_pixscroll_kernel2 ; train arrives
 	.word fx_pixscroll_kernel ; train arrives
 	.word fx_animation_kernel ; rabbit hand in metro door
 	.word fx_plasma_kernel ; blue plasma
@@ -226,7 +231,7 @@ kernels:
 ; specifies on which frame to switch parts
 M_I    equ 256
 M_P0   equ M_I  + 512
-M_P1   equ M_P0 + 512
+M_P1   equ M_P0 + 768
 M_P2   equ M_P1 + 512
 M_P3   equ M_P2 + 512
 M_P4   equ M_P3 + 512
@@ -237,6 +242,7 @@ M_P8   equ M_P7 + 512
 M_P9   equ M_P8 + 512
 M_P10  equ M_P9 + 512
 M_P11  equ M_P10+ 512
+M_P12  equ M_P11+ 512
 M_PEND equ 0
 partswitch:
 	.word M_I
@@ -252,6 +258,7 @@ partswitch:
 	.word M_P9
 	.word M_P10
 	.word M_P11
+	.word M_P12
 	.word M_PEND
 
 ; Calls current part
