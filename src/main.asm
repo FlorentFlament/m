@@ -180,14 +180,15 @@ PARTSTART_SPRITEBG equ *
 inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
-	.word fx_pixscroll_metro_init2 ; train arrives
-	.word fx_pixscroll_metro_init ; train arrives
-	.word fx_animation_init ; rabbit hand in metro door
+	.word fx_pixscroll_metro_init2 ; metro line
+	.word fx_animation_init ; portique
 	.word fx_plasma1_init ; blue plasma
 	.word fx_plainshut1_init
-	.word fx_animation_init ; portique
-	.word fx_pixscroll_inside_init ; look inside
+	.word fx_pixscroll_metro_init ; train arrives
+	.word fx_animation_init ; rabbit hand in metro door
 	.word fx_spritebg_init ; moving train
+	.word fx_plainshut1_init
+	.word fx_pixscroll_inside_init ; look inside
 	.word fx_animation_init ; girl punching lapin
 	.word fx_plasma2_init ; yellow plasma
 	.word fx_plainshut1_init
@@ -197,14 +198,15 @@ inits:
 vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
-	.word fx_pixscroll_metroline_vblank ; train arrives
-	.word fx_pixscroll_metro_vblank ; train arrives
-	.word fx_animation_lapin_vblank ; rabbit hand in metro door
+	.word fx_pixscroll_metroline_vblank ; metro line
+	.word fx_animation_portique_vblank ; portique
 	.word fx_plasma_vblank ; blue plasma
 	.word fx_plainshut_vblank
-	.word fx_animation_portique_vblank ; portique
-	.word fx_pixscroll_inside_vblank ; look inside
+	.word fx_pixscroll_metro_vblank ; train arrives
+	.word fx_animation_lapin_vblank ; rabbit hand in metro door
 	.word fx_spritebg_vblank ; moving train
+	.word fx_plainshut_vblank
+	.word fx_pixscroll_inside_vblank ; look inside
 	.word fx_animation_meufDrague_vblank ; girl punching lapin
 	.word fx_plasma_vblank ; yellow plasma
 	.word fx_plainshut_vblank
@@ -214,14 +216,15 @@ vblanks:
 kernels:
 	.word fx_intro_kernel
 	.word fx_plainshut_kernel
-	.word fx_pixscroll_kernel2 ; train arrives
-	.word fx_pixscroll_kernel ; train arrives
-	.word fx_animation_kernel ; rabbit hand in metro door
+	.word fx_pixscroll_kernel2 ; metro line
+	.word fx_animation2_kernel ; portique
 	.word fx_plasma_kernel ; blue plasma
 	.word fx_plainshut_kernel
-	.word fx_animation2_kernel ; portique
-	.word fx_pixscroll_kernel ; look inside
+	.word fx_pixscroll_kernel ; train arrives
+	.word fx_animation_kernel ; rabbit hand in metro door
 	.word fx_spritebg_kernel ; moving train
+	.word fx_plainshut_kernel
+	.word fx_pixscroll_kernel ; look inside
 	.word fx_animation2_kernel ; girl punching lapin
 	.word fx_plasma_kernel ; yellow plasma
 	.word fx_plainshut_kernel
@@ -232,7 +235,7 @@ kernels:
 M_I    equ 256
 M_P0   equ M_I  + 512
 M_P1   equ M_P0 + 768
-M_P2   equ M_P1 + 512
+M_P2   equ M_P1 + 256
 M_P3   equ M_P2 + 512
 M_P4   equ M_P3 + 512
 M_P5   equ M_P4 + 512
@@ -243,6 +246,7 @@ M_P9   equ M_P8 + 512
 M_P10  equ M_P9 + 512
 M_P11  equ M_P10+ 512
 M_P12  equ M_P11+ 512
+M_P13  equ M_P12+ 512
 M_PEND equ 0
 partswitch:
 	.word M_I
@@ -259,6 +263,7 @@ partswitch:
 	.word M_P10
 	.word M_P11
 	.word M_P12
+	.word M_P13
 	.word M_PEND
 
 ; Calls current part
