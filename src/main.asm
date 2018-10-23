@@ -136,9 +136,11 @@ JMPBank equ $1FE6
 PARTSTART_SHUTTER equ *
 	INCLUDE "fx_plainshut_ctrl.asm"
 	INCLUDE "fx_plainshut_kernel.asm"
+	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
+PARTSTART_PIXSCROLL2 equ *
 	INCLUDE "fx_pixscroll_ctrl2.asm"
 	INCLUDE "fx_pixscroll_kernel2.asm"
-	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
+	echo "fx_pixscroll2:", (*-PARTSTART_PIXSCROLL2)d, "B"
 	END_SEGMENT 1
 
 ; Bank 2
@@ -174,13 +176,17 @@ PARTSTART_ANIMATION equ *
 PARTSTART_SPRITEBG equ *
 	INCLUDE "fx_spritebg.asm"
 	echo "fx_spritebg:", (*-PARTSTART_SPRITEBG)d, "B"
+PARTSTART_PIXSCROLL3 equ *
+	INCLUDE "fx_pixscroll_ctrl3.asm"
+	INCLUDE "fx_pixscroll_kernel3.asm"
+	echo "fx_pixscroll3:", (*-PARTSTART_PIXSCROLL3)d, "B"
 	END_SEGMENT 6
 
 ; Bank 7
+PARTSTART_MAIN equ *
 inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
-	.word fx_pixscroll_metro_init2 ; metro line
 	.word fx_animation_init ; portique
 	.word fx_plasma1_init ; blue plasma
 	.word fx_plainshut1_init
@@ -192,13 +198,14 @@ inits:
 	.word fx_animation_init ; girl punching lapin
 	.word fx_plasma2_init ; yellow plasma
 	.word fx_plainshut1_init
+	.word fx_pixscroll_murstation_init ; mur station
 	.word fx_animation_init ; girl kicking lapin
+	.word fx_pixscroll_freewomen_init ; Free women
 	.word fx_plasma3_init ; red plasma
 
 vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
-	.word fx_pixscroll_metroline_vblank ; metro line
 	.word fx_animation_portique_vblank ; portique
 	.word fx_plasma_vblank ; blue plasma
 	.word fx_plainshut_vblank
@@ -210,13 +217,14 @@ vblanks:
 	.word fx_animation_meufDrague_vblank ; girl punching lapin
 	.word fx_plasma_vblank ; yellow plasma
 	.word fx_plainshut_vblank
+	.word fx_pixscroll_murstation_vblank ; mur station
 	.word fx_animation_meufkick_vblank ; girl kicking lapin
+	.word fx_pixscroll_freewomen_vblank ; Free women
 	.word fx_plasma_vblank ; red plasma
 
 kernels:
 	.word fx_intro_kernel
 	.word fx_plainshut_kernel
-	.word fx_pixscroll_kernel2 ; metro line
 	.word fx_animation2_kernel ; portique
 	.word fx_plasma_kernel ; blue plasma
 	.word fx_plainshut_kernel
@@ -228,28 +236,30 @@ kernels:
 	.word fx_animation2_kernel ; girl punching lapin
 	.word fx_plasma_kernel ; yellow plasma
 	.word fx_plainshut_kernel
+	.word fx_pixscroll_kernel2 ; mur station
 	.word fx_animation_kernel ; girl kicking lapin
+	.word fx_pixscroll_kernel3 ; free women
 	.word fx_plasma_kernel ; red plasma
 
 ; specifies on which frame to switch parts
-M_I    equ 256
-M_P0   equ M_I  + 512
-M_P1   equ M_P0 + 768
-M_P2   equ M_P1 + 256
-M_P3   equ M_P2 + 512
-M_P4   equ M_P3 + 512
-M_P5   equ M_P4 + 512
-M_P6   equ M_P5 + 512
-M_P7   equ M_P6 + 512
-M_P8   equ M_P7 + 512
-M_P9   equ M_P8 + 512
-M_P10  equ M_P9 + 512
-M_P11  equ M_P10+ 512
-M_P12  equ M_P11+ 512
-M_P13  equ M_P12+ 512
-M_PEND equ 0
+M_P0  equ 256
+M_P1  equ M_P0  + 512
+M_P2  equ M_P1  + 512
+M_P3  equ M_P2  + 512
+M_P4  equ M_P3  + 512
+M_P5  equ M_P4  + 512
+M_P6  equ M_P5  + 512
+M_P7  equ M_P6  + 512
+M_P8  equ M_P7  + 512
+M_P9  equ M_P8  + 512
+M_P10 equ M_P9  + 512
+M_P11 equ M_P10 + 512
+M_P12 equ M_P11 + 512
+M_P13 equ M_P12 + 512
+M_P14 equ M_P13 + 512
+M_P15 equ M_P14 + 512
+M_P16 equ 0
 partswitch:
-	.word M_I
 	.word M_P0
 	.word M_P1
 	.word M_P2
@@ -264,7 +274,9 @@ partswitch:
 	.word M_P11
 	.word M_P12
 	.word M_P13
-	.word M_PEND
+	.word M_P14
+	.word M_P15
+	.word M_P16
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)
@@ -339,6 +351,8 @@ wait_timint SUBROUTINE
 	lda TIMINT
 	beq wait_timint
 	rts
+
+	echo "main:", (*-PARTSTART_MAIN)d, "B"
 
 ;;;-----------------------------------------------------------------------------
 ;;; Reset Vector
