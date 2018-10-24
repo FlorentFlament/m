@@ -187,19 +187,26 @@ PARTSTART_MAIN equ *
 inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
+
 	.word fx_animation_init ; portique
 	.word fx_plasma1_init ; blue plasma
 	.word fx_plainshut1_init
+
 	.word fx_pixscroll_metro_init ; train arrives
 	.word fx_animation_init ; rabbit hand in metro door
 	.word fx_spritebg_train_init ; moving train
 	.word fx_plainshut1_init
+
 	.word fx_pixscroll_inside_init ; look inside
 	.word fx_animation_init ; girl punching lapin
 	.word fx_plasma2_init ; yellow plasma
 	.word fx_plainshut1_init
+
 	.word fx_pixscroll_murstation_init ; mur station
 	.word fx_animation_init ; girl kicking lapin
+	.word fx_plasma1_init ; blue plasma
+
+	.word fx_spritebg_lapinMarche_init ; lapin marche
 	.word fx_pixscroll_freewomen_init ; Free women
 	.word fx_plasma3_init ; red plasma
 
@@ -219,6 +226,8 @@ vblanks:
 	.word fx_plainshut_vblank
 	.word fx_pixscroll_murstation_vblank ; mur station
 	.word fx_animation_meufkick_vblank ; girl kicking lapin
+	.word fx_plasma_vblank ; blue plasma
+	.word fx_spritebg_lapinMarche_vblank ; lapin marche
 	.word fx_pixscroll_freewomen_vblank ; Free women
 	.word fx_plasma_vblank ; red plasma
 
@@ -238,6 +247,8 @@ kernels:
 	.word fx_plainshut_kernel
 	.word fx_pixscroll_kernel2 ; mur station
 	.word fx_animation_kernel ; girl kicking lapin
+	.word fx_plasma_kernel ; blue plasma
+	.word fx_spritebg_kernel ; lapin marche
 	.word fx_pixscroll_kernel3 ; free women
 	.word fx_plasma_kernel ; red plasma
 
@@ -258,7 +269,9 @@ M_P12 equ M_P11 + 512
 M_P13 equ M_P12 + 512
 M_P14 equ M_P13 + 512
 M_P15 equ M_P14 + 512
-M_P16 equ 0
+M_P16 equ M_P15 + 512
+M_P17 equ M_P16 + 512
+M_P18 equ 0
 partswitch:
 	.word M_P0
 	.word M_P1
@@ -277,6 +290,8 @@ partswitch:
 	.word M_P14
 	.word M_P15
 	.word M_P16
+	.word M_P17
+	.word M_P18
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)
