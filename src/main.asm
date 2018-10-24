@@ -192,7 +192,7 @@ inits:
 	.word fx_plainshut1_init
 	.word fx_pixscroll_metro_init ; train arrives
 	.word fx_animation_init ; rabbit hand in metro door
-	.word fx_spritebg_init ; moving train
+	.word fx_spritebg_train_init ; moving train
 	.word fx_plainshut1_init
 	.word fx_pixscroll_inside_init ; look inside
 	.word fx_animation_init ; girl punching lapin
@@ -211,7 +211,7 @@ vblanks:
 	.word fx_plainshut_vblank
 	.word fx_pixscroll_metro_vblank ; train arrives
 	.word fx_animation_lapin_vblank ; rabbit hand in metro door
-	.word fx_spritebg_vblank ; moving train
+	.word fx_spritebg_train_vblank ; moving train
 	.word fx_plainshut_vblank
 	.word fx_pixscroll_inside_vblank ; look inside
 	.word fx_animation_meufDrague_vblank ; girl punching lapin

@@ -94,6 +94,14 @@ fx_spritebg_fastcode:
 	sta fxsb_buffer + 41
 	ENDM
 
+fx_spritebg_train_init SUBROUTINE
+	SET_POINTER fxsb_bg_base, fx_spritebg_pf
+	jmp fx_spritebg_init
+
+fx_spritebg_lapinMarche_init SUBROUTINE
+	SET_POINTER fxsb_bg_base, fx_spritebg_lapinMarche_pf
+	jmp fx_spritebg_init
+
 fx_spritebg_init SUBROUTINE
 	lda #$cc
 	sta COLUPF
@@ -136,10 +144,8 @@ fx_spritebg_init SUBROUTINE
 	sta fxsb_sprite_idx
 
 	m_fxsb_init_fastcode
-
-	; WIP Test base pointers
-	SET_POINTER fxsb_bg_base, fx_spritebg_pf0
 	jmp RTSBank
+
 
 ; Macro incrementing a register and resetting it if > than max val
 	MAC m_fxsb_inc_mod
@@ -152,7 +158,8 @@ fx_spritebg_init SUBROUTINE
 .end
 	ENDM
 
-fx_spritebg_vblank SUBROUTINE
+; Macro used to factorize vblank for different graphics
+	MAC m_fx_spritebg_vblank
 	; Setup sprite
 	lda frame_cnt
 	and #$03
@@ -163,9 +170,9 @@ fx_spritebg_vblank SUBROUTINE
 	lda fxsb_sprite_idx
 	asl
 	tay
-	lda fx_spritebg_sprites,Y
+	lda {1}_sprites,Y
 	sta fxsb_sp_base
-	lda fx_spritebg_sprites+1,Y
+	lda {1}_sprites+1,Y
 	sta fxsb_sp_base+1
 
 	; Setup background
@@ -175,10 +182,18 @@ fx_spritebg_vblank SUBROUTINE
 	m_fxsb_inc_mod fxsb_bg_idx, #11
 
 .after_bg_update
-	SET_POINTER fxsb_bg_base, fx_spritebg_pf0
+	SET_POINTER fxsb_bg_base, {1}_pf
 	m_add_to_pointer fxsb_bg_base, fxsb_bg_idx
 
 	m_fxsb_update_fastcode
+	ENDM
+
+fx_spritebg_train_vblank SUBROUTINE
+	m_fx_spritebg_vblank fx_spritebg
+	jmp RTSBank
+
+fx_spritebg_lapinMarche_vblank SUBROUTINE
+	m_fx_spritebg_vblank fx_spritebg_lapinMarche
 	jmp RTSBank
 
 fx_spritebg_kernel SUBROUTINE
@@ -203,7 +218,7 @@ fx_spritebg_kernel SUBROUTINE
 	jmp RTSBank
 
 ; /home/florent/src/SV2018/graphics/glafouk/2018-10-02-01/anime-fond-40x30-bw.png
-fx_spritebg_pf0:
+fx_spritebg_pf:
 	dc.b $10, $00, $10, $10, $10, $10, $10, $10, $00, $00, $00
 	dc.b $10, $00, $10, $10, $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10
 	dc.b $10, $10, $10, $10, $00, $00, $00, $10, $00, $10, $10, $10, $10, $10, $10
@@ -253,3 +268,5 @@ fx_spritebg_sprites:
 	dc.w fx_spritebg_sp0
 	dc.w fx_spritebg_sp1
 	dc.w fx_spritebg_sp2
+
+	INCLUDE "fx_spritebg_data_lapinMarche.asm"
