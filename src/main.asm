@@ -8,7 +8,7 @@
 ; The 2 next constants can be used to ease FXs developments
 ; Use START_PART to select on which part to start the demo
 ; Set SINGLE_PART to 1 to disable parts switching
-START_PART  equ 0 ; default 0
+START_PART  equ 2 ; default 0
 SINGLE_PART equ 0 ; default 0
 
 ;;;-----------------------------------------------------------------------------
@@ -170,6 +170,9 @@ PARTSTART_ANIM2 equ *
 PARTSTART_ANIMATION equ *
 	INCLUDE "fx_animation.asm"
 	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
+PARTSTART_VERTSCROLL equ *
+	INCLUDE "fx_vertscroll.asm"
+	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
 	END_SEGMENT 5
 
 ; Bank 6
@@ -187,6 +190,7 @@ PARTSTART_MAIN equ *
 inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
+	.word fx_vertscroll_init
 	.word fx_animation_init ; portique
 	.word fx_plasma1_init ; blue plasma
 	.word fx_plainshut1_init
@@ -206,6 +210,7 @@ inits:
 vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
+	.word fx_vertscroll_vblank
 	.word fx_animation_portique_vblank ; portique
 	.word fx_plasma_vblank ; blue plasma
 	.word fx_plainshut_vblank
@@ -225,6 +230,7 @@ vblanks:
 kernels:
 	.word fx_intro_kernel
 	.word fx_plainshut_kernel
+	.word fx_vertscroll_kernel
 	.word fx_animation2_kernel ; portique
 	.word fx_plasma_kernel ; blue plasma
 	.word fx_plainshut_kernel
@@ -244,7 +250,7 @@ kernels:
 ; specifies on which frame to switch parts
 M_P0  equ 256
 M_P1  equ M_P0  + 512
-M_P2  equ M_P1  + 512
+M_P2  equ 512; M_P1  + 512
 M_P3  equ M_P2  + 512
 M_P4  equ M_P3  + 512
 M_P5  equ M_P4  + 512
@@ -258,7 +264,8 @@ M_P12 equ M_P11 + 512
 M_P13 equ M_P12 + 512
 M_P14 equ M_P13 + 512
 M_P15 equ M_P14 + 512
-M_P16 equ 0
+M_P16 equ M_P15 + 512
+M_P17 equ 0
 partswitch:
 	.word M_P0
 	.word M_P1
@@ -277,6 +284,7 @@ partswitch:
 	.word M_P14
 	.word M_P15
 	.word M_P16
+	.word M_P17
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)
