@@ -1,6 +1,7 @@
 fx_vertscroll_init SUBROUTINE
 	lda #$0
 	sta fxv_x
+	lda #$7
 	sta fxv_y
 	jmp RTSBank
 
@@ -16,14 +17,13 @@ fx_vertscroll_kernel SUBROUTINE
 	sta tmp
 	ldx fxv_x
 	ldy fxv_y
-	sta WSYNC
+	lda #$3c
+	sta COLUBK
 	jmp .inner_loop
 .bottom_loop:
 	ldy #7
 .inner_loop:
 	sta WSYNC
-	lda #$3c
-	sta COLUBK
 	lda fx_vertscroll_test,X
 	sta PF0
 	lda fx_vertscroll_test+1,X
@@ -48,6 +48,10 @@ fx_vertscroll_kernel SUBROUTINE
 	bne .bottom_loop
 
 	sta WSYNC
+	lda #$ff
+	sta PF0
+	sta PF1
+	sta PF2
     
 	jmp RTSBank
 
