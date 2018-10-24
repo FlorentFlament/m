@@ -79,7 +79,7 @@ fxi_slide SUBROUTINE
 ; X register must index of the first line of the logo to display.
 ; Y register must index the number of pixel lines of the first logo line to display.
 ; if X=0, the whole logo will be displayed
-; if Y=7, only entire logo lines will be displayed
+; if Y=7, only y logo lines will be displayed
 fxi_display SUBROUTINE
 	jmp .inner_loop
 .bottom_loop:

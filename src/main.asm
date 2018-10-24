@@ -40,6 +40,8 @@ RAMEND  equ $FC
 	echo "fx_pixscroll:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_animation_variables.asm"
 	echo "fx_animation:", (RAMEND-*)d, "bytes left"
+	INCLUDE "fx_vertscroll_variables.asm"
+	echo "fx_vertscroll_variables:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_plasma_variables.asm"
 	echo "fx_plasma:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_spritebg_variables.asm"
