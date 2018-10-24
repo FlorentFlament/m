@@ -99,12 +99,17 @@ Total duration: 215s (3min 35sec)
 TODO
 ====
 
-Quick wins
+WIP
 ----------
 
 * 3 colors anim:
   - walking rabbit
 
+* Vertical scroller:
+  - metro ticket
+  - mistress Stella
+  - ligne metro
+  - rats
 
 Next
 ----
@@ -113,11 +118,6 @@ Next
 
 * Text kernel at the end for credits & greetings (we already have the
   font)
-
-* Vertical scroller:
-  - metro ticket
-  - mistress Stella
-  - ligne metro
 
 * GFX sur volets
 

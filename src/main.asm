@@ -40,6 +40,8 @@ RAMEND  equ $FC
 	echo "fx_pixscroll:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_animation_variables.asm"
 	echo "fx_animation:", (RAMEND-*)d, "bytes left"
+	INCLUDE "fx_vertscroll_variables.asm"
+	echo "fx_vertscroll_variables:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_plasma_variables.asm"
 	echo "fx_plasma:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_spritebg_variables.asm"
@@ -170,6 +172,9 @@ PARTSTART_ANIM2 equ *
 PARTSTART_ANIMATION equ *
 	INCLUDE "fx_animation.asm"
 	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
+PARTSTART_VERTSCROLL equ *
+	INCLUDE "fx_vertscroll.asm"
+	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
 	END_SEGMENT 5
 
 ; Bank 6
@@ -188,6 +193,7 @@ inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
 
+	.word fx_vertscroll_init ; metro line
 	.word fx_animation_init ; portique
 	.word fx_plasma1_init ; blue plasma
 	.word fx_plainshut1_init
@@ -197,58 +203,79 @@ inits:
 	.word fx_spritebg_train_init ; moving train
 	.word fx_plainshut1_init
 
+	.word fx_vertscroll_init ; ticket metro
 	.word fx_pixscroll_inside_init ; look inside
 	.word fx_animation_init ; girl punching lapin
 	.word fx_plasma2_init ; yellow plasma
 	.word fx_plainshut1_init
 
+	.word fx_vertscroll_init ; rats
 	.word fx_pixscroll_murstation_init ; mur station
 	.word fx_animation_init ; girl kicking lapin
 	.word fx_plasma1_init ; blue plasma
 
 	.word fx_spritebg_lapinMarche_init ; lapin marche
+	.word fx_vertscroll_init ; mistress Stella
 	.word fx_pixscroll_freewomen_init ; Free women
 	.word fx_plasma3_init ; red plasma
 
 vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
+
+	.word fx_vertscroll_vblank ; metro line
 	.word fx_animation_portique_vblank ; portique
 	.word fx_plasma_vblank ; blue plasma
 	.word fx_plainshut_vblank
+
 	.word fx_pixscroll_metro_vblank ; train arrives
 	.word fx_animation_lapin_vblank ; rabbit hand in metro door
 	.word fx_spritebg_train_vblank ; moving train
 	.word fx_plainshut_vblank
+
+	.word fx_vertscroll_vblank ; ticket metro
 	.word fx_pixscroll_inside_vblank ; look inside
 	.word fx_animation_meufDrague_vblank ; girl punching lapin
 	.word fx_plasma_vblank ; yellow plasma
 	.word fx_plainshut_vblank
+
+	.word fx_vertscroll_vblank ; rats
 	.word fx_pixscroll_murstation_vblank ; mur station
 	.word fx_animation_meufkick_vblank ; girl kicking lapin
 	.word fx_plasma_vblank ; blue plasma
+
 	.word fx_spritebg_lapinMarche_vblank ; lapin marche
+	.word fx_vertscroll_vblank ; mistress Stella
 	.word fx_pixscroll_freewomen_vblank ; Free women
 	.word fx_plasma_vblank ; red plasma
 
 kernels:
 	.word fx_intro_kernel
 	.word fx_plainshut_kernel
+
+	.word fx_vertscroll_kernel ; metro line
 	.word fx_animation2_kernel ; portique
 	.word fx_plasma_kernel ; blue plasma
 	.word fx_plainshut_kernel
+
 	.word fx_pixscroll_kernel ; train arrives
 	.word fx_animation_kernel ; rabbit hand in metro door
 	.word fx_spritebg_kernel ; moving train
 	.word fx_plainshut_kernel
+
+	.word fx_vertscroll_kernel ; ticket metro
 	.word fx_pixscroll_kernel ; look inside
 	.word fx_animation2_kernel ; girl punching lapin
 	.word fx_plasma_kernel ; yellow plasma
 	.word fx_plainshut_kernel
+
+	.word fx_vertscroll_kernel ; rats
 	.word fx_pixscroll_kernel2 ; mur station
 	.word fx_animation_kernel ; girl kicking lapin
 	.word fx_plasma_kernel ; blue plasma
+
 	.word fx_spritebg_kernel ; lapin marche
+	.word fx_vertscroll_kernel ; mistress Stella
 	.word fx_pixscroll_kernel3 ; free women
 	.word fx_plasma_kernel ; red plasma
 
@@ -271,7 +298,13 @@ M_P14 equ M_P13 + 512
 M_P15 equ M_P14 + 512
 M_P16 equ M_P15 + 512
 M_P17 equ M_P16 + 512
-M_P18 equ 0
+M_P18 equ M_P17 + 512
+M_P19 equ M_P18 + 512
+M_P20 equ M_P19 + 512
+M_P21 equ M_P20 + 512
+M_P22 equ M_P21 + 512
+M_P23 equ 0
+
 partswitch:
 	.word M_P0
 	.word M_P1
@@ -292,6 +325,11 @@ partswitch:
 	.word M_P16
 	.word M_P17
 	.word M_P18
+	.word M_P19
+	.word M_P20
+	.word M_P21
+	.word M_P22
+	.word M_P23
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)
