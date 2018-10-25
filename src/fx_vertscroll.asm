@@ -30,9 +30,9 @@ fx_vertscroll_init SUBROUTINE
 	sta COLUP0
 	sta COLUP1
 
-	lda #$0
+	lda #0
 	sta fxv_x
-	lda #$7
+	lda #7
 	sta fxv_y
 	jmp RTSBank
 
@@ -48,8 +48,17 @@ fx_vertscroll_kernel SUBROUTINE
 	sta tmp
 	ldx fxv_x
 	ldy fxv_y
-	lda #$3c
+
+	; prepare for kern_loop
+	lda #$00
 	sta COLUBK
+	; Set background color at the very last minute
+	;lda (fxp_col_ptr),y
+	lda #$3c
+	sta COLUP0
+	sta COLUP1
+	sta COLUPF
+
 	jmp .inner_loop
 .bottom_loop:
 	ldy #7
@@ -75,11 +84,16 @@ fx_vertscroll_kernel SUBROUTINE
 	bne .bottom_loop
 
 	sta WSYNC
+
 	lda #$ff
-	sta PF0
 	sta PF1
-	sta PF2
-    
+	sta GRP0
+	sta GRP1
+	lda #$00
+	sta COLUPF
+	sta COLUP0
+	sta COLUP1
+
 	jmp RTSBank
 
 fx_vertscroll_test:
