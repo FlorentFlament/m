@@ -30,11 +30,6 @@ fx_vertscroll_init SUBROUTINE
 	sta COLUP0
 	sta COLUP1
 
-	lda #7
-	sta fxv_x
-	lda #0
-	sta fxv_y
-
 	SET_POINTER fxv_screen_ptr0, fx_vertscroll_test
 	SET_POINTER fxv_screen_ptr1, fx_vertscroll_test+10
 	SET_POINTER fxv_screen_ptr2, fx_vertscroll_test+20
@@ -49,10 +44,7 @@ fx_vertscroll_vblank SUBROUTINE
 	jmp RTSBank
 
 fx_vertscroll_kernel SUBROUTINE
-	lda #30
-	sta tmp
-	ldx fxv_x
-	ldy fxv_y
+	ldy #29
 
 	; prepare for kern_loop
 	lda #$00
@@ -81,12 +73,8 @@ fx_vertscroll_kernel SUBROUTINE
 	dex
 	bpl .inner_loop
 
-	tya
-	clc
-	adc #4
-	tay
-	dec tmp
-	bne .bottom_loop
+	dey
+	bpl .bottom_loop
 
 	sta WSYNC
 
@@ -155,4 +143,4 @@ fx_vertscroll_test:
 	dc.b $ce, $80, $55, $aa, $55, $aa, $55, $2a
 	dc.b $ff, $ad, $aa, $89, $ab, $ac, $ff, $ff
 	dc.b $00, $ff, $ff, $ff, $ff, $7f, $3f, $3f
-	dc.b $3f, $3f, $7f, $3f, $4f, $77, $7b, $3bb
+	dc.b $3f, $3f, $7f, $3f, $4f, $77, $7b, $3b
