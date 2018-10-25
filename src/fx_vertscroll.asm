@@ -1,4 +1,35 @@
 fx_vertscroll_init SUBROUTINE
+	; Set playfield to mirror mode and clear playfield registers
+	lda #$01
+	sta CTRLPF
+
+	; Set large sprites
+	lda #$07
+	sta NUSIZ0
+	sta NUSIZ1
+
+	; Position sprites
+	m_set_sprite_position 0, #6, #7
+	m_set_sprite_position 1, #8, #5
+
+	; Sets non-displayable zone and hidden zone to $00
+	lda #$00
+	sta PF0
+	sta PF2
+
+	; Sets displayable zone to $ff
+	lda #$ff
+	sta PF1
+	sta GRP0
+	sta GRP1
+
+	; Set the colors
+	lda #$00
+	sta COLUBK
+	sta COLUPF
+	sta COLUP0
+	sta COLUP1
+
 	lda #$0
 	sta fxv_x
 	lda #$7
@@ -25,24 +56,20 @@ fx_vertscroll_kernel SUBROUTINE
 .inner_loop:
 	sta WSYNC
 	lda fx_vertscroll_test,X
-	sta PF0
-	lda fx_vertscroll_test+1,X
 	sta PF1
+	lda fx_vertscroll_test+1,X
+	sta GRP0
 	lda fx_vertscroll_test+2,X
-	sta PF2
+	sta GRP1
 	SLEEP 2
 	lda fx_vertscroll_test+3,X
-	sta PF0
-	lda fx_vertscroll_test+4,X
 	sta PF1
-	lda fx_vertscroll_test+5,X
-	sta PF2
 	dey
 	bpl .inner_loop
 
 	txa
 	clc
-	adc #6
+	adc #4
 	tax
 	dec tmp
 	bne .bottom_loop

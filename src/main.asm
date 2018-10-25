@@ -8,7 +8,7 @@
 ; The 2 next constants can be used to ease FXs developments
 ; Use START_PART to select on which part to start the demo
 ; Set SINGLE_PART to 1 to disable parts switching
-START_PART  equ 0 ; default 0
+START_PART  equ 2 ; default 0
 SINGLE_PART equ 0 ; default 0
 
 ;;;-----------------------------------------------------------------------------
