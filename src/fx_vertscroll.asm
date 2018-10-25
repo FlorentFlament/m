@@ -37,10 +37,14 @@ fx_vertscroll_init SUBROUTINE
 	jmp RTSBank
 
 fx_vertscroll_vblank SUBROUTINE
+	lda frame_cnt
+	and #$03
+	bne .end
 	m_add_to_pointer fxv_screen_ptr0, #1
 	m_add_to_pointer fxv_screen_ptr1, #1
 	m_add_to_pointer fxv_screen_ptr2, #1
 	m_add_to_pointer fxv_screen_ptr3, #1
+.end:
 	jmp RTSBank
 
 fx_vertscroll_kernel SUBROUTINE
