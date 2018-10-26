@@ -52,7 +52,7 @@ def main():
     cols = by_column(pfs)
     rev  = [~v & 0xff for v in cols]
     print("; " + fname)
-    print(asmlib.lst2asm(cols))
+    print(asmlib.lst2asm(cols, 15))
     print("")
 
 main()

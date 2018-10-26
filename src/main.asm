@@ -172,9 +172,6 @@ PARTSTART_ANIM2 equ *
 PARTSTART_ANIMATION equ *
 	INCLUDE "fx_animation.asm"
 	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
-PARTSTART_VERTSCROLL equ *
-	INCLUDE "fx_vertscroll.asm"
-	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
 	END_SEGMENT 5
 
 ; Bank 6
@@ -282,8 +279,8 @@ kernels:
 ; specifies on which frame to switch parts
 M_P0  equ 256
 M_P1  equ M_P0  + 512
-M_P2  equ M_P1  + 512
-M_P3  equ M_P2  + 512
+M_P2  equ M_P1  + 660
+M_P3  equ M_P2  + 364
 M_P4  equ M_P3  + 512
 M_P5  equ M_P4  + 512
 M_P6  equ M_P5  + 512
@@ -406,6 +403,10 @@ wait_timint SUBROUTINE
 	rts
 
 	echo "main:", (*-PARTSTART_MAIN)d, "B"
+
+PARTSTART_VERTSCROLL equ *
+	INCLUDE "fx_vertscroll.asm"
+	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
 
 ;;;-----------------------------------------------------------------------------
 ;;; Reset Vector
