@@ -21,6 +21,16 @@
 	sta {1} + 1
 	ENDM
 
+	MAC m_sub_from_pointer
+	sec
+	lda {1}
+	sbc {2}
+	sta {1}
+	lda {1} + 1
+	sbc #0
+	sta {1} + 1
+	ENDM
+
 ; Shift a pointer (8 adjacent bytes in little endian) by a bit to the right
 ; Argument is the pointer to shift
 	MAC m_shift_pointer_right
