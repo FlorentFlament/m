@@ -100,16 +100,7 @@ TODO
 ====
 
 WIP
-----------
-
-* 3 colors anim:
-  - walking rabbit
-
-* Vertical scroller:
-  - metro ticket
-  - mistress Stella
-  - ligne metro
-  - rats
+---
 
 Next
 ----
@@ -120,6 +111,8 @@ Next
   font)
 
 * GFX sur volets
+
+* Rework animations (timing)
 
 * Change parts colors (not to have everything green)
 
