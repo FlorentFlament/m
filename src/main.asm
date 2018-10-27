@@ -279,8 +279,8 @@ kernels:
 ; specifies on which frame to switch parts
 M_P0  equ 256
 M_P1  equ M_P0  + 512
-M_P2  equ M_P1  + 660
-M_P3  equ M_P2  + 364
+M_P2  equ M_P1  + 768
+M_P3  equ M_P2  + 256
 M_P4  equ M_P3  + 512
 M_P5  equ M_P4  + 512
 M_P6  equ M_P5  + 512
@@ -288,17 +288,17 @@ M_P7  equ M_P6  + 512
 M_P8  equ M_P7  + 512
 M_P9  equ M_P8  + 512
 M_P10 equ M_P9  + 220
-M_P11 equ M_P10 + 804
-M_P12 equ M_P11 + 512
+M_P11 equ M_P10 + 448
+M_P12 equ M_P11 + 256
 M_P13 equ M_P12 + 512
 M_P14 equ M_P13 + 512
-M_P15 equ M_P14 + 300
-M_P16 equ M_P15 + 724
-M_P17 equ M_P16 + 512
+M_P15 equ M_P14 + 360
+M_P16 equ M_P15 + 512
+M_P17 equ M_P16 + 256
 M_P18 equ M_P17 + 512
 M_P19 equ M_P18 + 512
 M_P20 equ M_P19 + 300
-M_P21 equ M_P20 + 724
+M_P21 equ M_P20 + 544
 M_P22 equ M_P21 + 512
 M_P23 equ 0
 

@@ -15,23 +15,6 @@
 	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
 	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
 
-; blank
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-
 ;graphics/glafouk/2018-09-25-01/32x30-travellingDedansA.png
 	dc.b $ff, $ff, $ff, $f7, $f7, $f7, $f7, $f9
 	dc.b $ff, $ff, $ff, $ff, $ff, $fc, $fc, $fc

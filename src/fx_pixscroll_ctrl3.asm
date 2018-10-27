@@ -137,7 +137,7 @@ fxp3_compute_move SUBROUTINE
 
 
 fxp_freewomen_screens:
-	dc.b 0, 1, 2, 3, 4, 5, 6, 7
+	dc.b 0, 1, 2, 3, 4, 5, 6, 7, 8
 
 fxp_freewomen_gfx:
 	INCLUDE "fx_pixscroll_data_freewomen.asm"

@@ -20,6 +20,10 @@ fx_vertscroll_init_ticketMetro SUBROUTINE
 	jmp fx_vertscroll_init_common
 
 fx_vertscroll_init_ligneMetro SUBROUTINE
+	; Height is 330 fatlines i.e 2640 thinlines
+	; To fit in 768 frames
+	; 330 * 7/2 = 2688 thinlines in 768 frames
+	; i.e 336 fatlines
 	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_ligneMetro0)
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ligneMetro1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_ligneMetro2)
@@ -58,21 +62,51 @@ fx_vertscroll_init_common SUBROUTINE
 	sta COLUP0
 	sta COLUP1
 
+	lda #$00
+	sta fxv_cnt
+
 	jmp RTSBank
 
 fx_vertscroll_vblank SUBROUTINE
-	lda frame_cnt
+	lda fxv_cnt
 	and #$01
-	bne .end
-	m_sub_from_pointer fxv_screen_ptr0, #1
-	m_sub_from_pointer fxv_screen_ptr1, #1
-	m_sub_from_pointer fxv_screen_ptr2, #1
-	m_sub_from_pointer fxv_screen_ptr3, #1
+	beq .even
+
+	lda #4
+	jmp .next
+.even:
+	lda #3
+.next:
+	clc
+	adc fxv_first_height
+	cmp #8
+	bmi .keep_line
+
+	and #$07
+	sta fxv_first_height
+	m_add_to_pointer fxv_screen_ptr0, #1
+	m_add_to_pointer fxv_screen_ptr1, #1
+	m_add_to_pointer fxv_screen_ptr2, #1
+	m_add_to_pointer fxv_screen_ptr3, #1
+	jmp .end
+
+.keep_line
+	and #$07
+	sta fxv_first_height
+
 .end:
+	inc fxv_cnt
 	jmp RTSBank
 
 fx_vertscroll_kernel SUBROUTINE
-	ldy #29
+	ldy #0
+	lda #240
+	sta tmp
+
+	lda #7
+	sec
+	sbc fxv_first_height
+	tax
 
 	; prepare for kern_loop
 	lda #$00
@@ -98,12 +132,15 @@ fx_vertscroll_kernel SUBROUTINE
 	SLEEP 6
 	lda (fxv_screen_ptr3),Y
 	sta PF1
+	dec tmp
+	beq .end_loop
 	dex
 	bpl .inner_loop
 
-	dey
-	bpl .bottom_loop
+	iny
+	jmp .bottom_loop
 
+.end_loop:
 	sta WSYNC
 
 	lda #$ff

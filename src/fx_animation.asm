@@ -12,6 +12,9 @@ fx_animation_init SUBROUTINE
 	lda #$3c
 	sta COLUPF
 
+	lda #$00
+	sta fxa_cnt
+
 	jmp RTSBank
 
 fx_animation_lapin_vblank SUBROUTINE

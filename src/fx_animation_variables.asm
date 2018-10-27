@@ -1,6 +1,5 @@
 	ORG PARTRAM
 fxa_cnt       ds 2 ; 16-bits counter
-fxa_anim_ptr  ds 2 ; Pointer towards the animation to play
 
 ; Pointers towards PF data
 fxa_pf0_ptr   ds 2
