@@ -53,24 +53,23 @@ fx_vertscroll_init_common SUBROUTINE
 	m_set_sprite_position 0, #6, #7
 	m_set_sprite_position 1, #8, #5
 
-	; Sets non-displayable zone and hidden zone to $00
+	; Sets graphic registers to 0
 	lda #$00
 	sta PF0
-	sta PF2
-
-	; Sets displayable zone to $ff
-	lda #$ff
 	sta PF1
+	sta PF2
 	sta GRP0
 	sta GRP1
 
-	; Set the colors
+	; Set FX colors
 	lda #$00
 	sta COLUBK
+	lda #$3c
 	sta COLUPF
 	sta COLUP0
 	sta COLUP1
 
+	; initialize fx counter
 	lda #$00
 	sta fxv_cnt
 
@@ -143,16 +142,6 @@ fx_vertscroll_kernel SUBROUTINE
 	sbc fxv_first_height
 	tax
 
-	; prepare for kern_loop
-	lda #$00
-	sta COLUBK
-	; Set background color at the very last minute
-	;lda (fxp_col_ptr),y
-	lda #$3c
-	sta COLUP0
-	sta COLUP1
-	sta COLUPF
-
 	jmp .inner_loop
 .bottom_loop:
 	ldx #7
@@ -178,14 +167,10 @@ fx_vertscroll_kernel SUBROUTINE
 .end_loop:
 	sta WSYNC
 
-	lda #$ff
+	lda #$00
 	sta PF1
 	sta GRP0
 	sta GRP1
-	lda #$00
-	sta COLUPF
-	sta COLUP0
-	sta COLUP1
 
 	jmp RTSBank
 
