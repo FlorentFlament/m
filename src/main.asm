@@ -220,7 +220,7 @@ vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
 
-	.word fx_vertscroll_vblank ; metro line
+	.word fx_vertscroll_vblank_ligneMetro ; metro line
 	.word fx_animation_portique_vblank ; portique
 	.word fx_plasma_vblank ; blue plasma
 	.word fx_plainshut_vblank
@@ -230,19 +230,19 @@ vblanks:
 	.word fx_spritebg_train_vblank ; moving train
 	.word fx_plainshut_vblank
 
-	.word fx_vertscroll_vblank ; ticket metro
+	.word fx_vertscroll_vblank_ticketMetro ; ticket metro
 	.word fx_pixscroll_inside_vblank ; look inside
 	.word fx_animation_meufDrague_vblank ; girl punching lapin
 	.word fx_plasma_vblank ; yellow plasma
 	.word fx_plainshut_vblank
 
-	.word fx_vertscroll_vblank ; quai Souris
+	.word fx_vertscroll_vblank_quaiSouris ; quai Souris
 	.word fx_pixscroll_murstation_vblank ; mur station
 	.word fx_animation_meufkick_vblank ; girl kicking lapin
 	.word fx_plasma_vblank ; blue plasma
 
 	.word fx_spritebg_lapinMarche_vblank ; lapin marche
-	.word fx_vertscroll_vblank ; mistress Stella
+	.word fx_vertscroll_vblank_mistressStella ; mistress Stella
 	.word fx_pixscroll_freewomen_vblank ; Free women
 	.word fx_plasma_vblank ; red plasma
 
@@ -287,17 +287,17 @@ M_P6  equ M_P5  + 512
 M_P7  equ M_P6  + 512
 M_P8  equ M_P7  + 512
 M_P9  equ M_P8  + 512
-M_P10 equ M_P9  + 220
+M_P10 equ M_P9  + 320
 M_P11 equ M_P10 + 448
 M_P12 equ M_P11 + 256
 M_P13 equ M_P12 + 512
 M_P14 equ M_P13 + 512
-M_P15 equ M_P14 + 360
+M_P15 equ M_P14 + 512
 M_P16 equ M_P15 + 512
-M_P17 equ M_P16 + 256
+M_P17 equ M_P16 + 512
 M_P18 equ M_P17 + 512
 M_P19 equ M_P18 + 512
-M_P20 equ M_P19 + 300
+M_P20 equ M_P19 + 480
 M_P21 equ M_P20 + 544
 M_P22 equ M_P21 + 512
 M_P23 equ 0

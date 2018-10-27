@@ -1,4 +1,7 @@
 fx_vertscroll_init_quaiSouris SUBROUTINE
+	; 180 fatlines i.e 1440 thinlines
+	; 512 frames
+	; using 2.75 lines per frame -> 1408 thinlines
 	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_quaiSouris0)
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_quaiSouris1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_quaiSouris2)
@@ -6,6 +9,9 @@ fx_vertscroll_init_quaiSouris SUBROUTINE
 	jmp fx_vertscroll_init_common
 
 fx_vertscroll_init_mistressStella SUBROUTINE
+	; 150 fatlines i.e 1200 thinlines
+	; 480 frames
+	; 2.5 lines per frame (3+2)/2
 	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_mistressStella0)
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_mistressStella1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_mistressStella2)
@@ -13,6 +19,9 @@ fx_vertscroll_init_mistressStella SUBROUTINE
 	jmp fx_vertscroll_init_common
 
 fx_vertscroll_init_ticketMetro SUBROUTINE
+	; 110  fatlines i.e 880 thinlines
+	; to fit in 320 frames
+	; 2.75 thinlines per frames i.e 11/4 (3+3+3+2)/4
 	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_ticketMetro0)
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ticketMetro1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_ticketMetro2)
@@ -22,7 +31,7 @@ fx_vertscroll_init_ticketMetro SUBROUTINE
 fx_vertscroll_init_ligneMetro SUBROUTINE
 	; Height is 330 fatlines i.e 2640 thinlines
 	; To fit in 768 frames
-	; 330 * 7/2 = 2688 thinlines in 768 frames
+	; 330 * 7/2 = 2688 thinlines in 768 frames (4+3)/2
 	; i.e 336 fatlines
 	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_ligneMetro0)
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ligneMetro1)
@@ -67,15 +76,41 @@ fx_vertscroll_init_common SUBROUTINE
 
 	jmp RTSBank
 
-fx_vertscroll_vblank SUBROUTINE
+fx_vertscroll_vblank_mistressStella SUBROUTINE
+	lda fxv_cnt
+	and #$01
+	beq .even
+
+	lda #3
+	jmp fx_vertscroll_vblank_common
+.even:
+	lda #2
+	jmp fx_vertscroll_vblank_common
+
+fx_vertscroll_vblank_ligneMetro SUBROUTINE
 	lda fxv_cnt
 	and #$01
 	beq .even
 
 	lda #4
-	jmp .next
+	jmp fx_vertscroll_vblank_common
 .even:
 	lda #3
+	jmp fx_vertscroll_vblank_common
+
+fx_vertscroll_vblank_ticketMetro SUBROUTINE
+fx_vertscroll_vblank_quaiSouris
+	lda fxv_cnt
+	and #$03
+	beq .even
+
+	lda #3
+	jmp fx_vertscroll_vblank_common
+.even:
+	lda #2
+	jmp fx_vertscroll_vblank_common
+
+fx_vertscroll_vblank_common SUBROUTINE
 .next:
 	clc
 	adc fxv_first_height
