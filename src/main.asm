@@ -206,7 +206,7 @@ inits:
 	.word fx_plasma2_init ; 13 yellow plasma
 	.word fx_plainshut1_init ; 14
 
-	.word fx_vertscroll_init_ticketMetro ; 15 rats
+	.word fx_vertscroll_init_quaiSouris ; 15 quai Souris
 	.word fx_pixscroll_murstation_init ; 16 mur station
 	.word fx_animation_init ; 17 girl kicking lapin
 	.word fx_plasma1_init ; 18 blue plasma
@@ -236,7 +236,7 @@ vblanks:
 	.word fx_plasma_vblank ; yellow plasma
 	.word fx_plainshut_vblank
 
-	.word fx_vertscroll_vblank ; rats
+	.word fx_vertscroll_vblank ; quai Souris
 	.word fx_pixscroll_murstation_vblank ; mur station
 	.word fx_animation_meufkick_vblank ; girl kicking lapin
 	.word fx_plasma_vblank ; blue plasma
@@ -266,7 +266,7 @@ kernels:
 	.word fx_plasma_kernel ; yellow plasma
 	.word fx_plainshut_kernel
 
-	.word fx_vertscroll_kernel ; rats
+	.word fx_vertscroll_kernel ; quai Souris
 	.word fx_pixscroll_kernel2 ; mur station
 	.word fx_animation_kernel ; girl kicking lapin
 	.word fx_plasma_kernel ; blue plasma
@@ -292,8 +292,8 @@ M_P11 equ M_P10 + 804
 M_P12 equ M_P11 + 512
 M_P13 equ M_P12 + 512
 M_P14 equ M_P13 + 512
-M_P15 equ M_P14 + 512
-M_P16 equ M_P15 + 512
+M_P15 equ M_P14 + 300
+M_P16 equ M_P15 + 724
 M_P17 equ M_P16 + 512
 M_P18 equ M_P17 + 512
 M_P19 equ M_P18 + 512
