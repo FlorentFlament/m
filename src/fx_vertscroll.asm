@@ -1,3 +1,10 @@
+fx_vertscroll_init_mistressStella SUBROUTINE
+	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_mistressStella0)
+	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_mistressStella1)
+	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_mistressStella2)
+	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_mistressStella3)
+	jmp fx_vertscroll_init_common
+
 fx_vertscroll_init_ticketMetro SUBROUTINE
 	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_ticketMetro0)
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ticketMetro1)
@@ -105,3 +112,4 @@ fx_vertscroll_kernel SUBROUTINE
 
 	INCLUDE "fx_vertscroll_data_ligneMetro.asm"
 	INCLUDE "fx_vertscroll_data_ticketMetro.asm"
+	INCLUDE "fx_vertscroll_data_mistressStella.asm"

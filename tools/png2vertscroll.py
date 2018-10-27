@@ -41,11 +41,14 @@ def main():
     pbs  = pack_bytes(arr)
     width //= 8
     cols = by_column(pbs, width)
+
+    print(asmlib.lst2asm([0xff]*30, 15))
+    print("")
     for i, c in enumerate(cols):
         rev  = [~v & 0xff for v in c]
-        print("; col_{}".format(i))
-        print(asmlib.lst2asm([0xff]*30, 15))
         print(asmlib.lst2asm(reversed(c), 15))
+        print("")
+        print("; col_{}".format(i))
         print(asmlib.lst2asm([0xff]*30, 15))
         print("")
 

@@ -187,34 +187,34 @@ PARTSTART_PIXSCROLL3 equ *
 ; Bank 7
 PARTSTART_MAIN equ *
 inits:
-	.word fx_intro_init
-	.word fx_plainshut1_init
+	.word fx_intro_init ; 0
+	.word fx_plainshut1_init ; 1
 
-	.word fx_vertscroll_init_ligneMetro ; metro line
-	.word fx_animation_init ; portique
-	.word fx_plasma1_init ; blue plasma
-	.word fx_plainshut1_init
+	.word fx_vertscroll_init_ligneMetro ; 2 metro line
+	.word fx_animation_init ; 3 portique
+	.word fx_plasma1_init ; 4 blue plasma
+	.word fx_plainshut1_init ; 5
 
-	.word fx_pixscroll_metro_init ; train arrives
-	.word fx_animation_init ; rabbit hand in metro door
-	.word fx_spritebg_train_init ; moving train
-	.word fx_plainshut1_init
+	.word fx_pixscroll_metro_init ; 6 train arrives
+	.word fx_animation_init ; 7 rabbit hand in metro door
+	.word fx_spritebg_train_init ; 8 moving train
+	.word fx_plainshut1_init ; 9
 
-	.word fx_vertscroll_init_ticketMetro ; ticket metro
-	.word fx_pixscroll_inside_init ; look inside
-	.word fx_animation_init ; girl punching lapin
-	.word fx_plasma2_init ; yellow plasma
-	.word fx_plainshut1_init
+	.word fx_vertscroll_init_ticketMetro ; 10 ticket metro
+	.word fx_pixscroll_inside_init ; 11 look inside
+	.word fx_animation_init ; 12 girl punching lapin
+	.word fx_plasma2_init ; 13 yellow plasma
+	.word fx_plainshut1_init ; 14
 
-	.word fx_vertscroll_init_ticketMetro ; rats
-	.word fx_pixscroll_murstation_init ; mur station
-	.word fx_animation_init ; girl kicking lapin
-	.word fx_plasma1_init ; blue plasma
+	.word fx_vertscroll_init_ticketMetro ; 15 rats
+	.word fx_pixscroll_murstation_init ; 16 mur station
+	.word fx_animation_init ; 17 girl kicking lapin
+	.word fx_plasma1_init ; 18 blue plasma
 
-	.word fx_spritebg_lapinMarche_init ; lapin marche
-	.word fx_vertscroll_init_ticketMetro ; mistress Stella
-	.word fx_pixscroll_freewomen_init ; Free women
-	.word fx_plasma3_init ; red plasma
+	.word fx_spritebg_lapinMarche_init ; 19 lapin marche
+	.word fx_vertscroll_init_mistressStella ; 20 mistress Stella
+	.word fx_pixscroll_freewomen_init ; 21 Free women
+	.word fx_plasma3_init ; 22 red plasma
 
 vblanks:
 	.word fx_intro_vblank
@@ -297,8 +297,8 @@ M_P16 equ M_P15 + 512
 M_P17 equ M_P16 + 512
 M_P18 equ M_P17 + 512
 M_P19 equ M_P18 + 512
-M_P20 equ M_P19 + 512
-M_P21 equ M_P20 + 512
+M_P20 equ M_P19 + 300
+M_P21 equ M_P20 + 724
 M_P22 equ M_P21 + 512
 M_P23 equ 0
 
@@ -408,6 +408,7 @@ PARTSTART_VERTSCROLL equ *
 	INCLUDE "fx_vertscroll.asm"
 	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
 
+	echo "Bank 7 :", ((RTSBank + (7 * 8192)) - *)d, "free"
 ;;;-----------------------------------------------------------------------------
 ;;; Reset Vector
 	ORG RTSBank + $7000
