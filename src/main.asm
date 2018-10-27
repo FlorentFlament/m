@@ -190,7 +190,7 @@ inits:
 	.word fx_intro_init
 	.word fx_plainshut1_init
 
-	.word fx_vertscroll_init ; metro line
+	.word fx_vertscroll_init_ligneMetro ; metro line
 	.word fx_animation_init ; portique
 	.word fx_plasma1_init ; blue plasma
 	.word fx_plainshut1_init
@@ -200,19 +200,19 @@ inits:
 	.word fx_spritebg_train_init ; moving train
 	.word fx_plainshut1_init
 
-	.word fx_vertscroll_init ; ticket metro
+	.word fx_vertscroll_init_ticketMetro ; ticket metro
 	.word fx_pixscroll_inside_init ; look inside
 	.word fx_animation_init ; girl punching lapin
 	.word fx_plasma2_init ; yellow plasma
 	.word fx_plainshut1_init
 
-	.word fx_vertscroll_init ; rats
+	.word fx_vertscroll_init_ticketMetro ; rats
 	.word fx_pixscroll_murstation_init ; mur station
 	.word fx_animation_init ; girl kicking lapin
 	.word fx_plasma1_init ; blue plasma
 
 	.word fx_spritebg_lapinMarche_init ; lapin marche
-	.word fx_vertscroll_init ; mistress Stella
+	.word fx_vertscroll_init_ticketMetro ; mistress Stella
 	.word fx_pixscroll_freewomen_init ; Free women
 	.word fx_plasma3_init ; red plasma
 
@@ -287,8 +287,8 @@ M_P6  equ M_P5  + 512
 M_P7  equ M_P6  + 512
 M_P8  equ M_P7  + 512
 M_P9  equ M_P8  + 512
-M_P10 equ M_P9  + 512
-M_P11 equ M_P10 + 512
+M_P10 equ M_P9  + 220
+M_P11 equ M_P10 + 804
 M_P12 equ M_P11 + 512
 M_P13 equ M_P12 + 512
 M_P14 equ M_P13 + 512

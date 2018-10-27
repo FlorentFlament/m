@@ -1,4 +1,18 @@
-fx_vertscroll_init SUBROUTINE
+fx_vertscroll_init_ticketMetro SUBROUTINE
+	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_ticketMetro0)
+	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ticketMetro1)
+	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_ticketMetro2)
+	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_ticketMetro3)
+	jmp fx_vertscroll_init_common
+
+fx_vertscroll_init_ligneMetro SUBROUTINE
+	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_ligneMetro0)
+	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ligneMetro1)
+	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_ligneMetro2)
+	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_ligneMetro3)
+	jmp fx_vertscroll_init_common
+
+fx_vertscroll_init_common SUBROUTINE
 	; Set playfield to mirror mode and clear playfield registers
 	lda #$01
 	sta CTRLPF
@@ -30,10 +44,6 @@ fx_vertscroll_init SUBROUTINE
 	sta COLUP0
 	sta COLUP1
 
-	SET_POINTER fxv_screen_ptr0, (fx_vertscroll_ligneMetro0 + 330)
-	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ligneMetro1 + 330)
-	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_ligneMetro2 + 330)
-	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_ligneMetro3 + 330)
 	jmp RTSBank
 
 fx_vertscroll_vblank SUBROUTINE
@@ -94,3 +104,4 @@ fx_vertscroll_kernel SUBROUTINE
 	jmp RTSBank
 
 	INCLUDE "fx_vertscroll_data_ligneMetro.asm"
+	INCLUDE "fx_vertscroll_data_ticketMetro.asm"
