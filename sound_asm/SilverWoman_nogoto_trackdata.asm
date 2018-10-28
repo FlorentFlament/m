@@ -557,7 +557,7 @@ tt_SequenceTable:
         dc.b $1e, $1f, $1e, $21, $1e, $1f, $1e, $20
         dc.b $1e, $1f, $1e, $20, $1e, $1f, $1f, $21
         dc.b $1e, $1f, $1e, $20, $1e, $1f, $1f, $21
-        dc.b $1e, $1f, $21, $20
+        dc.b $1e, $1f, $1e, $21
 
 
         echo "Track size: ", *-tt_TrackDataStart

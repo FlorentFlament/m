@@ -25,10 +25,9 @@
 ; Set tt_timer and tt_cur_note_index_c0/1 to 0.
 ; All other variables can start with any value.
 ; =====================================================================
-        ; Music for fx_plasma starts at patter 32 for c0 and 20 for c1
-        lda #0; + #32
+        lda #0
         sta tt_cur_pat_index_c0
-        lda #140; + #20
+        lda #140
         sta tt_cur_pat_index_c1
         ; the rest should be 0 already from startup code. If not,
         ; set the following variables to 0 manually:
