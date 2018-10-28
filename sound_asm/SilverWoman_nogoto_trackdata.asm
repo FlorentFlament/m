@@ -474,6 +474,16 @@ tt_pattern36:
         dc.b $13, $71, $13, $08, $13, $08, $13, $08
         dc.b $00
 
+; d0a_5
+tt_pattern37:
+        dc.b $11, $08, $11, $08, $11, $08, $12, $08
+        dc.b $11, $08, $12, $08, $11, $08, $12, $08
+        dc.b $11, $08, $11, $08, $11, $08, $11, $08
+        dc.b $13, $08, $13, $08, $13, $08, $13, $08
+        dc.b $30, $08, $08, $08, $08, $08, $08, $08
+        dc.b $23, $08, $08, $08, $08, $08, $08, $08
+        dc.b $00
+
 
 
 
@@ -501,7 +511,7 @@ tt_PatternPtrLo:
         dc.b <tt_pattern24, <tt_pattern25, <tt_pattern26, <tt_pattern27
         dc.b <tt_pattern28, <tt_pattern29, <tt_pattern30, <tt_pattern31
         dc.b <tt_pattern32, <tt_pattern33, <tt_pattern34, <tt_pattern35
-        dc.b <tt_pattern36
+        dc.b <tt_pattern36, <tt_pattern37
 tt_PatternPtrHi:
         dc.b >tt_pattern0, >tt_pattern1, >tt_pattern2, >tt_pattern3
         dc.b >tt_pattern4, >tt_pattern5, >tt_pattern6, >tt_pattern7
@@ -512,7 +522,7 @@ tt_PatternPtrHi:
         dc.b >tt_pattern24, >tt_pattern25, >tt_pattern26, >tt_pattern27
         dc.b >tt_pattern28, >tt_pattern29, >tt_pattern30, >tt_pattern31
         dc.b >tt_pattern32, >tt_pattern33, >tt_pattern34, >tt_pattern35
-        dc.b >tt_pattern36        
+        dc.b >tt_pattern36, >tt_pattern37        
 
 
 ; ---------------------------------------------------------------------
@@ -542,9 +552,14 @@ tt_SequenceTable:
         dc.b $00, $00, $13, $12, $00, $00, $14, $12
         dc.b $00, $00, $13, $16, $0e, $0f, $0e, $10
         dc.b $0e, $0f, $0e, $11, $17, $18, $19, $1a
-        dc.b $17, $18, $19, $1b, $06, $06, $00, $06
+        dc.b $17, $18, $19, $1b, $0e, $0f, $0e, $10
+        dc.b $0e, $0f, $0e, $11, $06, $06, $00, $06
         dc.b $06, $07, $00, $00, $06, $06, $00, $06
-        dc.b $06, $07, $00, $1c
+        dc.b $06, $07, $00, $1c, $00, $00, $00, $00
+        dc.b $00, $00, $00, $00, $00, $00, $00, $00
+        dc.b $00, $00, $00, $00, $00, $00, $00, $00
+        dc.b $00, $00, $00, $00, $00, $00, $00, $00
+        dc.b $00, $00, $00, $00, $00, $00
 
         
         ; ---------- Channel 1 ----------
@@ -557,7 +572,9 @@ tt_SequenceTable:
         dc.b $1e, $1f, $1e, $21, $1e, $1f, $1e, $20
         dc.b $1e, $1f, $1e, $20, $1e, $1f, $1f, $21
         dc.b $1e, $1f, $1e, $20, $1e, $1f, $1f, $21
-        dc.b $1e, $1f, $21, $20
+        dc.b $1e, $1f, $1e, $20, $1e, $1f, $1e, $21
+        dc.b $1e, $1f, $1e, $21, $1e, $1f, $1e, $20
+        dc.b $1e, $1f, $1e, $25
 
 
         echo "Track size: ", *-tt_TrackDataStart
