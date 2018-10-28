@@ -101,11 +101,11 @@ fx_spritebg_lapinMarche_init SUBROUTINE
 	; Loop after intro, when music starts
 	INCLUDE "SilverWoman_nogoto_init.asm"
 	clc
-	lda #24
+	lda #108
 	adc tt_cur_pat_index_c0
 	sta tt_cur_pat_index_c0
 	clc
-	lda #12
+	lda #56
 	adc tt_cur_pat_index_c1
 	sta tt_cur_pat_index_c1
 
