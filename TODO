@@ -105,14 +105,10 @@ WIP
 Next
 ----
 
-* Check that everything's working properly on hardware
-
 * Text kernel at the end for credits & greetings (we already have the
   font)
 
 * GFX sur volets
-
-* Rework animations (timing)
 
 * Change parts colors (not to have everything green)
 

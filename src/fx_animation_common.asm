@@ -1,7 +1,7 @@
 ; Setup monochrome animation with the animation provided as argument
 	MAC m_fxa_vblank
 	lda fxa_cnt
-	REPEAT 4
+	REPEAT 3
 	lsr
 	REPEND
 	tax

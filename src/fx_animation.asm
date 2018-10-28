@@ -43,8 +43,10 @@ fxa_lapin_pics:
 	dc.w fxa_lapinmainD
 
 fxa_lapin_timeline:
-	dc.b 0, 0, 1, 1, 1, 1, 2, 2
-	dc.b 2, 2, 3, 2, 3, 2, 3, 2
+	dc.b 0, 0, 0, 0, 1, 1, 1, 1
+	dc.b 1, 1, 1, 1, 2, 2, 2, 2
+	dc.b 2, 2, 2, 2, 3, 3, 2, 2
+	dc.b 3, 3, 2, 2, 3, 3, 2, 2
 
 fxa_meufkick_pics:
 	dc.w fxa_meufKickA
@@ -58,5 +60,7 @@ fxa_meufkick_pics:
 	dc.w fxa_meufKickI
 
 fxa_meufkick_timeline:
-	dc.b 0, 0, 1, 1, 2, 2, 3, 4
-	dc.b 5, 6, 5, 6, 7, 8, 8, 8
+	dc.b 0, 0, 0, 0, 1, 1, 1, 1
+	dc.b 1, 1, 1, 1, 2, 2, 2, 2
+	dc.b 2, 2, 2, 2, 3, 4, 5, 6
+	dc.b 5, 6, 7, 8, 0, 0, 0, 0

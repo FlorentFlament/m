@@ -30,8 +30,11 @@ fxa_portique_pics:
 	dc.w fxa_portiqueJ
 
 fxa_portique_timeline:
-	dc.b 0, 0, 1, 2, 3, 4, 5, 6
-	dc.b 7, 8, 7, 8, 7, 8, 9, 0
+	dc.b 0, 0, 0, 0, 1, 1, 1, 1
+	dc.b 1, 1, 1, 1, 2, 2, 2, 2
+	dc.b 2, 2, 2, 2, 3, 4, 5, 6
+	dc.b 7, 8, 7, 8, 9, 9, 0, 0
+
 
 fxa_meufDrague_pics:
 	dc.w fxa_meufDragueA
@@ -45,5 +48,7 @@ fxa_meufDrague_pics:
 	dc.w fxa_meufDragueI
 
 fxa_meufDrague_timeline:
-	dc.b 0, 1, 2, 2, 3, 3, 3, 2
-	dc.b 4, 4, 4, 2, 5, 6, 7, 8
+	dc.b 0, 0, 0, 0, 1, 1, 1, 1
+	dc.b 2, 2, 2, 2, 3, 3, 3, 3
+	dc.b 3, 3, 2, 2, 4, 4, 4, 4
+	dc.b 4, 4, 2, 5, 6, 7, 8, 0
