@@ -97,6 +97,18 @@ fx_spritebg_train_init SUBROUTINE
 	jmp fx_spritebg_init
 
 fx_spritebg_lapinMarche_init SUBROUTINE
+	; Hack to manually loop the soundtrack
+	; Loop after intro, when music starts
+	INCLUDE "SilverWoman_nogoto_init.asm"
+	clc
+	lda #24
+	adc tt_cur_pat_index_c0
+	sta tt_cur_pat_index_c0
+	clc
+	lda #12
+	adc tt_cur_pat_index_c1
+	sta tt_cur_pat_index_c1
+
 	SET_POINTER fxsb_bg_base, fx_spritebg_lapinMarche_pf
 	jmp fx_spritebg_init
 
