@@ -132,18 +132,3 @@ fxa_portiqueI:
 	dc.b $f9, $7d, $0e, $31, $a9, $81, $91, $b9, $3f, $ff, $ff, $ff, $ff, $00, $ff
 	dc.b $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $01, $0d, $0d
 	dc.b $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0e, $0f, $0f
-
-; graphics/glafouk/2018-10-14/32x30-portique-J.png
-fxa_portiqueJ:
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-	dc.b $bd, $bd, $bd, $bd, $bd, $bd, $bd, $bd, $3d, $bd, $a5, $bd, $c3, $fb, $fb
-	dc.b $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fd, $fe, $ff
-	dc.b $fb, $fd, $fd, $fb, $f7, $ef, $1f, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $80, $ff, $9c, $9c, $94, $80, $88, $9c, $ff, $ff, $ff, $ff, $ff, $00, $ff
-	dc.b $30, $70, $70, $f0, $f0, $f0, $60, $60, $e0, $e0, $d0, $d0, $90, $50, $d0
-	dc.b $d0, $d0, $d0, $d0, $d0, $d0, $d0, $d0, $d0, $d0, $d0, $d0, $a0, $70, $f0
-	dc.b $ff, $ff, $ff, $7f, $0f, $f7, $fb, $7d, $0e, $71, $bf, $bf, $bf, $bf, $3f
-	dc.b $01, $ff, $39, $39, $29, $01, $11, $39, $ff, $ff, $ff, $ff, $ff, $00, $ff
-	dc.b $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $01, $0d, $0d
-	dc.b $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0d, $0e, $0f, $0f
