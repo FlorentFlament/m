@@ -209,7 +209,7 @@ inits:
 	.word fx_vertscroll_init_ligneMetro ; 2 metro line
 	.word fx_animation_init ; 3 portique
 	.word fx_plasma1_init ; 4 blue plasma
-	.word fx_plainshut1_init ; 5
+	.word fx_plainshut3_init ; 5
 
 	.word fx_pixscroll_metro_init ; 6 train arrives
 	.word fx_animation_init ; 7 rabbit hand in metro door

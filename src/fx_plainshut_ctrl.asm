@@ -217,4 +217,4 @@ fxps_colors2:
 
 fxps_colors3:
 	.byte $9c, $8c, $00, $3c, $9c, $00, $8c, $3c
-	.byte $9c, $8c, $3c, $00, $8c, $8c, $8c
+	.byte $9c, $8c, $3c, $00, $3c, $3c, $3c
