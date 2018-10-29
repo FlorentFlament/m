@@ -133,10 +133,18 @@ JMPBank equ $1FE6
 	ORG $1000
 	RORG $1000
 tt_player_proxy SUBROUTINE
-	jmp tt_PlayerStart
-	INCLUDE "SilverWoman_nogoto_trackdata.asm"
+	; Turn off soundtrack at the end of demo
+	lda curpart
+	cmp LAST_PART
+	bne tt_PlayerStart
+	lda #$00
+	sta AUDC0
+	sta AUDC1
+	jmp tt_player_proxy_end
 	INCLUDE "SilverWoman_nogoto_player.asm"
+tt_player_proxy_end:
 	jmp RTSBank
+	INCLUDE "SilverWoman_nogoto_trackdata.asm"
 	END_SEGMENT 0
 
 ; Bank 1
