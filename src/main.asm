@@ -10,6 +10,7 @@
 ; Set SINGLE_PART to 1 to disable parts switching
 START_PART  equ 0 ; default 0
 SINGLE_PART equ 0 ; default 0
+LAST_PART equ 24 ; Turn off soundtrack if reached last track
 
 ;;;-----------------------------------------------------------------------------
 ;;; RAM segment
@@ -46,6 +47,8 @@ RAMEND  equ $FC
 	echo "fx_plasma:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_spritebg_variables.asm"
 	echo "fx_spritebg:", (RAMEND-*)d, "bytes left"
+	INCLUDE "fx_endmain_variables.asm"
+	echo "fx_endmain:", (RAMEND-*)d, "bytes left"
 
 ; Bank switching macro by Tjoppen (slightly adapted)
 RTSBank equ $1FD9
@@ -129,6 +132,8 @@ JMPBank equ $1FE6
 ; Bank 0
 	ORG $1000
 	RORG $1000
+tt_player_proxy SUBROUTINE
+	jmp tt_PlayerStart
 	INCLUDE "SilverWoman_nogoto_trackdata.asm"
 	INCLUDE "SilverWoman_nogoto_player.asm"
 	jmp RTSBank
@@ -156,6 +161,9 @@ PARTSTART_PIXSCROLL equ *
 PARTSTART_PLASMA equ *
 	INCLUDE "fx_plasma.asm"
 	echo "fx_plasma:", (*-PARTSTART_PLASMA)d, "B"
+PARTSTART_ENDMAIN equ *
+	INCLUDE "fx_endmain.asm"
+	echo "fx_endmain:", (*-PARTSTART_ENDMAIN)d, "B"
 	END_SEGMENT 3
 
 ; Bank 4
@@ -216,6 +224,9 @@ inits:
 	.word fx_pixscroll_freewomen_init ; 21 Free women
 	.word fx_plasma3_init ; 22 red plasma
 
+	.word fx_plainshut1_init ; 23
+	.word fx_endmain_init ; 24
+
 vblanks:
 	.word fx_intro_vblank
 	.word fx_plainshut_vblank
@@ -245,6 +256,9 @@ vblanks:
 	.word fx_vertscroll_vblank_mistressStella ; mistress Stella
 	.word fx_pixscroll_freewomen_vblank ; Free women
 	.word fx_plasma_vblank ; red plasma
+
+	.word fx_plainshut_vblank
+	.word fx_endmain_vblank
 
 kernels:
 	.word fx_intro_kernel
@@ -276,6 +290,10 @@ kernels:
 	.word fx_pixscroll_kernel3 ; free women
 	.word fx_plasma_kernel ; red plasma
 
+	.word fx_plainshut_kernel
+	.word fx_endmain_kernel
+
+
 ; specifies on which frame to switch parts
 M_P0  equ 256
 M_P1  equ M_P0  + 512
@@ -300,7 +318,8 @@ M_P19 equ M_P18 + 512
 M_P20 equ M_P19 + 480
 M_P21 equ M_P20 + 544
 M_P22 equ M_P21 + 512
-M_P23 equ 0
+M_P23 equ M_P22 + 512
+M_P24 equ 0
 
 partswitch:
 	.word M_P0
@@ -327,6 +346,7 @@ partswitch:
 	.word M_P21
 	.word M_P22
 	.word M_P23
+	.word M_P24
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)
@@ -369,7 +389,7 @@ main_loop SUBROUTINE
 	; 26 Overscan lines
 	lda #22			; (/ (* 26.0 76) 64) = 30.875
 	sta TIM64T
-	JSRBank tt_PlayerStart
+	JSRBank tt_player_proxy
 	m_add_to_pointer frame_cnt, #1
 	jsr check_partswitch
 	jsr wait_timint
