@@ -214,7 +214,7 @@ inits:
 	.word fx_pixscroll_metro_init ; 6 train arrives
 	.word fx_animation_init ; 7 rabbit hand in metro door
 	.word fx_spritebg_train_init ; 8 moving train
-	.word fx_plainshut1_init ; 9
+	.word fx_plainshut2_init ; 9
 
 	.word fx_vertscroll_init_ticketMetro ; 10 ticket metro
 	.word fx_pixscroll_inside_init ; 11 look inside
@@ -232,7 +232,7 @@ inits:
 	.word fx_pixscroll_freewomen_init ; 21 Free women
 	.word fx_plasma3_init ; 22 red plasma
 
-	.word fx_plainshut1_init ; 23
+	.word fx_plainshut3_init ; 23
 	.word fx_endmain_init ; 24
 
 vblanks:

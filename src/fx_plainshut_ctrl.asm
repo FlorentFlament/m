@@ -34,7 +34,7 @@ fx_plainshut1_init SUBROUTINE
 	jmp fx_plainshut_init
 
 fx_plainshut2_init SUBROUTINE
-	SET_POINTER fxps_pat_ptr, fxps_patterns
+	SET_POINTER fxps_pat_ptr, fxps_patterns2
 	SET_POINTER fxps_col_ptr, fxps_colors2
 	jmp fx_plainshut_init
 
@@ -195,6 +195,16 @@ fxps_patterns:
 	.byte 1, 1, 1, 0, 2, 0, 4, 0
 	.byte 3, 0, 5, 0, 1, 6, 7, 8
 
+fxps_patterns2:
+	.byte 0, 1, 0, 0, 2, 0, 0, 0
+	.byte 0, 0, 0, 0, 4, 0, 0, 0
+	.byte 0, 0, 0, 0, 3, 0, 0, 0
+	.byte 0, 0, 0, 0, 5, 0, 0, 0
+	.byte 0, 0, 0, 0, 2, 0, 0, 0
+	.byte 0, 0, 0, 0, 3, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 1, 1
+	.byte 1, 0, 0, 0, 1, 8, 7, 6
+
 fxps_patterns3:
 	.byte 0, 1, 0, 0, 2, 0, 0, 0
 	.byte 0, 0, 0, 0, 4, 0, 0, 0
@@ -212,8 +222,7 @@ fxps_colors1:
 
 fxps_colors2:
 	.byte $9c, $8c, $00, $3c, $9c, $00, $8c, $3c
-	.byte $9c, $8c, $3c, $9c, $8c, $3c, $9c, $00
-	.byte $9c, $9c, $9c
+	.byte $9c, $8c, $00, $3c, $3c, $3c, $3c
 
 fxps_colors3:
 	.byte $9c, $8c, $00, $3c, $9c, $00, $8c, $3c
