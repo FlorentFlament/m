@@ -2,7 +2,7 @@ fx_lapinko_init SUBROUTINE
 	lda #$00
 	sta CTRLPF
 	sta COLUBK
-	lda #$3c
+	lda #$8c
 	sta COLUPF
 
 	jmp RTSBank
