@@ -49,6 +49,8 @@ RAMEND  equ $FC
 	echo "fx_spritebg:", (RAMEND-*)d, "bytes left"
 	INCLUDE "fx_endmain_variables.asm"
 	echo "fx_endmain:", (RAMEND-*)d, "bytes left"
+	INCLUDE "fx_lapinko_variables.asm"
+	echo "fx_lapinko:", (RAMEND-*)d, "bytes left"
 
 ; Bank switching macro by Tjoppen (slightly adapted)
 RTSBank equ $1FD9
@@ -188,6 +190,9 @@ PARTSTART_ANIM2 equ *
 PARTSTART_ANIMATION equ *
 	INCLUDE "fx_animation.asm"
 	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
+PARTSTART_LAPINKO equ *
+	INCLUDE "fx_lapinko.asm"
+	echo "fx_lapinko:", (*-PARTSTART_LAPINKO)d, "B"
 	END_SEGMENT 5
 
 ; Bank 6
@@ -232,7 +237,7 @@ inits:
 	.word fx_pixscroll_freewomen_init ; 21 Free women
 	.word fx_plasma3_init ; 22 red plasma
 
-	.word fx_plainshut3_init ; 23
+	.word fx_lapinko_init ; 23
 	.word fx_endmain_init ; 24
 
 vblanks:
@@ -265,7 +270,7 @@ vblanks:
 	.word fx_pixscroll_freewomen_vblank ; Free women
 	.word fx_plasma_vblank ; red plasma
 
-	.word fx_plainshut_vblank
+	.word fx_lapinko_vblank
 	.word fx_endmain_vblank
 
 kernels:
@@ -298,7 +303,7 @@ kernels:
 	.word fx_pixscroll_kernel3 ; free women
 	.word fx_plasma_kernel ; red plasma
 
-	.word fx_plainshut_kernel
+	.word fx_lapinko_kernel
 	.word fx_endmain_kernel
 
 

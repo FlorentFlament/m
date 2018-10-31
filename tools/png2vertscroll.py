@@ -6,17 +6,31 @@ from PIL import Image
 import asmlib
 from imglib import *
 
-def by_column(data, width):
-    res = [[], [], [], []]
+def by_column(data, width_bytes):
+    res = [ [] for i in range(width_bytes) ]
     for i in range(len(data)):
-        res[i%width].append(data[i])
+        res[i%width_bytes].append(data[i])
     return res
 
-def fix_format(data, width):
+def fix_format_32(data):
     """Reverse last column data"""
-    for i in range(0, len(data), width):
+    for i in range(0, len(data), 32):
         # For each line
-        data[i+width-8:i+width] = reversed(data[i+width-8:i+width])
+        data[i+32-8:i+32] = reversed(data[i+32-8:i+32])
+
+def fix_format_40(data):
+    res = []
+    for l in [data[i:i+40] for i in range(0, len(data), 40)]:
+        pfs = []
+        pfs.append(list(reversed(l[0:4])) + 4*[False])
+        pfs.append(l[4:12])
+        pfs.append(list(reversed(l[12:20])))
+        pfs.append(list(reversed(l[20:24])) + 4*[False])
+        pfs.append(l[24:32])
+        pfs.append(list(reversed(l[32:40])))
+        res.extend(flatten(pfs))
+    data.clear()
+    data.extend(res)
 
 def main():
     if len(sys.argv) < 2:
@@ -37,10 +51,20 @@ def main():
         grey = im.convert('L')
         arr.extend(bool_array(grey))
 
-    fix_format(arr, width)
+    print(len(arr))
+    width_bytes = None
+    if width == 32:
+        fix_format_32(arr)
+        width_bytes = 4
+    elif width == 40:
+        fix_format_40(arr)
+        width_bytes = 6
+    else:
+        raise Exception("width not supported: {}".format(width))
+
+    print(len(arr))
     pbs  = pack_bytes(arr)
-    width //= 8
-    cols = by_column(pbs, width)
+    cols = by_column(pbs, width_bytes)
 
     for i, c in enumerate(cols):
         rev  = [~v & 0xff for v in c]
