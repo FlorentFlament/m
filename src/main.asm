@@ -11,6 +11,7 @@
 START_PART  equ 0 ; default 0
 SINGLE_PART equ 0 ; default 0
 ENDMAIN_PART equ 24 ; Turn off soundtrack if reached last track
+GREETZ_PART equ 25
 
 ;;;-----------------------------------------------------------------------------
 ;;; RAM segment
@@ -20,6 +21,7 @@ ENDMAIN_PART equ 24 ; Turn off soundtrack if reached last track
 
 	; Songs variables first
 	INCLUDE "SilverWoman_nogoto_variables.asm"
+	INCLUDE "PasteHeck_variables.asm"
 
 tmp	equ tt_ptr
 tmp1	equ tt_ptr+1
@@ -135,6 +137,7 @@ JMPBank equ $1FE6
 	ORG $1000
 	RORG $1000
 tt_player_proxy SUBROUTINE
+PARTSTART_ZIK1 equ *
 	; Turn off soundtrack at the end of demo
 	lda curpart
 	cmp ENDMAIN_PART
@@ -147,6 +150,7 @@ tt_player_proxy SUBROUTINE
 tt_player_proxy_end:
 	jmp RTSBank
 	INCLUDE "SilverWoman_nogoto_trackdata.asm"
+	echo "zik1:", (*-PARTSTART_ZIK1)d, "B"
 PARTSTART_PIXSCROLL3 equ *
 	INCLUDE "fx_pixscroll_ctrl3.asm"
 	INCLUDE "fx_pixscroll_kernel3.asm"
@@ -196,10 +200,9 @@ PARTSTART_PIXSCROLL2 equ *
 	END_SEGMENT 4
 
 ; Bank 5
-PARTSTART_PIXSCROLL equ *
-	INCLUDE "fx_pixscroll_ctrl.asm"
-	INCLUDE "fx_pixscroll_kernel.asm"
-	echo "fx_pixscroll:", (*-PARTSTART_PIXSCROLL)d, "B"
+PARTSTART_VERTSCROLL equ *
+	INCLUDE "fx_vertscroll.asm"
+	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
 	END_SEGMENT 5
 
 ; Bank 6
@@ -207,6 +210,11 @@ PARTSTART_GREETINGS equ *
 	INCLUDE "fx_greetings_ctrl.asm"
 	INCLUDE "fx_greetings_kernel.asm"
 	echo "fx_greetings:", (*-PARTSTART_GREETINGS)d, "B"
+PARTSTART_ZIK2 equ *
+	INCLUDE "PasteHeck_player.asm"
+	jmp RTSBank
+	INCLUDE "PasteHeck_trackdata.asm"
+	echo "zik2:", (*-PARTSTART_ZIK2)d, "B"
 	END_SEGMENT 6
 
 ; Bank 7
@@ -411,7 +419,16 @@ main_loop SUBROUTINE
 	; 26 Overscan lines
 	lda #22			; (/ (* 26.0 76) 64) = 30.875
 	sta TIM64T
+
+	; Play song according to the part
+	lda curpart
+	cmp GREETZ_PART
+	beq .greetz_song
 	JSRBank tt_player_proxy
+	jmp .song_chosen
+.greetz_song:
+	JSRBank PasteHeck_tt_PlayerStart
+.song_chosen:
 	m_add_to_pointer frame_cnt, #1
 	jsr check_partswitch
 	jsr wait_timint
@@ -446,9 +463,10 @@ wait_timint SUBROUTINE
 
 	echo "main:", (*-PARTSTART_MAIN)d, "B"
 
-PARTSTART_VERTSCROLL equ *
-	INCLUDE "fx_vertscroll.asm"
-	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
+PARTSTART_PIXSCROLL equ *
+	INCLUDE "fx_pixscroll_ctrl.asm"
+	INCLUDE "fx_pixscroll_kernel.asm"
+	echo "fx_pixscroll:", (*-PARTSTART_PIXSCROLL)d, "B"
 
 	echo "Bank 7 :", ((RTSBank + (7 * 8192)) - *)d, "free"
 ;;;-----------------------------------------------------------------------------

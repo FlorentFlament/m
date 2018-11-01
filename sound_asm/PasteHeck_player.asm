@@ -21,7 +21,7 @@
 ; =====================================================================
 ; TIATracker Player
 ; =====================================================================
-tt_PlayerStart:
+PasteHeck_tt_PlayerStart:
 
 ; PLANNED PLAYER VARIANTS:
 ; - RAM, speed, player ROM: c0/c1 patterns have same length
@@ -29,10 +29,10 @@ tt_PlayerStart:
 ;       into one and use lsr/asl to unpack them, allowing only ranges of
 ;       16/16 or 32/8 for them, depending on number of patterns, max
 ;       pattern size and max ADSR size
-; - ROM: Check if tt_SequenceTable can hold ptrs directly without indexing
-;       tt_PatternPtrLo/Hi. Can be smaller if not many patterns get repeated
+; - ROM: Check if PasteHeck_tt_SequenceTable can hold ptrs directly without indexing
+;       PasteHeck_tt_PatternPtrLo/Hi. Can be smaller if not many patterns get repeated
 ;       (saves table and decode routine)
-; - Speed: Inline tt_CalcInsIndex
+; - Speed: Inline PasteHeck_tt_CalcInsIndex
 ; - Speed: Store ptr to current note in RAM instead of reconstructing it?
 ;       Might also save the need for cur_note_index
 
@@ -41,12 +41,12 @@ tt_PlayerStart:
 ; Helper macro: Retrieves current note. May advance pattern if needed.
 ; Becomes a subroutine if TT_USE_OVERLAY is used.
 ; ---------------------------------------------------------------------
-    MAC TT_FETCH_CURRENT_NOTE
+    MAC PasteHeck_TT_FETCH_CURRENT_NOTE
         ; construct ptr to pattern
 .constructPatPtr:
-        ldy tt_cur_pat_index_c0,x       ; get current pattern (index into tt_SequenceTable)
-        lda tt_SequenceTable,y
-    IF TT_USE_GOTO = 1
+        ldy tt_cur_pat_index_c0,x       ; get current pattern (index into PasteHeck_tt_SequenceTable)
+        lda PasteHeck_tt_SequenceTable,y
+    IF PasteHeck_TT_USE_GOTO = 1
         bpl .noPatternGoto
         and #%01111111                  ; mask out goto bit to get pattern number
         sta tt_cur_pat_index_c0,x       ; store goto'ed pattern index
@@ -54,9 +54,9 @@ tt_PlayerStart:
 .noPatternGoto:
     ENDIF
         tay
-        lda tt_PatternPtrLo,y
+        lda PasteHeck_tt_PatternPtrLo,y
         sta tt_ptr
-        lda tt_PatternPtrHi,y
+        lda PasteHeck_tt_PatternPtrHi,y
         sta tt_ptr+1
         ; get new note
     IF TT_USE_OVERLAY = 0
@@ -73,7 +73,7 @@ tt_PlayerStart:
         and #%01111111
         sta tt_cur_note_index_c0,x
         ; Set V flag for later
-        bit tt_Bit6Set
+        bit PasteHeck_tt_Bit6Set
 .notPrefetched:
         tay
     ENDIF
@@ -93,7 +93,7 @@ tt_PlayerStart:
 ; ---------------------------------------------------------------------
 ; Music player entry. Call once per frame.
 ; ---------------------------------------------------------------------
-tt_Player SUBROUTINE    
+PasteHeck_tt_Player SUBROUTINE    
         ; ==================== Sequencer ====================
         ; Decrease speed timer
         dec tt_timer
@@ -104,9 +104,9 @@ tt_Player SUBROUTINE
         ldx #1                          ; 2 channels
 .advanceLoop:
     IF TT_USE_OVERLAY = 1
-        jsr tt_FetchNote
+        jsr PasteHeck_tt_FetchNote
     ELSE
-        TT_FETCH_CURRENT_NOTE
+        PasteHeck_TT_FETCH_CURRENT_NOTE
     ENDIF
         ; Parse new note from pattern
         cmp #TT_INS_PAUSE
@@ -135,8 +135,8 @@ tt_Player SUBROUTINE
         ; only follow an instrument, we don't need to handle percussion
         ; or commands.
         lda tt_cur_ins_c0,x
-        jsr tt_CalcInsIndex
-        lda tt_InsReleaseIndexes-1,y    ; -1 b/c instruments start at #1
+        jsr PasteHeck_tt_CalcInsIndex
+        lda PasteHeck_tt_InsReleaseIndexes-1,y    ; -1 b/c instruments start at #1
         ; Put it into release. Skip junk byte so index no longer indicates
         ; sustain phase.
         clc
@@ -149,8 +149,8 @@ tt_Player SUBROUTINE
 ; Interleaved here so player can be inlined.
 ; ---------------------------------------------------------------------
     IF TT_USE_OVERLAY = 1
-tt_FetchNote:
-        TT_FETCH_CURRENT_NOTE
+PasteHeck_tt_FetchNote:
+        PasteHeck_TT_FETCH_CURRENT_NOTE
         rts
     ENDIF
 
@@ -166,7 +166,7 @@ tt_FetchNote:
         ; Get index of envelope
         tay
         ; -TT_FIRST_PERC because percussion start with TT_FIRST_PERC
-        lda tt_PercIndexes-TT_FIRST_PERC,y
+        lda PasteHeck_tt_PercIndexes-TT_FIRST_PERC,y
         bne .storeADIndex               ; unconditional, since index values are >0
 
         ; --- start instrument ---
@@ -177,8 +177,8 @@ tt_FetchNote:
         bvs .finishedNewNote
     ENDIF
         ; Put note into attack/decay
-        jsr tt_CalcInsIndex
-        lda tt_InsADIndexes-1,y         ; -1 because instruments start at #1
+        jsr PasteHeck_tt_CalcInsIndex
+        lda PasteHeck_tt_InsADIndexes-1,y         ; -1 because instruments start at #1
 .storeADIndex:
         sta tt_envelope_index_c0,x      
 
@@ -194,16 +194,16 @@ tt_FetchNote:
         ; Reset timer value
     IF TT_GLOBAL_SPEED = 0
         ; Get timer value for current pattern in channel 0
-        ldx tt_cur_pat_index_c0         ; get current pattern (index into tt_SequenceTable)
-        ldy tt_SequenceTable,x          ; Current pattern index now in y
+        ldx tt_cur_pat_index_c0         ; get current pattern (index into PasteHeck_tt_SequenceTable)
+        ldy PasteHeck_tt_SequenceTable,x          ; Current pattern index now in y
       IF TT_USE_FUNKTEMPO = 0
-        lda tt_PatternSpeeds,y
+        lda PasteHeck_tt_PatternSpeeds,y
         sta tt_timer
       ELSE
         ; Test for odd/even frame
         lda tt_cur_note_index_c0
         lsr
-        lda tt_PatternSpeeds,y          ; does not affect carry flag
+        lda PasteHeck_tt_PatternSpeeds,y          ; does not affect carry flag
         bcc .evenFrame
         and #$0f                        ; does not affect carry flag
         bcs .storeFunkTempo        
@@ -218,12 +218,12 @@ tt_FetchNote:
 
     ELSE
         ; Global tempo
-        ldx #TT_SPEED-1
+        ldx #PasteHeck_TT_SPEED-1
       IF TT_USE_FUNKTEMPO = 1
         lda tt_cur_note_index_c0
         lsr
         bcc .noOddFrame
-        ldx #TT_ODD_SPEED-1
+        ldx #PasteHeck_TT_ODD_SPEED-1
 .noOddFrame:
       ENDIF   ; TT_USE_FUNKTEMPO = 1
         stx tt_timer
@@ -237,7 +237,7 @@ tt_FetchNote:
 .updateLoop:
         ; Percussion or melodic instrument?
         lda tt_cur_ins_c0,x
-    IF TT_STARTS_WITH_NOTES = 0
+    IF PasteHeck_TT_STARTS_WITH_NOTES = 0
         ; This branch can be removed if track starts with a note in each channel
         beq .afterAudioUpdate
     ENDIF
@@ -247,7 +247,7 @@ tt_FetchNote:
         ; --- Percussion: Get envelope index ---
         ldy tt_envelope_index_c0,x
         ; Set AUDC and AUDV value from envelope
-        lda tt_PercCtrlVolTable-1,y     ; -1 because values are stored +1
+        lda PasteHeck_tt_PercCtrlVolTable-1,y     ; -1 because values are stored +1
         beq .endOfPercussion            ; 0 means end of percussion data
         inc tt_envelope_index_c0,x      ; if end not reached: advance index
 .endOfPercussion:
@@ -258,20 +258,20 @@ tt_FetchNote:
         lsr
         sta AUDC0,x     
         ; Set AUDF
-        lda tt_PercFreqTable-1,y        ; -1 because values are stored +1
+        lda PasteHeck_tt_PercFreqTable-1,y        ; -1 because values are stored +1
         ; Bit 7 (overlay) might be set, but is unused in AUDF
         sta AUDF0,x
     IF TT_USE_OVERLAY = 1
         bpl .afterAudioUpdate
         ; Overlay percussion: Fetch next note out of order
-        jsr tt_FetchNote
+        jsr PasteHeck_tt_FetchNote
         ; Only do something if it's a melodic instrument
         cmp #TT_FREQ_MASK+1
         bcc .afterAudioUpdate
         ; Instrument: Put into sustain
         sta tt_cur_ins_c0,x             ; set new instrument
-        jsr tt_CalcInsIndex
-        lda tt_InsSustainIndexes-1,y    ; -1 because instruments start at #1
+        jsr PasteHeck_tt_CalcInsIndex
+        lda PasteHeck_tt_InsSustainIndexes-1,y    ; -1 because instruments start at #1
         sta tt_envelope_index_c0,x      
         ; Set prefetch flag. asl-sec-ror is smaller than lda-ora #128-sta
         asl tt_cur_note_index_c0,x
@@ -287,7 +287,7 @@ tt_FetchNote:
 ; Helper subroutine to minimize ROM footprint.
 ; Interleaved here so player routine can be inlined.
 ; ---------------------------------------------------------------------
-tt_CalcInsIndex:
+PasteHeck_tt_CalcInsIndex:
         ; move upper 3 bits to lower 3
         lsr
         lsr
@@ -295,27 +295,27 @@ tt_CalcInsIndex:
         lsr
         lsr
         tay
-tt_Bit6Set:     ; This opcode has bit #6 set, for use with bit instruction
+PasteHeck_tt_Bit6Set:     ; This opcode has bit #6 set, for use with bit instruction
         rts
 
 
 .instrument:
         ; --- Melodic instrument ---
         ; Compute index into ADSR indexes and master Ctrl tables
-        jsr tt_CalcInsIndex
+        jsr PasteHeck_tt_CalcInsIndex
         ; Set AUDC with master value for this instrument, while we are at it
-        lda tt_InsCtrlTable-1,y ; -1 because instruments start with #1
+        lda PasteHeck_tt_InsCtrlTable-1,y ; -1 because instruments start with #1
         sta AUDC0,x
         ; advance ADSR counter and compare to end of Sustain
         lda tt_envelope_index_c0,x
-        cmp tt_InsReleaseIndexes-1,y    ; -1 because instruments start with #1
+        cmp PasteHeck_tt_InsReleaseIndexes-1,y    ; -1 because instruments start with #1
         bne .noEndOfSustain
         ; End of sustain: Go back to start of sustain
-        lda tt_InsSustainIndexes-1,y    ; -1 because instruments start with #1
+        lda PasteHeck_tt_InsSustainIndexes-1,y    ; -1 because instruments start with #1
 .noEndOfSustain:
         tay
         ; Set volume from envelope
-        lda tt_InsFreqVolTable,y
+        lda PasteHeck_tt_InsFreqVolTable,y
         beq .endOfEnvelope              ; 0 means end of release has been reached:
         iny                             ; advance index otherwise
 .endOfEnvelope:
@@ -337,4 +337,4 @@ tt_Bit6Set:     ; This opcode has bit #6 set, for use with bit instruction
         dex
         bpl .updateLoop
 
-        echo "Music player size: ", *-tt_PlayerStart
+        echo "Music player size: ", *-PasteHeck_tt_PlayerStart

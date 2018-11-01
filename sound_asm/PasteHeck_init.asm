@@ -31,9 +31,8 @@
         sta tt_cur_pat_index_c1
         ; the rest should be 0 already from startup code. If not,
         ; set the following variables to 0 manually:
-        ; - tt_timer
-        ; - tt_cur_pat_index_c0
-        ; - tt_cur_pat_index_c1
-        ; - tt_cur_note_index_c0
-        ; - tt_cur_note_index_c1
+        lda #0
+        sta tt_timer
+        sta tt_cur_note_index_c0
+        sta tt_cur_note_index_c1
 

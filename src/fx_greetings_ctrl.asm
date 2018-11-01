@@ -1,4 +1,6 @@
 fx_greetings_init SUBROUTINE
+	INCLUDE "PasteHeck_init.asm"
+
 	; Set the picture to be displayed
 	SET_POINTER fxp_pix_base, fxp_greetings_gfx
 	SET_POINTER fxp_scr_base, fxp_greetings_screens

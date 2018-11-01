@@ -22,7 +22,7 @@
 ; TIATracker melodic and percussion instruments, patterns and sequencer
 ; data.
 ; =====================================================================
-tt_TrackDataStart:
+PasteHeck_tt_TrackDataStart:
 
 ; =====================================================================
 ; Melodic instrument definitions (up to 7). tt_envelope_index_c0/1 hold
@@ -30,35 +30,35 @@ tt_TrackDataStart:
 ; in channel 0 and 1.
 ; 
 ; Each instrument is defined by:
-; - tt_InsCtrlTable: the AUDC value
-; - tt_InsADIndexes: the index of the start of the ADSR envelope as
-;       defined in tt_InsFreqVolTable
-; - tt_InsSustainIndexes: the index of the start of the Sustain phase
+; - PasteHeck_tt_InsCtrlTable: the AUDC value
+; - PasteHeck_tt_InsADIndexes: the index of the start of the ADSR envelope as
+;       defined in PasteHeck_tt_InsFreqVolTable
+; - PasteHeck_tt_InsSustainIndexes: the index of the start of the Sustain phase
 ;       of the envelope
-; - tt_InsReleaseIndexes: the index of the start of the Release phase
-; - tt_InsFreqVolTable: The AUDF frequency and AUDV volume values of
+; - PasteHeck_tt_InsReleaseIndexes: the index of the start of the Release phase
+; - PasteHeck_tt_InsFreqVolTable: The AUDF frequency and AUDV volume values of
 ;       the envelope
 ; =====================================================================
 
 ; Instrument master CTRL values
-tt_InsCtrlTable:
+PasteHeck_tt_InsCtrlTable:
         dc.b $06, $01, $0c, $04, $0c
 
 
 ; Instrument Attack/Decay start indexes into ADSR tables.
-tt_InsADIndexes:
+PasteHeck_tt_InsADIndexes:
         dc.b $00, $12, $1c, $24, $24
 
 
 ; Instrument Sustain start indexes into ADSR tables
-tt_InsSustainIndexes:
+PasteHeck_tt_InsSustainIndexes:
         dc.b $0c, $18, $20, $24, $24
 
 
 ; Instrument Release start indexes into ADSR tables
 ; Caution: Values are stored with an implicit -1 modifier! To get the
 ; real index, add 1.
-tt_InsReleaseIndexes:
+PasteHeck_tt_InsReleaseIndexes:
         dc.b $0d, $19, $21, $25, $25
 
 
@@ -70,7 +70,7 @@ tt_InsReleaseIndexes:
 ; Between sustain and release is one byte that is not used and
 ; can be any value.
 ; The end of the release phase is encoded by a 0.
-tt_InsFreqVolTable:
+PasteHeck_tt_InsFreqVolTable:
 ; 0: bassline
         dc.b $8f, $8f, $8f, $8e, $8d, $8c, $8b, $8a
         dc.b $89, $88, $87, $86, $85, $00, $84, $83
@@ -89,17 +89,17 @@ tt_InsFreqVolTable:
 ; Percussion instrument definitions (up to 15)
 ;
 ; Each percussion instrument is defined by:
-; - tt_PercIndexes: The index of the first percussion frame as defined
-;       in tt_PercFreqTable and tt_PercCtrlVolTable
-; - tt_PercFreqTable: The AUDF frequency value
-; - tt_PercCtrlVolTable: The AUDV volume and AUDC values
+; - PasteHeck_tt_PercIndexes: The index of the first percussion frame as defined
+;       in PasteHeck_tt_PercFreqTable and PasteHeck_tt_PercCtrlVolTable
+; - PasteHeck_tt_PercFreqTable: The AUDF frequency value
+; - PasteHeck_tt_PercCtrlVolTable: The AUDV volume and AUDC values
 ; =====================================================================
 
 ; Indexes into percussion definitions signifying the first frame for
-; each percussion in tt_PercFreqTable.
+; each percussion in PasteHeck_tt_PercFreqTable.
 ; Caution: Values are stored with an implicit +1 modifier! To get the
 ; real index, subtract 1.
-tt_PercIndexes:
+PasteHeck_tt_PercIndexes:
         dc.b $01, $10, $14
 
 
@@ -108,7 +108,7 @@ tt_PercIndexes:
 ; "overlay" percussion, i.e. the player fetches the next instrument note
 ; immediately and starts it in the sustain phase next frame. (Needs
 ; TT_USE_OVERLAY)
-tt_PercFreqTable:
+PasteHeck_tt_PercFreqTable:
 ; 0: KickRegular
         dc.b $03, $01, $03, $04, $04, $05, $05, $06
         dc.b $06, $07, $08, $0a, $0e, $14, $00
@@ -123,7 +123,7 @@ tt_PercFreqTable:
 ; - Bits 7..4: AUDC value
 ; - Bits 3..0: AUDV value
 ; 0 means end of percussion data.
-tt_PercCtrlVolTable:
+PasteHeck_tt_PercCtrlVolTable:
 ; 0: KickRegular
         dc.b $ef, $ee, $ed, $ec, $eb, $ea, $e9, $e8
         dc.b $e7, $e6, $e5, $e4, $e3, $e2, $00
@@ -139,15 +139,15 @@ tt_PercCtrlVolTable:
 ; Track definition
 ; The track is defined by:
 ; - tt_PatternX (X=0, 1, ...): Pattern definitions
-; - tt_PatternPtrLo/Hi: Pointers to the tt_PatternX tables, serving
+; - PasteHeck_tt_PatternPtrLo/Hi: Pointers to the tt_PatternX tables, serving
 ;       as index values
-; - tt_SequenceTable: The order in which the patterns should be played,
-;       i.e. indexes into tt_PatternPtrLo/Hi. Contains the sequences
+; - PasteHeck_tt_SequenceTable: The order in which the patterns should be played,
+;       i.e. indexes into PasteHeck_tt_PatternPtrLo/Hi. Contains the sequences
 ;       for all channels and sub-tracks. The variables
-;       tt_cur_pat_index_c0/1 hold an index into tt_SequenceTable for
+;       tt_cur_pat_index_c0/1 hold an index into PasteHeck_tt_SequenceTable for
 ;       each channel.
 ;
-; So tt_SequenceTable holds indexes into tt_PatternPtrLo/Hi, which
+; So PasteHeck_tt_SequenceTable holds indexes into PasteHeck_tt_PatternPtrLo/Hi, which
 ; in turn point to pattern definitions (tt_PatternX) in which the notes
 ; to play are specified.
 ; =====================================================================
@@ -187,7 +187,7 @@ TT_INS_PAUSE    = 16
 TT_FIRST_PERC   = 17
 
 ; d0a
-tt_pattern0:
+PasteHeck_tt_pattern0:
         dc.b $11, $08, $11, $08, $12, $08, $12, $08
         dc.b $13, $08, $08, $08, $12, $08, $11, $08
         dc.b $12, $08, $12, $08, $11, $08, $08, $08
@@ -199,7 +199,7 @@ tt_pattern0:
         dc.b $00
 
 ; d0b
-tt_pattern1:
+PasteHeck_tt_pattern1:
         dc.b $11, $08, $11, $08, $12, $08, $11, $08
         dc.b $13, $08, $08, $08, $11, $08, $11, $08
         dc.b $11, $08, $11, $08, $11, $08, $12, $08
@@ -211,7 +211,7 @@ tt_pattern1:
         dc.b $00
 
 ; d0c
-tt_pattern2:
+PasteHeck_tt_pattern2:
         dc.b $11, $08, $12, $08, $12, $08, $11, $08
         dc.b $13, $08, $08, $08, $11, $08, $12, $12
         dc.b $12, $08, $11, $08, $11, $08, $12, $08
@@ -223,7 +223,7 @@ tt_pattern2:
         dc.b $00
 
 ; d0d
-tt_pattern3:
+PasteHeck_tt_pattern3:
         dc.b $12, $08, $12, $12, $12, $08, $12, $08
         dc.b $12, $08, $12, $08, $12, $08, $12, $08
         dc.b $12, $08, $12, $08, $12, $08, $12, $12
@@ -235,7 +235,7 @@ tt_pattern3:
         dc.b $00
 
 ; b0a
-tt_pattern4:
+PasteHeck_tt_pattern4:
         dc.b $32, $08, $32, $08, $08, $08, $08, $08
         dc.b $34, $08, $32, $08, $08, $08, $32, $08
         dc.b $08, $08, $08, $08, $32, $08, $08, $08
@@ -243,7 +243,7 @@ tt_pattern4:
         dc.b $00
 
 ; b0b
-tt_pattern5:
+PasteHeck_tt_pattern5:
         dc.b $32, $08, $08, $08, $08, $08, $08, $08
         dc.b $08, $08, $08, $08, $36, $08, $08, $08
         dc.b $08, $08, $08, $08, $08, $08, $08, $08
@@ -251,7 +251,7 @@ tt_pattern5:
         dc.b $00
 
 ; b0c
-tt_pattern6:
+PasteHeck_tt_pattern6:
         dc.b $2f, $08, $08, $08, $08, $08, $08, $08
         dc.b $08, $08, $08, $08, $30, $08, $08, $08
         dc.b $08, $08, $08, $08, $34, $08, $08, $08
@@ -259,7 +259,7 @@ tt_pattern6:
         dc.b $00
 
 ; b0d
-tt_pattern7:
+PasteHeck_tt_pattern7:
         dc.b $38, $08, $08, $08, $08, $08, $08, $08
         dc.b $08, $08, $08, $08, $34, $08, $08, $08
         dc.b $08, $08, $08, $08, $2f, $08, $08, $08
@@ -267,7 +267,7 @@ tt_pattern7:
         dc.b $00
 
 ; b+mel0a
-tt_pattern8:
+PasteHeck_tt_pattern8:
         dc.b $32, $08, $32, $08, $08, $08, $50, $08
         dc.b $34, $08, $32, $08, $53, $08, $32, $08
         dc.b $56, $08, $53, $08, $32, $08, $08, $08
@@ -279,7 +279,7 @@ tt_pattern8:
         dc.b $00
 
 ; b+mel0b
-tt_pattern9:
+PasteHeck_tt_pattern9:
         dc.b $32, $08, $32, $08, $4e, $08, $50, $08
         dc.b $34, $08, $32, $08, $53, $08, $32, $08
         dc.b $50, $08, $4e, $08, $32, $08, $56, $08
@@ -291,7 +291,7 @@ tt_pattern9:
         dc.b $00
 
 ; b+mel0c
-tt_pattern10:
+PasteHeck_tt_pattern10:
         dc.b $32, $08, $32, $08, $08, $08, $4e, $08
         dc.b $34, $08, $32, $08, $50, $08, $32, $08
         dc.b $4e, $08, $53, $08, $32, $08, $56, $08
@@ -303,7 +303,7 @@ tt_pattern10:
         dc.b $00
 
 ; b+mel1a
-tt_pattern11:
+PasteHeck_tt_pattern11:
         dc.b $32, $08, $32, $08, $53, $08, $53, $08
         dc.b $34, $08, $32, $08, $5a, $08, $32, $08
         dc.b $56, $08, $53, $08, $32, $08, $4e, $08
@@ -315,7 +315,7 @@ tt_pattern11:
         dc.b $00
 
 ; b+mel1b
-tt_pattern12:
+PasteHeck_tt_pattern12:
         dc.b $32, $08, $32, $08, $53, $08, $4e, $08
         dc.b $34, $08, $32, $08, $56, $08, $32, $08
         dc.b $53, $08, $08, $08, $32, $08, $53, $08
@@ -327,7 +327,7 @@ tt_pattern12:
         dc.b $00
 
 ; b+mel1c
-tt_pattern13:
+PasteHeck_tt_pattern13:
         dc.b $32, $08, $32, $08, $5a, $08, $4e, $08
         dc.b $34, $08, $32, $08, $53, $08, $32, $08
         dc.b $50, $08, $50, $08, $32, $08, $53, $08
@@ -339,7 +339,7 @@ tt_pattern13:
         dc.b $00
 
 ; mel0a
-tt_pattern14:
+PasteHeck_tt_pattern14:
         dc.b $78, $08, $78, $08, $74, $08, $50, $08
         dc.b $94, $08, $92, $08, $53, $08, $70, $08
         dc.b $56, $08, $53, $08, $72, $08, $74, $08
@@ -351,7 +351,7 @@ tt_pattern14:
         dc.b $00
 
 ; mel0b
-tt_pattern15:
+PasteHeck_tt_pattern15:
         dc.b $70, $08, $70, $08, $4e, $08, $50, $08
         dc.b $6d, $08, $70, $08, $53, $08, $72, $08
         dc.b $50, $08, $4e, $08, $74, $08, $56, $08
@@ -363,7 +363,7 @@ tt_pattern15:
         dc.b $00
 
 ; mel0c
-tt_pattern16:
+PasteHeck_tt_pattern16:
         dc.b $78, $08, $78, $08, $74, $08, $4e, $08
         dc.b $78, $08, $7b, $08, $50, $08, $78, $08
         dc.b $4e, $08, $53, $08, $7b, $08, $56, $08
@@ -383,7 +383,7 @@ tt_pattern16:
 ; If TT_USE_FUNKTEMPO is 1, then the low nibble encodes
 ; the even speed and the high nibble the odd speed.
     IF TT_GLOBAL_SPEED = 0
-tt_PatternSpeeds:
+PasteHeck_tt_PatternSpeeds:
 %%PATTERNSPEEDS%%
     ENDIF
 
@@ -391,31 +391,31 @@ tt_PatternSpeeds:
 ; ---------------------------------------------------------------------
 ; Pattern pointers look-up table.
 ; ---------------------------------------------------------------------
-tt_PatternPtrLo:
-        dc.b <tt_pattern0, <tt_pattern1, <tt_pattern2, <tt_pattern3
-        dc.b <tt_pattern4, <tt_pattern5, <tt_pattern6, <tt_pattern7
-        dc.b <tt_pattern8, <tt_pattern9, <tt_pattern10, <tt_pattern11
-        dc.b <tt_pattern12, <tt_pattern13, <tt_pattern14, <tt_pattern15
-        dc.b <tt_pattern16
-tt_PatternPtrHi:
-        dc.b >tt_pattern0, >tt_pattern1, >tt_pattern2, >tt_pattern3
-        dc.b >tt_pattern4, >tt_pattern5, >tt_pattern6, >tt_pattern7
-        dc.b >tt_pattern8, >tt_pattern9, >tt_pattern10, >tt_pattern11
-        dc.b >tt_pattern12, >tt_pattern13, >tt_pattern14, >tt_pattern15
-        dc.b >tt_pattern16        
+PasteHeck_tt_PatternPtrLo:
+        dc.b <PasteHeck_tt_pattern0, <PasteHeck_tt_pattern1, <PasteHeck_tt_pattern2, <PasteHeck_tt_pattern3
+        dc.b <PasteHeck_tt_pattern4, <PasteHeck_tt_pattern5, <PasteHeck_tt_pattern6, <PasteHeck_tt_pattern7
+        dc.b <PasteHeck_tt_pattern8, <PasteHeck_tt_pattern9, <PasteHeck_tt_pattern10, <PasteHeck_tt_pattern11
+        dc.b <PasteHeck_tt_pattern12, <PasteHeck_tt_pattern13, <PasteHeck_tt_pattern14, <PasteHeck_tt_pattern15
+        dc.b <PasteHeck_tt_pattern16
+PasteHeck_tt_PatternPtrHi:
+        dc.b >PasteHeck_tt_pattern0, >PasteHeck_tt_pattern1, >PasteHeck_tt_pattern2, >PasteHeck_tt_pattern3
+        dc.b >PasteHeck_tt_pattern4, >PasteHeck_tt_pattern5, >PasteHeck_tt_pattern6, >PasteHeck_tt_pattern7
+        dc.b >PasteHeck_tt_pattern8, >PasteHeck_tt_pattern9, >PasteHeck_tt_pattern10, >PasteHeck_tt_pattern11
+        dc.b >PasteHeck_tt_pattern12, >PasteHeck_tt_pattern13, >PasteHeck_tt_pattern14, >PasteHeck_tt_pattern15
+        dc.b >PasteHeck_tt_pattern16        
 
 
 ; ---------------------------------------------------------------------
 ; Pattern sequence table. Each byte is an index into the
-; tt_PatternPtrLo/Hi tables where the pointers to the pattern
+; PasteHeck_tt_PatternPtrLo/Hi tables where the pointers to the pattern
 ; definitions can be found. When a pattern has been played completely,
 ; the next byte from this table is used to get the address of the next
 ; pattern to play. tt_cur_pat_index_c0/1 hold the current index values
 ; into this table for channels 0 and 1.
-; If TT_USE_GOTO is used, a value >=128 denotes a goto to the pattern
+; If PasteHeck_TT_USE_GOTO is used, a value >=128 denotes a goto to the pattern
 ; number encoded in bits 6..0 (i.e. value AND %01111111).
 ; ---------------------------------------------------------------------
-tt_SequenceTable:
+PasteHeck_tt_SequenceTable:
         ; ---------- Channel 0 ----------
         dc.b $00, $01, $00, $02, $00, $01, $00, $02
         dc.b $00, $01, $00, $02, $00, $01, $00, $03
@@ -428,4 +428,4 @@ tt_SequenceTable:
         dc.b $0e, $0f, $0e, $10, $91
 
 
-        echo "Track size: ", *-tt_TrackDataStart
+        echo "Track size: ", *-PasteHeck_tt_TrackDataStart
