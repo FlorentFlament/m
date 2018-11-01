@@ -151,61 +151,36 @@ tt_player_proxy_end:
 	jmp RTSBank
 	INCLUDE "SilverWoman_nogoto_trackdata.asm"
 	echo "zik1:", (*-PARTSTART_ZIK1)d, "B"
-PARTSTART_PIXSCROLL3 equ *
-	INCLUDE "fx_pixscroll_ctrl3.asm"
-	INCLUDE "fx_pixscroll_kernel3.asm"
-	echo "fx_pixscroll3:", (*-PARTSTART_PIXSCROLL3)d, "B"
-	END_SEGMENT 0
-
-; Bank 1
-PARTSTART_PLASMA equ *
-	INCLUDE "fx_plasma.asm"
-	echo "fx_plasma:", (*-PARTSTART_PLASMA)d, "B"
+PARTSTART_ENDMAIN equ *
+	INCLUDE "fx_endmain.asm"
+	echo "fx_endmain:", (*-PARTSTART_ENDMAIN)d, "B"
 PARTSTART_LAPINKO equ *
 	INCLUDE "fx_lapinko.asm"
 	echo "fx_lapinko:", (*-PARTSTART_LAPINKO)d, "B"
-	END_SEGMENT 1
+	END_SEGMENT 0
 
-; Bank 2
-PARTSTART_ANIM2 equ *
-	INCLUDE "fx_animation2.asm"
-	echo "fx_animation2:", (*-PARTSTART_ANIM2)d, "B"
+
+; Bank 1
+PARTSTART_VERTSCROLL equ *
+	INCLUDE "fx_vertscroll.asm"
+	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
 PARTSTART_INTRO equ *
 	INCLUDE "fx_intro_ctrl.asm"
 	INCLUDE "fx_intro_kernel.asm"
 	echo "fx_intro:", (*-PARTSTART_INTRO)d, "B"
-PARTSTART_ENDMAIN equ *
-	INCLUDE "fx_endmain.asm"
-	echo "fx_endmain:", (*-PARTSTART_ENDMAIN)d, "B"
-	END_SEGMENT 2
+	END_SEGMENT 1
 
-; Bank 3
-PARTSTART_ANIMATION equ *
-	INCLUDE "fx_animation.asm"
-	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
+; Bank 2
+PARTSTART_PLASMA equ *
+	INCLUDE "fx_plasma.asm"
+	echo "fx_plasma:", (*-PARTSTART_PLASMA)d, "B"
 PARTSTART_SHUTTER equ *
 	INCLUDE "fx_plainshut_ctrl.asm"
 	INCLUDE "fx_plainshut_kernel.asm"
 	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
-	END_SEGMENT 3
+	END_SEGMENT 2
 
-; Bank 4
-PARTSTART_SPRITEBG equ *
-	INCLUDE "fx_spritebg.asm"
-	echo "fx_spritebg:", (*-PARTSTART_SPRITEBG)d, "B"
-PARTSTART_PIXSCROLL2 equ *
-	INCLUDE "fx_pixscroll_ctrl2.asm"
-	INCLUDE "fx_pixscroll_kernel2.asm"
-	echo "fx_pixscroll2:", (*-PARTSTART_PIXSCROLL2)d, "B"
-	END_SEGMENT 4
-
-; Bank 5
-PARTSTART_VERTSCROLL equ *
-	INCLUDE "fx_vertscroll.asm"
-	echo "fx_vertscroll:", (*-PARTSTART_VERTSCROLL)d, "B"
-	END_SEGMENT 5
-
-; Bank 6
+; Bank 3
 PARTSTART_GREETINGS equ *
 	INCLUDE "fx_greetings_ctrl.asm"
 	INCLUDE "fx_greetings_kernel.asm"
@@ -215,6 +190,32 @@ PARTSTART_ZIK2 equ *
 	jmp RTSBank
 	INCLUDE "PasteHeck_trackdata.asm"
 	echo "zik2:", (*-PARTSTART_ZIK2)d, "B"
+	END_SEGMENT 3
+
+; Bank 4
+PARTSTART_ANIM2 equ *
+	INCLUDE "fx_animation2.asm"
+	echo "fx_animation2:", (*-PARTSTART_ANIM2)d, "B"
+PARTSTART_SPRITEBG equ *
+	INCLUDE "fx_spritebg.asm"
+	echo "fx_spritebg:", (*-PARTSTART_SPRITEBG)d, "B"
+	END_SEGMENT 4
+
+; Bank 5
+PARTSTART_PIXSCROLL3 equ *
+	INCLUDE "fx_pixscroll_ctrl3.asm"
+	INCLUDE "fx_pixscroll_kernel3.asm"
+	echo "fx_pixscroll3:", (*-PARTSTART_PIXSCROLL3)d, "B"
+PARTSTART_ANIMATION equ *
+	INCLUDE "fx_animation.asm"
+	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
+	END_SEGMENT 5
+
+; Bank 6
+PARTSTART_PIXSCROLL2 equ *
+	INCLUDE "fx_pixscroll_ctrl2.asm"
+	INCLUDE "fx_pixscroll_kernel2.asm"
+	echo "fx_pixscroll2:", (*-PARTSTART_PIXSCROLL2)d, "B"
 	END_SEGMENT 6
 
 ; Bank 7
