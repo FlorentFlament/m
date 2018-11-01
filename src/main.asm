@@ -10,7 +10,7 @@
 ; Set SINGLE_PART to 1 to disable parts switching
 START_PART  equ 0 ; default 0
 SINGLE_PART equ 0 ; default 0
-LAST_PART equ 24 ; Turn off soundtrack if reached last track
+ENDMAIN_PART equ 24 ; Turn off soundtrack if reached last track
 
 ;;;-----------------------------------------------------------------------------
 ;;; RAM segment
@@ -137,7 +137,7 @@ JMPBank equ $1FE6
 tt_player_proxy SUBROUTINE
 	; Turn off soundtrack at the end of demo
 	lda curpart
-	cmp LAST_PART
+	cmp ENDMAIN_PART
 	bne tt_PlayerStart
 	lda #$00
 	sta AUDC0
@@ -147,62 +147,66 @@ tt_player_proxy SUBROUTINE
 tt_player_proxy_end:
 	jmp RTSBank
 	INCLUDE "SilverWoman_nogoto_trackdata.asm"
-	END_SEGMENT 0
-
-; Bank 1
-PARTSTART_SHUTTER equ *
-	INCLUDE "fx_plainshut_ctrl.asm"
-	INCLUDE "fx_plainshut_kernel.asm"
-	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
-PARTSTART_PIXSCROLL2 equ *
-	INCLUDE "fx_pixscroll_ctrl2.asm"
-	INCLUDE "fx_pixscroll_kernel2.asm"
-	echo "fx_pixscroll2:", (*-PARTSTART_PIXSCROLL2)d, "B"
-	END_SEGMENT 1
-
-; Bank 2
-PARTSTART_PIXSCROLL equ *
-	INCLUDE "fx_pixscroll_ctrl.asm"
-	INCLUDE "fx_pixscroll_kernel.asm"
-	echo "fx_pixscroll:", (*-PARTSTART_PIXSCROLL)d, "B"
-	END_SEGMENT 2
-
-; Bank 3
-PARTSTART_PLASMA equ *
-	INCLUDE "fx_plasma.asm"
-	echo "fx_plasma:", (*-PARTSTART_PLASMA)d, "B"
-PARTSTART_ENDMAIN equ *
-	INCLUDE "fx_endmain.asm"
-	echo "fx_endmain:", (*-PARTSTART_ENDMAIN)d, "B"
-	END_SEGMENT 3
-
-; Bank 4
-PARTSTART_INTRO equ *
-	INCLUDE "fx_intro_ctrl.asm"
-	INCLUDE "fx_intro_kernel.asm"
-	echo "fx_intro:", (*-PARTSTART_INTRO)d, "B"
-PARTSTART_ANIM2 equ *
-	INCLUDE "fx_animation2.asm"
-	echo "fx_animation2:", (*-PARTSTART_ANIM2)d, "B"
-	END_SEGMENT 4
-
-; Bank 5
-PARTSTART_ANIMATION equ *
-	INCLUDE "fx_animation.asm"
-	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
-PARTSTART_LAPINKO equ *
-	INCLUDE "fx_lapinko.asm"
-	echo "fx_lapinko:", (*-PARTSTART_LAPINKO)d, "B"
-	END_SEGMENT 5
-
-; Bank 6
-PARTSTART_SPRITEBG equ *
-	INCLUDE "fx_spritebg.asm"
-	echo "fx_spritebg:", (*-PARTSTART_SPRITEBG)d, "B"
 PARTSTART_PIXSCROLL3 equ *
 	INCLUDE "fx_pixscroll_ctrl3.asm"
 	INCLUDE "fx_pixscroll_kernel3.asm"
 	echo "fx_pixscroll3:", (*-PARTSTART_PIXSCROLL3)d, "B"
+	END_SEGMENT 0
+
+; Bank 1
+PARTSTART_PLASMA equ *
+	INCLUDE "fx_plasma.asm"
+	echo "fx_plasma:", (*-PARTSTART_PLASMA)d, "B"
+PARTSTART_LAPINKO equ *
+	INCLUDE "fx_lapinko.asm"
+	echo "fx_lapinko:", (*-PARTSTART_LAPINKO)d, "B"
+	END_SEGMENT 1
+
+; Bank 2
+PARTSTART_ANIM2 equ *
+	INCLUDE "fx_animation2.asm"
+	echo "fx_animation2:", (*-PARTSTART_ANIM2)d, "B"
+PARTSTART_INTRO equ *
+	INCLUDE "fx_intro_ctrl.asm"
+	INCLUDE "fx_intro_kernel.asm"
+	echo "fx_intro:", (*-PARTSTART_INTRO)d, "B"
+PARTSTART_ENDMAIN equ *
+	INCLUDE "fx_endmain.asm"
+	echo "fx_endmain:", (*-PARTSTART_ENDMAIN)d, "B"
+	END_SEGMENT 2
+
+; Bank 3
+PARTSTART_ANIMATION equ *
+	INCLUDE "fx_animation.asm"
+	echo "fx_animation:", (*-PARTSTART_ANIMATION)d, "B"
+PARTSTART_SHUTTER equ *
+	INCLUDE "fx_plainshut_ctrl.asm"
+	INCLUDE "fx_plainshut_kernel.asm"
+	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
+	END_SEGMENT 3
+
+; Bank 4
+PARTSTART_SPRITEBG equ *
+	INCLUDE "fx_spritebg.asm"
+	echo "fx_spritebg:", (*-PARTSTART_SPRITEBG)d, "B"
+PARTSTART_PIXSCROLL2 equ *
+	INCLUDE "fx_pixscroll_ctrl2.asm"
+	INCLUDE "fx_pixscroll_kernel2.asm"
+	echo "fx_pixscroll2:", (*-PARTSTART_PIXSCROLL2)d, "B"
+	END_SEGMENT 4
+
+; Bank 5
+PARTSTART_PIXSCROLL equ *
+	INCLUDE "fx_pixscroll_ctrl.asm"
+	INCLUDE "fx_pixscroll_kernel.asm"
+	echo "fx_pixscroll:", (*-PARTSTART_PIXSCROLL)d, "B"
+	END_SEGMENT 5
+
+; Bank 6
+PARTSTART_GREETINGS equ *
+	INCLUDE "fx_greetings_ctrl.asm"
+	INCLUDE "fx_greetings_kernel.asm"
+	echo "fx_greetings:", (*-PARTSTART_GREETINGS)d, "B"
 	END_SEGMENT 6
 
 ; Bank 7
@@ -239,6 +243,7 @@ inits:
 
 	.word fx_lapinko_init ; 23
 	.word fx_endmain_init ; 24
+	.word fx_greetings_init ; 25
 
 vblanks:
 	.word fx_intro_vblank
@@ -272,6 +277,7 @@ vblanks:
 
 	.word fx_lapinko_vblank
 	.word fx_endmain_vblank
+	.word fx_greetings_vblank
 
 kernels:
 	.word fx_intro_kernel
@@ -305,6 +311,7 @@ kernels:
 
 	.word fx_lapinko_kernel
 	.word fx_endmain_kernel
+	.word fx_greetings_kernel
 
 
 ; specifies on which frame to switch parts
@@ -332,7 +339,8 @@ M_P20 equ M_P19 + 480
 M_P21 equ M_P20 + 544
 M_P22 equ M_P21 + 512
 M_P23 equ M_P22 + 512
-M_P24 equ 0
+M_P24 equ M_P23 + 256
+M_P25 equ 0
 
 partswitch:
 	.word M_P0
@@ -360,6 +368,7 @@ partswitch:
 	.word M_P22
 	.word M_P23
 	.word M_P24
+	.word M_P25
 
 ; Calls current part
 ; unique argument is the stuff to call (inits, vblanks or kernels)
