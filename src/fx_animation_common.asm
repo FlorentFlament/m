@@ -15,6 +15,7 @@
 	ENDM
 
 ; fx_animation_vblank_common code - needed in several banks
+; ptr points towards the picture to display
 	MAC m_fxa_vblank_common
 	SET_POINTER tmp, fxa_pf0_ptr ; Using tmp & tmp1 as pointer
 	ldy #0
@@ -41,25 +42,22 @@
 .inner_loop:
 	sta WSYNC
 	lda (fxa_pf0_ptr),Y
-	sta PF0
+	sta PF1
 	lda (fxa_pf1_ptr),Y
-	sta PF1
+	sta GRP0
 	lda (fxa_pf2_ptr),Y
-	sta PF2
+	sta GRP1
+	SLEEP 6
 	lda (fxa_pf3_ptr),Y
-	sta PF0
-	lda (fxa_pf4_ptr),Y
 	sta PF1
-	lda (fxa_pf5_ptr),Y
-	sta PF2
 	dex
 	bpl .inner_loop
 	dey
 	bpl .outer_loop
 
 	sta WSYNC
-	lda #0
-	sta PF0
+	lda #$00
 	sta PF1
-	sta PF2
+	sta GRP0
+	sta GRP1
 	ENDM

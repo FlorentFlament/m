@@ -1,16 +1,32 @@
 fx_animation_init SUBROUTINE
+	; Set playfield to mirror mode and clear playfield registers
+	lda #$01
+	sta CTRLPF
+
+	; Set large sprites
+	lda #$07
+	sta NUSIZ0
+	sta NUSIZ1
+
+	; Position sprites
+	m_set_sprite_position 0, #6, #7
+	m_set_sprite_position 1, #8, #5
+
+	; Sets graphic registers to 0
 	lda #$00
-	sta CTRLPF ; Set playfield in non mirror mode
-	sta GRP0
-	sta GRP1
 	sta PF0
 	sta PF1
 	sta PF2
+	sta GRP0
+	sta GRP1
 
+	; Set FX colors
 	lda #$00
 	sta COLUBK
 	lda #$3c
 	sta COLUPF
+	sta COLUP0
+	sta COLUP1
 
 	lda #$00
 	sta fxa_cnt
