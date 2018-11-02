@@ -243,12 +243,12 @@ inits:
 	.word fx_vertscroll_init_quaiSouris ; 15 quai Souris
 	.word fx_pixscroll_murstation_init ; 16 mur station
 	.word fx_animation_init ; 17 girl kicking lapin
-	.word fx_plasma1_init ; 18 blue plasma
+	.word fx_plasma3_init ; 18 red plasma
 
 	.word fx_spritebg_lapinMarche_init ; 19 lapin marche
 	.word fx_vertscroll_init_mistressStella ; 20 mistress Stella
 	.word fx_pixscroll_freewomen_init ; 21 Free women
-	.word fx_plasma3_init ; 22 red plasma
+	.word fx_plasma3_init ; 22 purple plasma
 
 	.word fx_lapinko_init ; 23
 	.word fx_endmain_init ; 24
@@ -271,13 +271,13 @@ vblanks:
 	.word fx_vertscroll_vblank_ticketMetro ; ticket metro
 	.word fx_pixscroll_inside_vblank ; look inside
 	.word fx_animation_meufDrague_vblank ; girl punching lapin
-	.word fx_plasma_vblank ; yellow plasma
+	.word fx_plasma_vblank ; green plasma
 	.word fx_plainshut_vblank
 
 	.word fx_vertscroll_vblank_quaiSouris ; quai Souris
 	.word fx_pixscroll_murstation_vblank ; mur station
 	.word fx_animation_meufkick_vblank ; girl kicking lapin
-	.word fx_plasma_vblank ; blue plasma
+	.word fx_plasma_vblank ; red plasma
 
 	.word fx_spritebg_lapinMarche_vblank ; lapin marche
 	.word fx_vertscroll_vblank_mistressStella ; mistress Stella
@@ -292,35 +292,38 @@ kernels:
 	.word fx_intro_kernel
 	.word fx_plainshut_kernel
 
-	.word fx_vertscroll_kernel ; metro line
-	.word fx_animation2_kernel ; portique
+	.word fx_vertscroll_kernel ; metro line - green
+	.word fx_animation2_kernel ; portique - red
 	.word fx_plasma_kernel ; blue plasma
 	.word fx_plainshut_kernel
 
-	.word fx_pixscroll_kernel ; train arrives
-	.word fx_animation_kernel ; rabbit hand in metro door
-	.word fx_spritebg_kernel ; moving train
+	; Red
+	.word fx_pixscroll_kernel ; train arrives - green
+	.word fx_animation_kernel ; rabbit hand in metro door - red
+	.word fx_spritebg_kernel ; moving train - blue
 	.word fx_plainshut_kernel
 
-	.word fx_vertscroll_kernel ; ticket metro
-	.word fx_pixscroll_kernel ; look inside
-	.word fx_animation2_kernel ; girl punching lapin
-	.word fx_plasma_kernel ; yellow plasma
+	; Blue
+	.word fx_vertscroll_kernel ; ticket metro - blue
+	.word fx_pixscroll_kernel ; look inside - vert
+	.word fx_animation2_kernel ; girl punching lapin - red
+	.word fx_plasma_kernel ; green plasma
 	.word fx_plainshut_kernel
 
-	.word fx_vertscroll_kernel ; quai Souris
-	.word fx_pixscroll_kernel2 ; mur station
-	.word fx_animation_kernel ; girl kicking lapin
-	.word fx_plasma_kernel ; blue plasma
-
-	.word fx_spritebg_kernel ; lapin marche
-	.word fx_vertscroll_kernel ; mistress Stella
-	.word fx_pixscroll_kernel3 ; free women
+	; Vert
+	.word fx_vertscroll_kernel ; quai Souris - blue
+	.word fx_pixscroll_kernel2 ; mur station - green
+	.word fx_animation_kernel ; girl kicking lapin - red
 	.word fx_plasma_kernel ; red plasma
 
-	.word fx_lapinko_kernel
+	.word fx_spritebg_kernel ; lapin marche
+	.word fx_vertscroll_kernel ; mistress Stella - blue
+	.word fx_pixscroll_kernel3 ; free women - green
+	.word fx_plasma_kernel ; purple plasma
+
+	.word fx_lapinko_kernel ; red
 	.word fx_endmain_kernel
-	.word fx_greetings_kernel
+	.word fx_greetings_kernel ; white
 
 
 ; specifies on which frame to switch parts

@@ -1,3 +1,11 @@
+; Set Foreground color to argument
+	MAC m_fxv_setcolor
+	lda {1}
+	sta COLUPF
+	sta COLUP0
+	sta COLUP1
+	ENDM
+
 fx_vertscroll_init_quaiSouris SUBROUTINE
 	; 180 fatlines i.e 1440 thinlines
 	; 512 frames
@@ -6,6 +14,7 @@ fx_vertscroll_init_quaiSouris SUBROUTINE
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_quaiSouris1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_quaiSouris2)
 	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_quaiSouris3)
+	m_fxv_setcolor #$9c
 	jmp fx_vertscroll_init_common
 
 fx_vertscroll_init_mistressStella SUBROUTINE
@@ -16,6 +25,7 @@ fx_vertscroll_init_mistressStella SUBROUTINE
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_mistressStella1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_mistressStella2)
 	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_mistressStella3)
+	m_fxv_setcolor #$9c
 	jmp fx_vertscroll_init_common
 
 fx_vertscroll_init_ticketMetro SUBROUTINE
@@ -26,6 +36,7 @@ fx_vertscroll_init_ticketMetro SUBROUTINE
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ticketMetro1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_ticketMetro2)
 	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_ticketMetro3)
+	m_fxv_setcolor #$9c
 	jmp fx_vertscroll_init_common
 
 fx_vertscroll_init_ligneMetro SUBROUTINE
@@ -37,6 +48,7 @@ fx_vertscroll_init_ligneMetro SUBROUTINE
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_ligneMetro1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_ligneMetro2)
 	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_ligneMetro3)
+	m_fxv_setcolor #$3c
 	jmp fx_vertscroll_init_common
 
 fx_vertscroll_init_common SUBROUTINE
@@ -64,10 +76,6 @@ fx_vertscroll_init_common SUBROUTINE
 	; Set FX colors
 	lda #$00
 	sta COLUBK
-	lda #$3c
-	sta COLUPF
-	sta COLUP0
-	sta COLUP1
 
 	; initialize fx counter
 	lda #$00

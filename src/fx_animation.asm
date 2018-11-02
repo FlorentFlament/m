@@ -23,7 +23,7 @@ fx_animation_init SUBROUTINE
 	; Set FX colors
 	lda #$00
 	sta COLUBK
-	lda #$3c
+	lda #$8c
 	sta COLUPF
 	sta COLUP0
 	sta COLUP1

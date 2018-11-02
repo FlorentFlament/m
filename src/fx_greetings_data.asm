@@ -1,19 +1,19 @@
 ; blank
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
 
 ; graphics/greetz/384x30-credits-greetz.png
 	dc.b $00, $00, $00, $51, $aa, $89, $00, $28, $20, $69, $aa, $6a, $00, $00, $00
@@ -114,18 +114,18 @@
 	dc.b $c0, $40, $40, $80, $80, $c0, $a0, $10, $10, $10, $20, $20, $20, $40, $40
 
 ; blank
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
+	dc.b $00, $00, $00, $00, $00, $00, $00, $00
