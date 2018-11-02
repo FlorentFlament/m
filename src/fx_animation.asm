@@ -1,4 +1,18 @@
 fx_animation_init SUBROUTINE
+	lda #$8c
+	sta COLUPF
+	sta COLUP0
+	sta COLUP1
+	jmp fx_animation_init_common
+
+fx_animation_meufkick_init SUBROUTINE
+	lda #$9c
+	sta COLUPF
+	sta COLUP0
+	sta COLUP1
+	jmp fx_animation_init_common
+
+fx_animation_init_common SUBROUTINE
 	; Set playfield to mirror mode and clear playfield registers
 	lda #$01
 	sta CTRLPF
@@ -23,10 +37,6 @@ fx_animation_init SUBROUTINE
 	; Set FX colors
 	lda #$00
 	sta COLUBK
-	lda #$8c
-	sta COLUPF
-	sta COLUP0
-	sta COLUP1
 
 	lda #$00
 	sta fxa_cnt

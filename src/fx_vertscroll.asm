@@ -14,7 +14,7 @@ fx_vertscroll_init_quaiSouris SUBROUTINE
 	SET_POINTER fxv_screen_ptr1, (fx_vertscroll_quaiSouris1)
 	SET_POINTER fxv_screen_ptr2, (fx_vertscroll_quaiSouris2)
 	SET_POINTER fxv_screen_ptr3, (fx_vertscroll_quaiSouris3)
-	m_fxv_setcolor #$9c
+	m_fxv_setcolor #$3c
 	jmp fx_vertscroll_init_common
 
 fx_vertscroll_init_mistressStella SUBROUTINE

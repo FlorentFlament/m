@@ -235,14 +235,14 @@ inits:
 	.word fx_plainshut2_init ; 9
 
 	.word fx_vertscroll_init_ticketMetro ; 10 ticket metro
-	.word fx_pixscroll_inside_init ; 11 look inside
-	.word fx_animation_init ; 12 girl punching lapin
+	.word fx_pixscroll_inside_init ; 11 look inside - green
+	.word fx_animation_init ; 12 lapin Drague - red
 	.word fx_plasma2_init ; 13 yellow plasma
 	.word fx_plainshut1_init ; 14
 
 	.word fx_vertscroll_init_quaiSouris ; 15 quai Souris
 	.word fx_pixscroll_murstation_init ; 16 mur station
-	.word fx_animation_init ; 17 girl kicking lapin
+	.word fx_animation_meufkick_init ; 17 girl kicking lapin
 	.word fx_plasma3_init ; 18 red plasma (cochon + lapin)
 
 	.word fx_spritebg_lapinMarche_init ; 19 lapin marche
@@ -305,15 +305,15 @@ kernels:
 
 	; Blue
 	.word fx_vertscroll_kernel ; ticket metro - blue
-	.word fx_pixscroll_kernel ; look inside - vert
+	.word fx_pixscroll_kernel ; look inside - green
 	.word fx_animation2_kernel ; girl punching lapin - red
 	.word fx_plasma_kernel ; green plasma
 	.word fx_plainshut_kernel
 
 	; Vert
-	.word fx_vertscroll_kernel ; quai Souris - blue
-	.word fx_pixscroll_kernel2 ; mur station - green
-	.word fx_animation_kernel ; girl kicking lapin - red
+	.word fx_vertscroll_kernel ; quai Souris - green #$3c
+	.word fx_pixscroll_kernel2 ; mur station - red #$8c
+	.word fx_animation_kernel ; girl kicking lapin - blue #$9c
 	.word fx_plasma_kernel ; red plasma
 
 	.word fx_spritebg_kernel ; lapin marche

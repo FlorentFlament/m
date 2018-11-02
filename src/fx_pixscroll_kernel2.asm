@@ -155,7 +155,7 @@ fx_pixscroll_kernel2 SUBROUTINE
 	sta COLUBK
 	; Set background color at the very last minute
 	;lda (fxp2_col_ptr),y
-	lda #$3c
+	lda #$8c
 	sta COLUP0
 	sta COLUP1
 	sta COLUPF
