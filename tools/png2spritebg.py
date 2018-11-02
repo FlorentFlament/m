@@ -6,6 +6,9 @@ from PIL import Image
 import asmlib
 from imglib import *
 
+NLINES = 28
+PADDING = (30-NLINES)//2
+
 def playfields(l):
     pfs = []
     pfs.append(list(reversed(l[0:4])) + 4*[False])
@@ -29,10 +32,9 @@ def main():
 
     cols = None
     if (len(sys.argv) > 2) and (sys.argv[2] == 's') :
-        lines = [arr[i:i+16] for i in range(0, 16*24, 16)] # 24 lines - 16 pixels per line
-        lines = [[False]*16]*3 + lines + [[False]*16]*3
+        lines = [arr[i:i+16] for i in range(0, 16*NLINES, 16)] # NLINES lines - 16 pixels per line
+        lines = [[False]*16]*PADDING + lines + [[False]*16]*PADDING
         lines.reverse()
-        print(len(lines))
         pack = pack_bytes(flatten(lines))
         cols = [pack[i:2*30:2] for i in range(2)]
     else:
