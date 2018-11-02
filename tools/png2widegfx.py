@@ -36,8 +36,7 @@ def count_pixels(data):
         h[d] = h.get(d,0) + 1
     return h
 
-def main():
-    fname = sys.argv[1]
+def process(fname):
     # Convert to 1 byte in {0,255} per pixel
     im   = Image.open(fname)
 
@@ -54,5 +53,9 @@ def main():
     print("; " + fname)
     print(asmlib.lst2asm(cols, 15))
     print("")
+
+def main():
+    for fname in sys.argv[1:]:
+        process(fname)
 
 main()
