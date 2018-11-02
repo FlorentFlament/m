@@ -174,10 +174,6 @@ PARTSTART_INTRO equ *
 PARTSTART_PLASMA equ *
 	INCLUDE "fx_plasma.asm"
 	echo "fx_plasma:", (*-PARTSTART_PLASMA)d, "B"
-PARTSTART_SHUTTER equ *
-	INCLUDE "fx_plainshut_ctrl.asm"
-	INCLUDE "fx_plainshut_kernel.asm"
-	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
 	END_SEGMENT 2
 
 ; Bank 3
@@ -216,6 +212,10 @@ PARTSTART_PIXSCROLL2 equ *
 	INCLUDE "fx_pixscroll_ctrl2.asm"
 	INCLUDE "fx_pixscroll_kernel2.asm"
 	echo "fx_pixscroll2:", (*-PARTSTART_PIXSCROLL2)d, "B"
+PARTSTART_SHUTTER equ *
+	INCLUDE "fx_plainshut_ctrl.asm"
+	INCLUDE "fx_plainshut_kernel.asm"
+	echo "fx_shutter:", (*-PARTSTART_SHUTTER)d, "B"
 	END_SEGMENT 6
 
 ; Bank 7
@@ -243,7 +243,7 @@ inits:
 	.word fx_vertscroll_init_quaiSouris ; 15 quai Souris
 	.word fx_pixscroll_murstation_init ; 16 mur station
 	.word fx_animation_init ; 17 girl kicking lapin
-	.word fx_plasma3_init ; 18 red plasma
+	.word fx_plasma3_init ; 18 red plasma (cochon + lapin)
 
 	.word fx_spritebg_lapinMarche_init ; 19 lapin marche
 	.word fx_vertscroll_init_mistressStella ; 20 mistress Stella

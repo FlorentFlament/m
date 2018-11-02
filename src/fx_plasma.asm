@@ -344,17 +344,6 @@ fxpl_mask_blank:
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
 
 fxpl_mask_glafouk:
-	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
-	dc.b $0f, $0f, $10, $10, $0f, $0f, $0f, $10, $10, $0f, $0f
-	dc.b $0f, $10, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $10, $0f
-	dc.b $0f, $10, $0f, $0f, $10, $10, $10, $0f, $0f, $10, $0f
-	dc.b $10, $0f, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $10
-	dc.b $10, $0f, $0f, $10, $10, $0f, $0f, $10, $0f, $0f, $10
-	dc.b $10, $0f, $0f, $10, $0f, $0f, $0f, $10, $0f, $0f, $10
-	dc.b $0f, $10, $0f, $0f, $10, $10, $10, $0f, $0f, $10, $0f
-	dc.b $0f, $10, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $10, $0f
-	dc.b $0f, $0f, $10, $10, $0f, $0f, $0f, $10, $10, $0f, $0f
-	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
 
 fxpl_mask_m:
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
@@ -434,15 +423,43 @@ fxpl_mask_girl:
 	dc.b $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f
 	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
 
+fxpl_mask_cochon:
+	dc.b $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f
+	dc.b $0f, $10, $0f, $10, $0f, $0f, $0f, $10, $0f, $10, $0f
+	dc.b $0f, $10, $0f, $0f, $10, $10, $10, $0f, $0f, $10, $0f
+	dc.b $10, $0f, $0f, $10, $0f, $0f, $0f, $10, $0f, $0f, $10
+	dc.b $10, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $10
+	dc.b $10, $0f, $0f, $10, $10, $10, $10, $10, $0f, $0f, $10
+	dc.b $10, $0f, $0f, $10, $0f, $10, $0f, $10, $0f, $0f, $10
+	dc.b $10, $0f, $0f, $10, $10, $10, $10, $10, $0f, $0f, $10
+	dc.b $0f, $10, $0f, $0f, $10, $10, $10, $0f, $0f, $10, $0f
+	dc.b $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $10, $10, $0f, $0f, $0f
+
+fxpl_mask_lapin:
+	dc.b $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $0f, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $0f, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $0f, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $0f, $0f, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $10, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $10, $0f, $10, $0f, $10, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $10, $10, $10, $10, $10, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $10, $10, $10, $10, $0f, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $0f, $0f, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $0f, $0f, $0f, $0f, $0f
+
 fxpl_masks:
-	dc.w fxpl_mask_blank
-	dc.w fxpl_mask_glafouk
-	dc.w fxpl_mask_m
-	dc.w fxpl_mask_metro
-	dc.w fxpl_mask_atari
-	dc.w fxpl_mask_vcs
-	dc.w fxpl_mask_boy
-	dc.w fxpl_mask_girl
+	dc.w fxpl_mask_blank ; 0
+	dc.w fxpl_mask_glafouk ; 1
+	dc.w fxpl_mask_m ; 2
+	dc.w fxpl_mask_metro ; 3
+	dc.w fxpl_mask_atari ; 4
+	dc.w fxpl_mask_vcs ; 5
+	dc.w fxpl_mask_boy ; 6
+	dc.w fxpl_mask_girl ; 7
+	dc.w fxpl_mask_cochon ; 8
+	dc.w fxpl_mask_lapin ; 9
 
 fxpl_palette_orig1:
 	dc.b $90, $92, $94, $96, $98, $9a, $9c, $9e
@@ -480,6 +497,16 @@ fxpl_timeline2:
 	.byte 7, 7, 7, 7, 6, 7, 6, 7
 
 fxpl_timeline3:
+	.byte 0, 0, 0, 0, 8, 8, 8, 8
+	.byte 8, 8, 8, 8, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 9, 9, 9, 9
+	.byte 9, 9, 9, 9, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 8, 8, 8, 8
+	.byte 8, 8, 8, 8, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 9, 9, 9, 9
+	.byte 9, 9, 9, 9, 8, 9, 8, 9
+
+fxpl_timeline4:
 	.byte 0, 0, 0, 0, 4, 4, 4, 4
 	.byte 4, 4, 4, 4, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 5, 5, 5, 5
