@@ -248,7 +248,7 @@ inits:
 	.word fx_spritebg_lapinMarche_init ; 19 lapin marche
 	.word fx_vertscroll_init_mistressStella ; 20 mistress Stella
 	.word fx_pixscroll_freewomen_init ; 21 Free women
-	.word fx_plasma3_init ; 22 purple plasma
+	.word fx_plasma4_init ; 22 purple plasma
 
 	.word fx_lapinko_init ; 23
 	.word fx_endmain_init ; 24

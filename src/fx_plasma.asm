@@ -24,6 +24,11 @@ fx_plasma3_init SUBROUTINE
 	m_copy_palette fxpl_palette_orig3
 	jmp fx_plasma_init
 
+fx_plasma4_init SUBROUTINE
+	SET_POINTER fxpl_tim_ptr, fxpl_timeline4
+	m_copy_palette fxpl_palette_orig3
+	jmp fx_plasma_init
+
 fx_plasma_init SUBROUTINE
 	lda #$00
 	sta PF0
@@ -449,6 +454,33 @@ fxpl_mask_lapin:
 	dc.b $0f, $0f, $0f, $10, $0f, $0f, $10, $0f, $0f, $0f, $0f
 	dc.b $0f, $0f, $0f, $0f, $10, $10, $0f, $0f, $0f, $0f, $0f
 
+fxpl_mask_coeur:
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $10, $10, $0f, $0f, $0f, $10, $10, $0f, $0f
+	dc.b $0f, $10, $10, $10, $10, $0f, $10, $10, $10, $10, $0f
+	dc.b $0f, $10, $10, $10, $10, $10, $10, $10, $10, $10, $0f
+	dc.b $0f, $10, $10, $10, $10, $10, $10, $10, $10, $10, $0f
+	dc.b $0f, $10, $10, $10, $10, $10, $10, $10, $10, $10, $0f
+	dc.b $0f, $0f, $10, $10, $10, $10, $10, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $10, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $10, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+
+fxpl_mask_eclair:
+	dc.b $0f, $0f, $10, $10, $10, $10, $10, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $10, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $10, $10, $10, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $10, $10, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $10, $10, $10, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $10, $10, $10, $10, $0f, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $10, $10, $10, $10, $0f, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $10, $10, $10, $0f, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $10, $10, $0f, $0f
+	dc.b $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $10, $10, $0f
+
+
 fxpl_masks:
 	dc.w fxpl_mask_blank ; 0
 	dc.w fxpl_mask_glafouk ; 1
@@ -460,6 +492,8 @@ fxpl_masks:
 	dc.w fxpl_mask_girl ; 7
 	dc.w fxpl_mask_cochon ; 8
 	dc.w fxpl_mask_lapin ; 9
+	dc.w fxpl_mask_coeur ; 10
+	dc.w fxpl_mask_eclair ; 11
 
 fxpl_palette_orig1:
 	dc.b $90, $92, $94, $96, $98, $9a, $9c, $9e
@@ -491,10 +525,10 @@ fxpl_timeline2:
 	.byte 6, 6, 6, 6, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 7, 7, 7, 7
 	.byte 7, 7, 7, 7, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 6, 6, 6, 6
-	.byte 6, 6, 6, 6, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 7, 7, 7, 7
-	.byte 7, 7, 7, 7, 6, 7, 6, 7
+	.byte 0, 0, 0, 0, 10, 10, 10, 10
+	.byte 10, 10, 10, 10, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 11, 11, 11, 11
+	.byte 11, 11, 11, 11, 10, 11, 10, 11
 
 fxpl_timeline3:
 	.byte 0, 0, 0, 0, 8, 8, 8, 8
