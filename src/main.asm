@@ -243,12 +243,12 @@ inits:
 	.word fx_vertscroll_init_quaiSouris ; 15 quai Souris
 	.word fx_pixscroll_murstation_init ; 16 mur station
 	.word fx_animation_meufkick_init ; 17 girl kicking lapin
-	.word fx_plasma3_init ; 18 red plasma (cochon + lapin)
+	.word fx_plasma3_init ; 18 pink plasma (cochon + lapin)
 
 	.word fx_spritebg_lapinMarche_init ; 19 lapin marche
 	.word fx_vertscroll_init_mistressStella ; 20 mistress Stella
 	.word fx_pixscroll_freewomen_init ; 21 Free women
-	.word fx_plasma4_init ; 22 purple plasma
+	.word fx_plasma4_init ; 22 red plasma
 
 	.word fx_lapinko_init ; 23
 	.word fx_endmain_init ; 24

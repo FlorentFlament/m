@@ -2,8 +2,6 @@ fx_lapinko_init SUBROUTINE
 	lda #$00
 	sta CTRLPF
 	sta COLUBK
-	lda #$8c
-	sta COLUPF
 
 	jmp RTSBank
 
@@ -20,6 +18,17 @@ fx_lapinko_vblank SUBROUTINE
 	lsr
 	REPEND
 	sta fxl_fat_offset
+
+	; setup color
+	lda frame_cnt
+	REPEAT 2
+	lsr
+	REPEND
+	and #$0f
+	tax
+
+	lda fxl_colors,X
+	sta COLUPF
 
 	jmp RTSBank
 
@@ -107,3 +116,6 @@ fxl_cos_table:
 	dc.b $05, $05, $04, $03, $03, $02, $02, $01
 	dc.b $01, $01, $00, $00, $00, $00, $00, $00
 
+fxl_colors:
+	dc.b $8c, $8c, $8a, $8a, $88, $88, $86, $86
+	dc.b $84, $84, $84, $86, $88, $8a, $8c, $8c
