@@ -1,3 +1,13 @@
+fxa_portiqueAA:
+	dc.b $bd, $bd, $bd, $bd, $bd, $bd, $bd, $bd, $3d, $bd, $a5, $bd, $c3, $ff, $ff
+	dc.b $03, $ff, $73, $73, $53, $03, $23, $73, $ff, $ff, $ff, $ff, $fe, $01, $ff
+	dc.b $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f
+	dc.b $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $7f, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	dc.b $eb, $eb, $eb, $eb, $eb, $eb, $eb, $eb, $eb, $eb, $eb, $eb, $1b, $fb, $fb
+	dc.b $1b, $fb, $9b, $9b, $9b, $1b, $1b, $9b, $fb, $fb, $fb, $fb, $f7, $0f, $ff
+
 fxa_portiqueA:
 	dc.b $bd, $bd, $bd, $bd, $bd, $bd, $bd, $bd, $3d, $bd, $a5, $bd, $c3, $fb, $fb
 	dc.b $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb, $fd, $fe, $ff
@@ -87,4 +97,3 @@ fxa_portiqueI:
 	dc.b $6f, $67, $70, $73, $ba, $b8, $99, $ab, $b3, $bf, $bf, $bf, $5f, $e0, $ff
 	dc.b $ef, $ef, $ee, $ee, $ee, $ef, $ef, $ef, $ef, $ef, $ef, $ef, $1f, $df, $de
 	dc.b $d9, $db, $d7, $d8, $d9, $d8, $d8, $d9, $df, $df, $df, $df, $ef, $f0, $ff
-

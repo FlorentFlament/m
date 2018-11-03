@@ -27,10 +27,11 @@ fxa_portique_pics:
 	dc.w fxa_portiqueG
 	dc.w fxa_portiqueH
 	dc.w fxa_portiqueI
+	dc.w fxa_portiqueAA
 
 fxa_portique_timeline:
-	dc.b 0, 0, 0, 0, 0, 0, 0, 0
-	dc.b 0, 0, 0, 0, 0, 0, 0, 0
+	dc.b 0, 0, 0, 0, 9, 9, 9, 9
+	dc.b 9, 9, 9, 9, 1, 1, 1, 1
 	dc.b 1, 1, 1, 1, 2, 2, 2, 2
 	dc.b 3, 4, 5, 6, 7, 8, 7, 8
 
