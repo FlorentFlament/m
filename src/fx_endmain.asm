@@ -20,9 +20,9 @@ fx_endmain_init SUBROUTINE
 
 fx_endmain_vblank SUBROUTINE
 	lda fxe_cnt
-	cmp #100
+	cmp #50
 	bmi .wait
-	cmp #120
+	cmp #70
 	bpl .end
 	inc fxe_idx
 

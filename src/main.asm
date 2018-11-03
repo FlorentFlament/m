@@ -351,7 +351,7 @@ M_P20 equ M_P19 + 480
 M_P21 equ M_P20 + 544
 M_P22 equ M_P21 + 512
 M_P23 equ M_P22 + 512
-M_P24 equ M_P23 + 256
+M_P24 equ M_P23 + 128
 M_P25 equ 0
 
 partswitch:
