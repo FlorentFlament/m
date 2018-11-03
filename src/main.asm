@@ -314,12 +314,12 @@ kernels:
 	.word fx_vertscroll_kernel ; quai Souris - green #$3c
 	.word fx_pixscroll_kernel2 ; mur station - red #$8c
 	.word fx_animation_kernel ; girl kicking lapin - blue #$9c
-	.word fx_plasma_kernel ; red plasma
+	.word fx_plasma_kernel ; pink plasma
 
 	.word fx_spritebg_kernel ; lapin marche
 	.word fx_vertscroll_kernel ; mistress Stella - blue
 	.word fx_pixscroll_kernel3 ; free women - green
-	.word fx_plasma_kernel ; purple plasma
+	.word fx_plasma_kernel ; red plasma
 
 	.word fx_lapinko_kernel ; red
 	.word fx_endmain_kernel
